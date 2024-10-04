@@ -1,5 +1,5 @@
-const { io } = require('../../config/Setting/socket.config');
-const { socketLogger } = require('../../config/Setting/logger.config');
+const { io } = require('../../Config/Setting/socket.config');
+const { socketLogger } = require('../../Config/Setting/logger.config');
 
 io.on('connection', (socket) => {
   socketLogger.info('Client connected', { id: socket.id });

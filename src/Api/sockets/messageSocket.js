@@ -1,4 +1,4 @@
-const { socketLogger } = require('../../config/Setting/logger.config');
+const { socketLogger } = require('../../Config/Setting/logger.config');
 
 module.exports = (socket) => {
   // Handle messages

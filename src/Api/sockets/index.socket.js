@@ -1,6 +1,6 @@
 const moment = require('moment');
-const { socketLogger } = require('../../config/Setting/logger.config');
-const { io, server } = require('../../config/Setting/socket.config');
+const { socketLogger } = require('../../Config/Setting/logger.config');
+const { io, server } = require('../../Config/Setting/socket.config');
 
 require('./socket.events');
 
