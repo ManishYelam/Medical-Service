@@ -1,4 +1,4 @@
-const sequelize = require("../../config/Database/sequelize.config");
+const sequelize = require("../../Config/Database/sequelize.config");
 const { User, Role, Department, Permission } = require("./Association");
 
 module.exports = {
