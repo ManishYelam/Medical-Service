@@ -3,7 +3,7 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../config/Setting/logger.config');
+const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
 const app = express();
 
 const server = http.createServer(app);
