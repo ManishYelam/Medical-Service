@@ -54,7 +54,7 @@ const StartCustomerSupportServer = async () => {
   try {
     DefineCustomerSupportRoutes();
 
-    const PORT = process.env.CUSTOMER_SUPPORT_PORT || 5005;
+    const PORT = process.env.CUSTOMER_SUPPORT_PORT || 5003;
 
     server.listen(PORT, () => {
       appLogger.info(`Customer Support server running on port ${PORT} on ${moment().format('llll')}.`);

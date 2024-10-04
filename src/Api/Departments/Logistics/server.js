@@ -55,7 +55,7 @@ const StartLogisticsServer = async () => {
   try {
     DefineLogisticsRoutes();
 
-    const PORT = process.env.LOGISTICS_PORT || 5006;
+    const PORT = process.env.LOGISTICS_PORT || 5002;
 
     server.listen(PORT, () => {
       appLogger.info(`Logistics server running on port ${PORT} on ${moment().format('llll')}.`);

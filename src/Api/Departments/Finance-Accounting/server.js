@@ -54,7 +54,7 @@ const StartFinanceAccountingServer = async () => {
   try {
     DefineFinanceAccountingRoutes();
 
-    const PORT = process.env.FINANCE_ACCOUNTING_PORT || 5003;
+    const PORT = process.env.FINANCE_ACCOUNTING_PORT || 5005;
 
     server.listen(PORT, () => {
       appLogger.info(`Finance and Accounting server running on port ${PORT} on ${moment().format('llll')}.`);

@@ -57,7 +57,7 @@ const StartPharmacyServer = async () => {
   try {
     DefinePharmacyRoutes();
 
-    const PORT = process.env.PHARMACY_PORT || 5007;
+    const PORT = process.env.PHARMACY_PORT || 5001;
 
     server.listen(PORT, () => {
       appLogger.info(`Pharmacy server running on port ${PORT} on ${moment().format('llll')}.`);

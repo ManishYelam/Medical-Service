@@ -54,7 +54,7 @@ const StartHealthCareServer = async () => {
   try {
     DefineHealthCareRoutes();
 
-    const PORT = process.env.HEALTHCARE_PORT || 5001;
+    const PORT = process.env.HEALTHCARE_PORT || 5007;
 
     server.listen(PORT, () => {
       appLogger.info(`Healthcare server running on port ${PORT} on ${moment().format('llll')}.`);

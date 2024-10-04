@@ -54,7 +54,7 @@ const StartComplianceLegalServer = async () => {
   try {
     DefineComplianceLegalRoutes();
 
-    const PORT = process.env.COMPLIANCE_LEGAL_PORT || 5002;
+    const PORT = process.env.COMPLIANCE_LEGAL_PORT || 5006;
 
     server.listen(PORT, () => {
       appLogger.info(`Compliance and Legal server running on port ${PORT} on ${moment().format('llll')}.`);
