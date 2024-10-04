@@ -12,10 +12,7 @@ const sequelize = new Sequelize(
     host: isProduction ? process.env.P_DB_HOST : process.env.L_DB_HOST,
     dialect: process.env.P_DB_DIALECT,
     port: isProduction ? process.env.P_DB_PORT : process.env.L_DB_PORT,
-    logging: (msg) => sqlLogger.info(msg), 
-    dialectOptions: {
-      connectTimeout: 60000 
-    },       
+    logging: (msg) => sqlLogger.info(msg),        
     pool: {
       max: 10,                     // Max connections in pool
       min: 0,                      // Min connections in pool
