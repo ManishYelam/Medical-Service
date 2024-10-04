@@ -7,9 +7,10 @@ const sendMail = require('./src/Config/Setting/nodemailer.config.js');
 const routes = require('./src/Api/Routes/index.js');
 const { TestSequelizeConnection, TestMySQLConnection, ConnectRedis, } = require('./src/Config/Database/db.config.js');
 const Middleware = require('./src/Api/Middlewares/index.middleware.js');
-const { InitializeDatabase, } = require('./src/Api/Models/InitializeDatabase.js');
+const { InitializeDatabase } = require('./src/api/Models/InitializeDatabase');
 const axios = require('axios');
 const { StartDeptServer } = require('./src/DeptServer.js');
+
 
 require('./src/Api/sockets/index.socket.js');
 
