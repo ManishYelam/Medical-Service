@@ -23,8 +23,11 @@ const TestSequelizeConnection = async () => {
   try {
     await sequelize.authenticate();
     appLogger.info(`Sequelize connection established successfully at Host: ${config.host}, Port: ${config.port}, Database: ${config.database}.`);
+    console.log(`Sequelize connection established successfully at Host: ${config.host}, Port: ${config.port}, Database: ${config.database}.`);
   } catch (error) {
     errorLogger.error(`Unable to connect to Sequelize database: ${error.message}`, { stack: error.stack });
+    console.log(`Unable to connect to Sequelize database: ${error.message}`, { stack: error.stack });
+    
   }
 };
 
