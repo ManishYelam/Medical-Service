@@ -1,0 +1,148 @@
+ubuntu@ip-172-31-47-121:~/Medical-Service$ git pull origin main
+remote: Enumerating objects: 240, done.
+remote: Counting objects: 100% (240/240), done.
+remote: Compressing objects: 100% (107/107), done.
+remote: Total 182 (delta 90), reused 160 (delta 68), pack-reused 0 (from 0)
+Receiving objects: 100% (182/182), 34.89 KiB | 177.00 KiB/s, done.
+Resolving deltas: 100% (90/90), completed with 38 local objects.
+From https://github.com/ManishYelam/Medical-Service
+ * branch            main       -> FETCH_HEAD
+   132b6a0..a6b5d43  main       -> origin/main
+Updating 132b6a0..a6b5d43
+Fast-forward
+ .eslintrc.js                                                                 |  33 ------------
+ .gitignore                                                                   |   4 ++
+ package.json                                                                 |   1 +
+ server.js                                                                    |  41 ++++++++-------
+ src/DeptServer.js                                                            |  30 +++++------
+ src/api/Departments/Compliance-Legal/server.js                               |   9 ++--
+ src/api/Departments/Customer-Support/server.js                               |   6 ++-
+ src/api/Departments/Finance-Accounting/server.js                             |   7 ++-
+ src/api/Departments/HR/server.js                                             |   9 +++-
+ src/api/Departments/Healthcare/server.js                                     |   7 ++-
+ src/api/Departments/IT-Development/server.js                                 |   7 ++-
+ src/api/Departments/Inventory-Management/server.js                           |   7 ++-
+ src/api/Departments/Logistics/server.js                                      |   7 ++-
+ src/api/Departments/Partnerships/server.js                                   |   6 ++-
+ src/api/Departments/Pharmacy/Controllers/Employee/regulationController.js    |  51 +++++++++++++++++++
+ src/api/Departments/Pharmacy/Controllers/Employee/roleController.js          |  51 +++++++++++++++++++
+ src/api/Departments/Pharmacy/Controllers/Employee/userController.js          |  69 +++++++++++++++++++++++++
+ src/api/Departments/Pharmacy/Middlewares/Validation/validationMiddleware.js  |  44 ++++++++++++++++
+ src/api/Departments/Pharmacy/Middlewares/authMiddleware.js                   |  27 ++++++++++
+ src/api/Departments/Pharmacy/Middlewares/checkDataScope.js                   |  21 ++++++++
+ src/api/Departments/Pharmacy/Middlewares/logAccess.js                        |  13 +++++
+ src/api/Departments/Pharmacy/Middlewares/roleMiddleware.js                   |  18 +++++++
+ src/api/Departments/Pharmacy/Models/Employees/Employee.js                    |  50 +++++++++++++++++++
+ src/api/Departments/Pharmacy/Models/{Medical => Employees}/User.js           |  26 +++-------
+ src/api/Departments/Pharmacy/Models/{Medical => Logistics}/AuditLog.js       |   2 +-
+ src/api/Departments/Pharmacy/Models/Medical/Pharmacy.js                      | 130 ------------------------------------------------
+ src/api/Departments/Pharmacy/Models/Medical/Regulations.js                   | 100 -------------------------------------
+ src/api/Departments/Pharmacy/Models/{Medical => Orders}/Delivery.js          |   0
+ src/api/Departments/Pharmacy/Models/{Medical => Orders}/Order.js             |   4 +-
+ src/api/Departments/Pharmacy/Models/Pharmacy/Pharmacy.js                     | 108 ++++++++++++++++++++++++++++++++++++++++
+ src/api/Departments/Pharmacy/Models/Pharmacy/Regulations.js                  |  97 ++++++++++++++++++++++++++++++++++++
+ src/api/Departments/Pharmacy/Models/{Medical => Pharmacy}/Role.js            |  49 ++++--------------
+ src/api/Departments/Pharmacy/Models/{Medical => Pharmacy}/RolePermissions.js |   0
+ src/api/Departments/Pharmacy/Models/Pharmacy/createPharmacyRoles.js          |  96 +++++++++++++++++++++++++++++++++++
+ src/api/Departments/Pharmacy/Models/Pharmacy/syncModels.js                   |  27 ++++++++++
+ src/api/Departments/Pharmacy/Models/{Medical => Stock}/Medicines.js          |   6 +--
+ src/api/Departments/Pharmacy/Models/{Medical => }/medicines.json             |   0
+ src/api/Departments/Pharmacy/Routes/Employee/prescriptionsRoutes.js          |  44 ++++++++++++++++
+ src/api/Departments/Pharmacy/Routes/Employee/regulationRoutes.js             |  15 ++++++
+ src/api/Departments/Pharmacy/Routes/Employee/roleRoutes.js                   |  15 ++++++
+ src/api/Departments/Pharmacy/Routes/Employee/userRoutes.js                   |  15 ++++++
+ src/api/Departments/Pharmacy/Services/Employee/regulationService.js          |  56 +++++++++++++++++++++
+ src/api/Departments/Pharmacy/Services/Employee/roleService.js                |  56 +++++++++++++++++++++
+ src/api/Departments/Pharmacy/Services/Employee/userService.js                |  71 ++++++++++++++++++++++++++
+ src/api/Departments/Pharmacy/server.js                                       |   6 ++-
+ src/api/Departments/Sales-marketing/server.js                                |   6 ++-
+ src/api/Departments/data-Analytic/server.js                                  |   7 ++-
+ src/api/Operations-Managements/server.js                                     |   0
+ src/api/controllers/UserController.js                                        |  53 ++++++++++++++++++++
+ src/api/middlewares/Joi_Validations/registrationSchema.js                    |  66 ++++++++++++++++++++++++
+ src/api/middlewares/index.middleware.js                                      |  32 +++++-------
+ src/api/middlewares/loggingMiddleware.js.js                                  |  14 ++----
+ src/api/middlewares/validations/registrationSchema.js                        |  52 -------------------
+ src/api/models/Association.js                                                |  16 ++++++
+ src/api/models/Department.js                                                 |  40 +++++++++++++++
+ src/api/models/Permission.js                                                 |  17 +++++++
+ src/api/models/Projects/project.model.js                                     |  48 ------------------
+ src/api/models/Role.js                                                       |  30 +++++++++++
+ src/api/models/Roles/Permissions.js                                          |  55 --------------------
+ src/api/models/Roles/Role.js                                                 |  94 -----------------------------------
+ src/api/models/Roles/User/user.model.js                                      |  40 ---------------
+ src/api/models/Roles/index.role.js                                           |   9 ----
+ src/api/models/Seeder/Seeder.js                                              |  98 ++++++++++++++++++++++++++++++++++++
+ src/api/models/User.js                                                       |  55 ++++++++++++++++++++
+ src/api/models/index.js                                                      |  11 ----
+ src/api/models/initializeDatabase.js                                         |  11 ++--
+ src/api/routes/index.js                                                      |  14 +++---
+ src/api/routes/messageRoutes.js                                              |   9 ----
+ src/api/routes/project.routes.js                                             |  18 -------
+ src/api/routes/userRoutes.js                                                 |  12 +++++
+ src/api/services/userService.js                                              |  25 ++++++++++
+ src/api/sockets/index.socket.js                                              |   4 +-
+ src/api/sockets/messageSocket.js                                             |   2 +-
+ src/api/sockets/socket.events.js                                             |   4 +-
+ src/config/database/db.config.js                                             |  16 +++---
+ src/config/database/sequelize.config.js                                      |   2 +-
+ src/config/index.config.js                                                   |  24 ++++-----
+ src/config/setting/logger.config.js                                          | 163 ++++++++++++++++++++++++++++++++++--------------------------
+ src/config/setting/nodemailer.config.js                                      |   2 +-
+ src/utils/AppError.js                                                        |  12 +++++
+ src/utils/jwtSecret.js                                                       |   2 +-
+ 81 files changed, 1644 insertions(+), 860 deletions(-)
+ delete mode 100644 .eslintrc.js
+ create mode 100644 src/api/Departments/Pharmacy/Controllers/Employee/regulationController.js
+ create mode 100644 src/api/Departments/Pharmacy/Controllers/Employee/roleController.js
+ create mode 100644 src/api/Departments/Pharmacy/Controllers/Employee/userController.js
+ create mode 100644 src/api/Departments/Pharmacy/Middlewares/Validation/validationMiddleware.js
+ create mode 100644 src/api/Departments/Pharmacy/Middlewares/authMiddleware.js
+ create mode 100644 src/api/Departments/Pharmacy/Middlewares/checkDataScope.js
+ create mode 100644 src/api/Departments/Pharmacy/Middlewares/logAccess.js
+ create mode 100644 src/api/Departments/Pharmacy/Middlewares/roleMiddleware.js
+ create mode 100644 src/api/Departments/Pharmacy/Models/Employees/Employee.js
+ rename src/api/Departments/Pharmacy/Models/{Medical => Employees}/User.js (80%)
+ rename src/api/Departments/Pharmacy/Models/{Medical => Logistics}/AuditLog.js (97%)
+ delete mode 100644 src/api/Departments/Pharmacy/Models/Medical/Pharmacy.js
+ delete mode 100644 src/api/Departments/Pharmacy/Models/Medical/Regulations.js
+ rename src/api/Departments/Pharmacy/Models/{Medical => Orders}/Delivery.js (100%)
+ rename src/api/Departments/Pharmacy/Models/{Medical => Orders}/Order.js (95%)
+ create mode 100644 src/api/Departments/Pharmacy/Models/Pharmacy/Pharmacy.js
+ create mode 100644 src/api/Departments/Pharmacy/Models/Pharmacy/Regulations.js
+ rename src/api/Departments/Pharmacy/Models/{Medical => Pharmacy}/Role.js (54%)
+ rename src/api/Departments/Pharmacy/Models/{Medical => Pharmacy}/RolePermissions.js (100%)
+ create mode 100644 src/api/Departments/Pharmacy/Models/Pharmacy/createPharmacyRoles.js
+ create mode 100644 src/api/Departments/Pharmacy/Models/Pharmacy/syncModels.js
+ rename src/api/Departments/Pharmacy/Models/{Medical => Stock}/Medicines.js (95%)
+ rename src/api/Departments/Pharmacy/Models/{Medical => }/medicines.json (100%)
+ create mode 100644 src/api/Departments/Pharmacy/Routes/Employee/prescriptionsRoutes.js
+ create mode 100644 src/api/Departments/Pharmacy/Routes/Employee/regulationRoutes.js
+ create mode 100644 src/api/Departments/Pharmacy/Routes/Employee/roleRoutes.js
+ create mode 100644 src/api/Departments/Pharmacy/Routes/Employee/userRoutes.js
+ create mode 100644 src/api/Departments/Pharmacy/Services/Employee/regulationService.js
+ create mode 100644 src/api/Departments/Pharmacy/Services/Employee/roleService.js
+ create mode 100644 src/api/Departments/Pharmacy/Services/Employee/userService.js
+ delete mode 100644 src/api/Operations-Managements/server.js
+ create mode 100644 src/api/controllers/UserController.js
+ create mode 100644 src/api/middlewares/Joi_Validations/registrationSchema.js
+ delete mode 100644 src/api/middlewares/validations/registrationSchema.js
+ create mode 100644 src/api/models/Association.js
+ create mode 100644 src/api/models/Department.js
+ create mode 100644 src/api/models/Permission.js
+ delete mode 100644 src/api/models/Projects/project.model.js
+ create mode 100644 src/api/models/Role.js
+ delete mode 100644 src/api/models/Roles/Permissions.js
+ delete mode 100644 src/api/models/Roles/Role.js
+ delete mode 100644 src/api/models/Roles/User/user.model.js
+ delete mode 100644 src/api/models/Roles/index.role.js
+ create mode 100644 src/api/models/Seeder/Seeder.js
+ create mode 100644 src/api/models/User.js
+ delete mode 100644 src/api/models/index.js
+ delete mode 100644 src/api/routes/messageRoutes.js
+ delete mode 100644 src/api/routes/project.routes.js
+ create mode 100644 src/api/routes/userRoutes.js
+ create mode 100644 src/api/services/userService.js
+ create mode 100644 src/utils/AppError.js
+ubuntu@ip-172-31-47-121:~/Medical-Service$ ^C
+ubuntu@ip-172-31-47-121:~/Medical-Service$ 

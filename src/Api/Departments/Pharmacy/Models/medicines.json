@@ -1,0 +1,274 @@
+[
+    {
+        "pharmacy_id": 1,
+        "medicine_name": "Paracetamol",
+        "generic_name": "Acetaminophen",
+        "description": "Used to treat fever and mild to moderate pain.",
+        "manufacturer": "ABC Pharmaceuticals",
+        "price": 2.50,
+        "quantity": 100,
+        "expiry_date": "2025-12-31",
+        "side_effects": "Nausea, rash.",
+        "contraindications": "Severe liver disease.",
+        "dosage": "500 mg every 4 to 6 hours as needed.",
+        "instructions": "Do not exceed 4 grams per day.",
+        "health_issues": [
+            "Fever",
+            "Headache",
+            "Muscle Pain"
+        ],
+        "diseases_treated": [
+            "Flu",
+            "Cold",
+            "Osteoarthritis"
+        ],
+        "barcode": "1234567890123",
+        "import_source": "Local",
+        "regulatory_approvals": "FDA approved, CE certified",
+        "storage_conditions": "Store in a cool, dry place away from light.",
+        "available_in_stock": true
+    },
+    {
+        "pharmacy_id": 2,
+        "medicine_name": "Ibuprofen",
+        "generic_name": "Ibuprofen",
+        "description": "Non-steroidal anti-inflammatory drug (NSAID) used for pain relief.",
+        "manufacturer": "XYZ Pharma",
+        "price": 3.00,
+        "quantity": 200,
+        "expiry_date": "2024-06-30",
+        "side_effects": "Stomach upset, headache.",
+        "contraindications": "Peptic ulcer disease.",
+        "dosage": "200 mg to 400 mg every 4 to 6 hours as needed.",
+        "instructions": "Take with food to minimize stomach upset.",
+        "health_issues": [
+            "Pain",
+            "Inflammation",
+            "Fever"
+        ],
+        "diseases_treated": [
+            "Arthritis",
+            "Menstrual pain",
+            "Gout"
+        ],
+        "barcode": "9876543210987",
+        "import_source": "Local",
+        "regulatory_approvals": "FDA approved, Health Canada licensed",
+        "storage_conditions": "Store below 25°C, protect from moisture.",
+        "available_in_stock": true
+    },
+    {
+        "pharmacy_id": 3,
+        "medicine_name": "Amoxicillin",
+        "generic_name": "Amoxicillin",
+        "description": "Antibiotic used to treat various infections.",
+        "manufacturer": "MediCare Ltd.",
+        "price": 4.50,
+        "quantity": 150,
+        "expiry_date": "2026-05-15",
+        "side_effects": "Nausea, diarrhea.",
+        "contraindications": "Allergy to penicillin.",
+        "dosage": "250 mg every 8 hours or 500 mg every 12 hours.",
+        "instructions": "Complete the full course as prescribed.",
+        "health_issues": [
+            "Bacterial Infections"
+        ],
+        "diseases_treated": [
+            "Pneumonia",
+            "Bronchitis",
+            "Infections"
+        ],
+        "barcode": "3216549870123",
+        "import_source": "Local",
+        "regulatory_approvals": "FDA approved, WHO listed",
+        "storage_conditions": "Store in a cool, dry place, do not refrigerate.",
+        "available_in_stock": true
+    },
+    {
+        "pharmacy_id": 4,
+        "medicine_name": "Metformin",
+        "generic_name": "Metformin Hydrochloride",
+        "description": "Used for the treatment of type 2 diabetes.",
+        "manufacturer": "DiabetesCare",
+        "price": 5.00,
+        "quantity": 120,
+        "expiry_date": "2025-11-10",
+        "side_effects": "Gastrointestinal upset.",
+        "contraindications": "Severe renal impairment.",
+        "dosage": "500 mg to 2000 mg daily, as directed.",
+        "instructions": "Take with meals to reduce side effects.",
+        "health_issues": [
+            "Diabetes",
+            "Polycystic Ovary Syndrome"
+        ],
+        "diseases_treated": [
+            "Type 2 Diabetes"
+        ],
+        "barcode": "6543217890123",
+        "import_source": "Local",
+        "regulatory_approvals": "FDA approved, EU approved",
+        "storage_conditions": "Store at room temperature, away from moisture.",
+        "available_in_stock": false
+    },
+    {
+        "pharmacy_id": 5,
+        "medicine_name": "Aspirin",
+        "generic_name": "Acetylsalicylic Acid",
+        "description": "Used for pain relief, anti-inflammatory and to reduce fever.",
+        "manufacturer": "HealthCorp",
+        "price": 1.75,
+        "quantity": 250,
+        "expiry_date": "2026-01-20",
+        "side_effects": "Stomach irritation, bleeding.",
+        "contraindications": "History of gastrointestinal bleeding.",
+        "dosage": "81 mg to 325 mg daily as needed.",
+        "instructions": "Take with food or milk to prevent stomach upset.",
+        "health_issues": [
+            "Pain",
+            "Inflammation",
+            "Cardiovascular Issues"
+        ],
+        "diseases_treated": [
+            "Heart Disease",
+            "Stroke Prevention"
+        ],
+        "barcode": "7890123456789",
+        "import_source": "Imported",
+        "regulatory_approvals": "FDA approved",
+        "storage_conditions": "Store at room temperature, keep away from moisture.",
+        "available_in_stock": true
+    },
+    {
+        "pharmacy_id": 6,
+        "medicine_name": "Levothyroxine",
+        "generic_name": "Levothyroxine Sodium",
+        "description": "Used to treat hypothyroidism.",
+        "manufacturer": "Thyroid Solutions Inc.",
+        "price": 10.00,
+        "quantity": 80,
+        "expiry_date": "2025-09-15",
+        "side_effects": "Weight changes, headache.",
+        "contraindications": "Adrenal insufficiency.",
+        "dosage": "25 mcg to 300 mcg once daily.",
+        "instructions": "Take on an empty stomach, 30 minutes before food.",
+        "health_issues": [
+            "Hypothyroidism"
+        ],
+        "diseases_treated": [
+            "Hypothyroidism"
+        ],
+        "barcode": "5432167890123",
+        "import_source": "Imported",
+        "regulatory_approvals": "FDA approved",
+        "storage_conditions": "Store at room temperature away from moisture.",
+        "available_in_stock": true
+    },
+    {
+        "pharmacy_id": 7,
+        "medicine_name": "Lisinopril",
+        "generic_name": "Lisinopril",
+        "description": "Used to treat high blood pressure.",
+        "manufacturer": "CardioHealth",
+        "price": 6.00,
+        "quantity": 150,
+        "expiry_date": "2024-12-25",
+        "side_effects": "Dizziness, headache.",
+        "contraindications": "History of angioedema.",
+        "dosage": "10 mg to 40 mg once daily.",
+        "instructions": "Monitor blood pressure regularly.",
+        "health_issues": [
+            "Hypertension",
+            "Heart Failure"
+        ],
+        "diseases_treated": [
+            "High Blood Pressure",
+            "Heart Failure"
+        ],
+        "barcode": "1112131415161",
+        "import_source": "Local",
+        "regulatory_approvals": "FDA approved",
+        "storage_conditions": "Store in a cool, dry place.",
+        "available_in_stock": true
+    },
+    {
+        "pharmacy_id": 8,
+        "medicine_name": "Atorvastatin",
+        "generic_name": "Atorvastatin Calcium",
+        "description": "Used to lower cholesterol and triglyceride levels.",
+        "manufacturer": "HeartCare Ltd.",
+        "price": 8.50,
+        "quantity": 200,
+        "expiry_date": "2026-04-30",
+        "side_effects": "Muscle pain, liver enzyme changes.",
+        "contraindications": "Active liver disease.",
+        "dosage": "10 mg to 80 mg once daily.",
+        "instructions": "Take in the evening for best results.",
+        "health_issues": [
+            "Cholesterol",
+            "Cardiovascular Risk"
+        ],
+        "diseases_treated": [
+            "Hyperlipidemia",
+            "Cardiovascular Disease"
+        ],
+        "barcode": "1718192021222",
+        "import_source": "Imported",
+        "regulatory_approvals": "FDA approved",
+        "storage_conditions": "Store at room temperature away from light.",
+        "available_in_stock": true
+    },
+    {
+        "pharmacy_id": 9,
+        "medicine_name": "Omeprazole",
+        "generic_name": "Omeprazole",
+        "description": "Used to treat gastroesophageal reflux disease (GERD).",
+        "manufacturer": "Stomach Solutions",
+        "price": 4.25,
+        "quantity": 130,
+        "expiry_date": "2025-03-20",
+        "side_effects": "Headache, abdominal pain.",
+        "contraindications": "Hypersensitivity to omeprazole.",
+        "dosage": "20 mg to 40 mg once daily.",
+        "instructions": "Take before meals for best effect.",
+        "health_issues": [
+            "GERD",
+            "Ulcers"
+        ],
+        "diseases_treated": [
+            "Gastroesophageal Reflux Disease",
+            "Peptic Ulcers"
+        ],
+        "barcode": "2324252627282",
+        "import_source": "Local",
+        "regulatory_approvals": "FDA approved",
+        "storage_conditions": "Store in a cool, dry place.",
+        "available_in_stock": false
+    },
+    {
+        "pharmacy_id": 10,
+        "medicine_name": "Albuterol",
+        "generic_name": "Albuterol Sulfate",
+        "description": "Used to treat or prevent bronchospasm in patients with asthma.",
+        "manufacturer": "Respiratory Health",
+        "price": 5.75,
+        "quantity": 50,
+        "expiry_date": "2026-08-15",
+        "side_effects": "Shakiness, headache.",
+        "contraindications": "Hypersensitivity to albuterol.",
+        "dosage": "2 puffs every 4-6 hours as needed.",
+        "instructions": "Shake well before use.",
+        "health_issues": [
+            "Asthma",
+            "COPD"
+        ],
+        "diseases_treated": [
+            "Asthma",
+            "Chronic Obstructive Pulmonary Disease"
+        ],
+        "barcode": "3132333435363",
+        "import_source": "Imported",
+        "regulatory_approvals": "FDA approved",
+        "storage_conditions": "Store at room temperature, protect from heat.",
+        "available_in_stock": true
+    }
+]
