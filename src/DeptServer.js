@@ -1,19 +1,19 @@
 require('dotenv').config();
 const express = require('express');
 
-const { StartPharmacyServer } = require('./api/Departments/Pharmacy/server.js');
-const { StartLogisticsServer } = require('./api/Departments/Logistics/server.js');
-const { StartCustomerSupportServer } = require('./api/Departments/Customer-Support/server.js');
-const { StartSalesMarketingServer } = require('./api/Departments/Sales-marketing/server.js');
-const { StartFinanceAccountingServer } = require('./api/Departments/Finance-Accounting/server.js');
-const { StartComplianceLegalServer } = require('./api/Departments/Compliance-Legal/server.js');
-const { StartHealthCareServer } = require('./api/Departments/Healthcare/server.js');
-const { StartItDevelopmentServer } = require('./api/Departments/IT-Development/server.js');
-const { StartInventoryManagementServer } = require('./api/Departments/Inventory-Management/server.js');
-const { StartDataAnalyticServer } = require('./api/Departments/data-Analytic/server.js');
-const { StartHrServer } = require('./api/Departments/HR/server.js');
-const { StartPartnershipsServer } = require('./api/Departments/Partnerships/server.js');
-const { appLogger, errorLogger } = require('./config/Setting/logger.config.js');
+const { StartPharmacyServer } = require('./Api/Departments/Pharmacy/server.js');
+const { StartLogisticsServer } = require('./Api/Departments/Logistics/server.js');
+const { StartCustomerSupportServer } = require('./Api/Departments/Customer-Support/server.js');
+const { StartSalesMarketingServer } = require('./Api/Departments/Sales-marketing/server.js');
+const { StartFinanceAccountingServer } = require('./Api/Departments/Finance-Accounting/server.js');
+const { StartComplianceLegalServer } = require('./Api/Departments/Compliance-Legal/server.js');
+const { StartHealthCareServer } = require('./Api/Departments/Healthcare/server.js');
+const { StartItDevelopmentServer } = require('./Api/Departments/IT-Development/server.js');
+const { StartInventoryManagementServer } = require('./Api/Departments/Inventory-Management/server.js');
+const { StartDataAnalyticServer } = require('./Api/Departments/data-Analytic/server.js');
+const { StartHrServer } = require('./Api/Departments/HR/server.js');
+const { StartPartnershipsServer } = require('./Api/Departments/Partnerships/server.js');
+const { appLogger, errorLogger } = require('./Config/Setting/logger.config.js');
 
 const app = express();
 
