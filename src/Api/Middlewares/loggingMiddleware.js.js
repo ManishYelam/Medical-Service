@@ -1,4 +1,4 @@
-const { responseLog, requestLog } = require('../../config/Setting/logger.config'); 
+const { responseLog, requestLog } = require('../../Config/Setting/logger.config'); 
 
 module.exports = {
   logRequestDetails: (req, res, next) => {

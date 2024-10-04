@@ -3,9 +3,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const { generalRateLimiter, rateLimiterWithWhitelist } = require('../../config/Setting/rateLimiter.config.js');
-const securityConfig = require('../../config/Setting/security.config.js');
-const { requestLogger } = require('../../config/Setting/logger.config.js');
+const { generalRateLimiter, rateLimiterWithWhitelist } = require('../../Config/Setting/rateLimiter.config.js');
+const securityConfig = require('../../Config/Setting/security.config.js');
+const { requestLogger } = require('../../Config/Setting/logger.config.js');
 const { logRequestDetails, logResponseDetails } = require('./loggingMiddleware.js.js');
 
 module.exports = () => {
