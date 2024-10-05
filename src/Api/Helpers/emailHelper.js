@@ -29,33 +29,18 @@ module.exports = {
 const emailHelper = require('./emailHelper');
 
 // Send a simple email
-emailHelper.sendEmail(
-  'recipient@example.com',
-  'Hello!',
-  'This is a test email'
-);
+emailHelper.sendEmail('recipient@example.com', 'Hello!', 'This is a test email');
 
 // Send an email with an HTML template
 const template = '<h1>Welcome</h1><p>Thanks for joining!</p>';
-emailHelper.sendEmailWithTemplate(
-  'recipient@example.com',
-  'Welcome!',
-  template
-);
+emailHelper.sendEmailWithTemplate('recipient@example.com', 'Welcome!', template);
 
 const emailHelper = require('./emailHelper');
 
 // Send a simple email
-emailHelper.sendEmail(
-  'recipient@example.com',
-  'Hello!',
-  'This is a test email'
-);
+emailHelper.sendEmail('recipient@example.com', 'Hello!', 'This is a test email');
 
 // Send an email with an HTML template
 const template = '<h1>Welcome</h1><p>Thanks for joining!</p>';
-emailHelper.sendEmailWithTemplate(
-  'recipient@example.com',
-  'Welcome!',
-  template
-);
+emailHelper.sendEmailWithTemplate('recipient@example.com', 'Welcome!', template);
+

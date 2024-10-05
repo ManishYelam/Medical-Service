@@ -11,3 +11,4 @@ module.exports = {
   security: require('./Setting/security.config'),
   socket: require('./Setting/socket.config'),
 };
+

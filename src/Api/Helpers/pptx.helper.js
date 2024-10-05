@@ -27,10 +27,7 @@ const addSlide = (pptx, layout = 'Title Slide') => {
  */
 const addTitle = (slide, title, options = {}) => {
   slide.addText(title, {
-    x: 1,
-    y: 1,
-    w: '80%',
-    h: 1.5,
+    x: 1, y: 1, w: '80%', h: 1.5,
     fontSize: 24,
     bold: true,
     color: '000000',
@@ -47,10 +44,7 @@ const addTitle = (slide, title, options = {}) => {
  */
 const addContent = (slide, content, options = {}) => {
   slide.addText(content, {
-    x: 1,
-    y: 2.5,
-    w: '80%',
-    h: '70%',
+    x: 1, y: 2.5, w: '80%', h: '70%',
     fontSize: 18,
     color: '333333',
     align: 'left',
@@ -80,29 +74,29 @@ module.exports = {
   savePresentation,
 };
 
-const {
-  createPresentation,
-  addSlide,
-  addTitle,
-  addContent,
-  savePresentation,
-} = require('./pptx.helper');
+
+
+
+
+
+
+
+
+
+const { createPresentation, addSlide, addTitle, addContent, savePresentation } = require('./pptx.helper');
 
 const createSamplePresentation = async () => {
   // Create a new presentation
   const pptx = createPresentation();
-
+  
   // Add a title slide
   const titleSlide = addSlide(pptx, 'Title Slide');
   addTitle(titleSlide, 'My Presentation Title', { fontSize: 32 });
-
+  
   // Add a content slide
   const contentSlide = addSlide(pptx, 'Title and Content');
   addTitle(contentSlide, 'Slide Title');
-  addContent(
-    contentSlide,
-    'This is the content of the slide. You can add more text or content here.'
-  );
+  addContent(contentSlide, 'This is the content of the slide. You can add more text or content here.');
 
   // Save the presentation
   await savePresentation(pptx, 'SamplePresentation.pptx');

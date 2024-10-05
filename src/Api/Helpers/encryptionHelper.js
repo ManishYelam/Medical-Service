@@ -45,6 +45,7 @@ module.exports = {
   generateKeyAsync,
 };
 
+
 const { encrypt, decrypt, generateKey } = require('./encryptionHelper');
 
 // Example usage

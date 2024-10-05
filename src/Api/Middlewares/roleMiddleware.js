@@ -8,9 +8,7 @@ const roleMiddleware = (requiredPermissions) => {
       return res.status(403).send('Access denied.');
     }
 
-    const hasPermission = requiredPermissions.every(
-      (permission) => userRole.permissions[permission]
-    );
+    const hasPermission = requiredPermissions.every(permission => userRole.permissions[permission]);
 
     if (hasPermission) {
       next();

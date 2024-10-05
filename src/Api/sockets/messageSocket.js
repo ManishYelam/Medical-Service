@@ -7,10 +7,7 @@ module.exports = (socket) => {
       socketLogger.info('Received message', { id: socket.id, message });
       socket.emit('message', `Echo: ${message}`);
     } catch (error) {
-      socketLogger.error('Error handling message', {
-        id: socket.id,
-        error: error.message,
-      });
+      socketLogger.error('Error handling message', { id: socket.id, error: error.message });
     }
   });
 
@@ -20,10 +17,7 @@ module.exports = (socket) => {
       socketLogger.info('Broadcasting message', { id: socket.id, message });
       socket.broadcast.emit('message', message);
     } catch (error) {
-      socketLogger.error('Error broadcasting message', {
-        id: socket.id,
-        error: error.message,
-      });
+      socketLogger.error('Error broadcasting message', { id: socket.id, error: error.message });
     }
   });
 
@@ -39,11 +33,7 @@ module.exports = (socket) => {
       socket.join(room);
       socketLogger.info('Client joined room', { id: socket.id, room });
     } catch (error) {
-      socketLogger.error('Error joining room', {
-        id: socket.id,
-        room,
-        error: error.message,
-      });
+      socketLogger.error('Error joining room', { id: socket.id, room, error: error.message });
     }
   });
 
@@ -52,28 +42,16 @@ module.exports = (socket) => {
       socket.leave(room);
       socketLogger.info('Client left room', { id: socket.id, room });
     } catch (error) {
-      socketLogger.error('Error leaving room', {
-        id: socket.id,
-        room,
-        error: error.message,
-      });
+      socketLogger.error('Error leaving room', { id: socket.id, room, error: error.message });
     }
   });
 
   socket.on('messageInRoom', (room, message) => {
     try {
-      socketLogger.info('Sending message to room', {
-        id: socket.id,
-        room,
-        message,
-      });
+      socketLogger.info('Sending message to room', { id: socket.id, room, message });
       socket.to(room).emit('message', message);
     } catch (error) {
-      socketLogger.error('Error sending message to room', {
-        id: socket.id,
-        room,
-        error: error.message,
-      });
+      socketLogger.error('Error sending message to room', { id: socket.id, room, error: error.message });
     }
   });
 };

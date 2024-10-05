@@ -21,7 +21,6 @@ const sqlConfigLocal = {
 };
 
 // Export configuration based on the current environment
-const sqlConfig =
-  process.env.NODE_ENV === 'production' ? sqlConfigProd : sqlConfigLocal;
+const sqlConfig = process.env.NODE_ENV === 'production' ? sqlConfigProd : sqlConfigLocal;
 
 module.exports = sqlConfig;

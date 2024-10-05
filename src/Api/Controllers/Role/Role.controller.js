@@ -1,18 +1,10 @@
-const {
-  login,
-  logout,
-  forgotPassword,
-  resetPassword,
-  refreshToken,
-  register,
-} = require('../../services/role.service');
+const { login, logout, forgotPassword, resetPassword, refreshToken, register } = require('../../services/role.service');
 
 module.exports = {
   register: async (req, res) => {
-    const { user_name, role, user_email, user_password, user_contact } =
-      req.body;
+    const { user_name, role, user_email, user_password,  user_contact } = req.body;
     try {
-      await register(user_name, role, user_email, user_password, user_contact);
+      await register(user_name, role, user_email, user_password,  user_contact);
       res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -56,7 +48,7 @@ module.exports = {
     }
   },
 
-  refreshToken: async (req, res) => {
+  refreshToken : async (req, res) => {
     const { token } = req.body;
     try {
       const newToken = await refreshToken(token);
@@ -65,4 +57,5 @@ module.exports = {
       res.status(400).json({ message: error.message });
     }
   },
+  
 };
