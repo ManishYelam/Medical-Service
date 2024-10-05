@@ -18,8 +18,7 @@ const sequelize = new Sequelize(
       min: 0,                      // Min connections in pool
       acquire: 60000,              // Max time in ms to acquire a connection
       idle: 10000,                 // Time in ms to release idle connections
-    },
-    
+    }, 
   }
 );
 
