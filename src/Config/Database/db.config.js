@@ -3,7 +3,6 @@ const moment = require('moment');
 const config = require('./mysql.config');
 const sequelize = require('./sequelize.config');
 const mysql = require('mysql2/promise');
-const { appLogger, errorLogger } = require('../Setting/logger.config');
 const client = require('./redis.config');
 
 // Create MySQL connection pool
@@ -12,20 +11,20 @@ const pool = mysql.createPool(config);
 const TestMySQLConnection = async () => {
   try {
     const connection = await pool.getConnection();
-    appLogger.info(`Connected to MySQL database successfully at Host: ${config.host}, Port: ${config.port}, Database: ${config.database}.`);
+    console.log(`Connected to MySQL database successfully at Host: ${config.host}, Port: ${config.port}, Database: ${config.database}.`);
     connection.release();
   } catch (error) {
-    errorLogger.error(`Error connecting to MySQL database: ${error.message}`, { stack: error.stack });
+    console.error(`Error connecting to MySQL database: ${error.message}`, { stack: error.stack });
   }
 };
 
 const TestSequelizeConnection = async () => {
   try {
     await sequelize.authenticate();
-    appLogger.info(`Sequelize connection established successfully at Host: ${config.host}, Port: ${config.port}, Database: ${config.database}.`);
+    console.log(`Sequelize connection established successfully at Host: ${config.host}, Port: ${config.port}, Database: ${config.database}.`);
     console.log(`Sequelize connection established successfully at Host: ${config.host}, Port: ${config.port}, Database: ${config.database}.`);
   } catch (error) {
-    errorLogger.error(`Unable to connect to Sequelize database: ${error.message}`, { stack: error.stack });
+    console.error(`Unable to connect to Sequelize database: ${error.message}`, { stack: error.stack });
     console.log(`Unable to connect to Sequelize database: ${error.message}`, { stack: error.stack });
     
   }
@@ -38,21 +37,21 @@ const TestSequelizeConnection = async () => {
 
 // Handle Redis connection errors
 client.on('error', (err) => {
-  errorLogger.error('Redis connection error:', { error: err.message, stack: err.stack });
+  console.error('Redis connection error:', { error: err.message, stack: err.stack });
 });
 
 // Handle Redis connection end
 client.on('end', () => {
-  appLogger.info('Redis connection closed.');
+  console.log('Redis connection closed.');
 });
 
 // Connect to Redis
 const ConnectRedis = async () => {
   try {
     await client.connect();
-    appLogger.info(`Redis connected on port 13742 at ${moment().format('llll')}.`);
+    console.log(`Redis connected on port 13742 at ${moment().format('llll')}.`);
   } catch (error) {
-    errorLogger.error('Failed to connect to Redis:', { error: error.message, stack: error.stack });
+    console.error('Failed to connect to Redis:', { error: error.message, stack: error.stack });
   }
 };
 
@@ -60,9 +59,9 @@ const ConnectRedis = async () => {
 process.on('exit', async () => {
   try {
     await client.quit();
-    appLogger.info('Redis connection closed on process exit.');
+    console.log('Redis connection closed on process exit.');
   } catch (error) {
-    errorLogger.error('Error closing Redis connection on process exit:', { error: error.message, stack: error.stack });
+    console.error('Error closing Redis connection on process exit:', { error: error.message, stack: error.stack });
   }
 });
 

@@ -1,9 +1,7 @@
-const { responseLog, requestLog } = require('../../Config/Setting/logger.config'); 
-
 module.exports = {
   logRequestDetails: (req, res, next) => {
     const { method, url, headers, body } = req;
-    requestLog.info('Request received', { method, url, headers, body, });
+    console.log('Request received', { method, url, headers, body, });
     next();
   },
 
@@ -11,7 +9,7 @@ module.exports = {
     const oldSend = res.send;
 
     (res.send = function (data) {
-      responseLog.info('Response sent', { statusCode: res.statusCode, body: data, });
+      console.log('Response sent', { statusCode: res.statusCode, body: data, });
       oldSend.apply(res, arguments);
     }),
       next();

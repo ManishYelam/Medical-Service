@@ -3,7 +3,7 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -57,11 +57,9 @@ const StartHrServer = async () => {
     const PORT = process.env.HR_PORT || 5011;
 
     server.listen(PORT, () => {
-      appLogger.info(`HR server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`HR server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`HR server startup error:`, error.message);
     console.error(`HR server startup error:`, error);
   }
 };

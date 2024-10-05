@@ -3,7 +3,7 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -57,11 +57,9 @@ const StartPartnershipsServer = async () => {
     const PORT = process.env.PARTNERSHIPS_PORT || 5012;
 
     server.listen(PORT, () => {
-      appLogger.info(`Partnerships server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`Partnerships server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`Partnerships server startup error:`, error.message);
     console.error(`Partnerships server startup error:`, error);
   }
 };

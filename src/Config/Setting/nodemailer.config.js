@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 const emailTemplates = require('../../Api/EmailTemplets/Templates');
-const { emailLogger } = require('./logger.config');
 
 const transporter = nodemailer.createTransport({
   service: process.env.EMAIL_SERVICE || 'gmail',
@@ -23,10 +22,10 @@ const sendMail = async (to, subject, templateName, templateData, attachments = [
     };
 
     const info = await transporter.sendMail(mailOptions);
-    emailLogger.info(`Email sent to ${to} with subject "${subject}". Message ID: ${info.messageId}`);
+    console.log(`Email sent to ${to} with subject "${subject}". Message ID: ${info.messageId}`);
     return info;
   } catch (error) {
-    emailLogger.error(`Failed to send email to ${to} with subject "${subject}". Error: ${error.message}`);
+    console.error(`Failed to send email to ${to} with subject "${subject}". Error: ${error.message}`);
     throw error; 
   }
 };

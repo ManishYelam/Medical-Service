@@ -3,7 +3,6 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
 const app = express();
 
 const server = http.createServer(app);
@@ -57,11 +56,9 @@ const StartFinanceAccountingServer = async () => {
     const PORT = process.env.FINANCE_ACCOUNTING_PORT || 5005;
 
     server.listen(PORT, () => {
-      appLogger.info(`Finance and Accounting server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`Finance and Accounting server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`Finance and Accounting server startup error:`, error.message);
     console.error(`Finance and Accounting server startup error:`, error);
   }
 };

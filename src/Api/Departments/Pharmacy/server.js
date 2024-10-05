@@ -3,7 +3,6 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
 const app = express();
 
 const server = http.createServer(app);
@@ -60,11 +59,9 @@ const StartPharmacyServer = async () => {
     const PORT = process.env.PHARMACY_PORT || 5001;
 
     server.listen(PORT, () => {
-      appLogger.info(`Pharmacy server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`Pharmacy server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`Pharmacy server startup error:`, error.message);
     console.error(`Pharmacy server startup error:`, error);
   }
 };

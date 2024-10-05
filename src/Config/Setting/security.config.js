@@ -1,5 +1,4 @@
 const helmet = require('helmet');
-const { securityLogger } = require('./logger.config');
 
 // Define Content Security Policy (CSP) as an example
 const cspPolicy = {
@@ -34,6 +33,6 @@ const securityConfig = helmet({
 });
 
 // Log the security configuration
-securityLogger.info('Security configuration applied with Helmet.');
+console.log('Security configuration applied with Helmet.');
 
 module.exports = securityConfig;

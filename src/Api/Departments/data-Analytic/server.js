@@ -3,7 +3,7 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -57,11 +57,9 @@ const StartDataAnalyticServer = async () => {
     const PORT = process.env.DATA_ANALYTICS_PORT || 5010;
 
     server.listen(PORT, () => {
-      appLogger.info(`Data Analytics server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`Data Analytics server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`Data Analytics server startup error:`, error.message);
     console.error(`Data Analytics server startup error:`, error);
   }
 };

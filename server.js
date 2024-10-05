@@ -2,7 +2,6 @@ require('dotenv').config();
 const http = require('http');
 const moment = require('moment');
 const path = require('path');
-const { appLogger, errorLogger, } = require('./src/Config/Setting/logger.config.js');
 const sendMail = require('./src/Config/Setting/nodemailer.config.js');
 const routes = require('./src/Api/Routes/index.js');
 const { TestSequelizeConnection, TestMySQLConnection, ConnectRedis, } = require('./src/Config/Database/db.config.js');
@@ -59,7 +58,7 @@ const DefineRoutes = () => {
       await sendMail(to, subject, text);
       res.status(200).send('Email sent successfully.');
     } catch (error) {
-      errorLogger.error('Error sending email', { error });
+      console.error('Error sending email', { error });
       res.status(500).send('Failed to send email.');
     }
   });
@@ -70,7 +69,7 @@ const DefineRoutes = () => {
       const value = await redisClient.get('key');
       res.send(`Cached value: ${value}`);
     } catch (error) {
-      errorLogger.error('Failed to interact with Redis:', {
+      console.error('Failed to interact with Redis:', {
         message: error.message,
         stack: error.stack,
         code: error.code || 'N/A',
@@ -87,7 +86,6 @@ const DefineRoutes = () => {
 
 const StartServer = async () => {
   try {
-    appLogger.info(`Initializing server... at  ${new Date().toLocaleString()}.`);
     console.log(`Initializing server... at  ${new Date().toLocaleString()}.`);
 
     await Promise.all([
@@ -97,19 +95,17 @@ const StartServer = async () => {
       StartDeptServer()
     ]);
 
-    appLogger.info(`Database connections established successfully at  ${new Date().toLocaleString()}.`);
     console.log(`Database connections established successfully at ${new Date().toLocaleString()}.`);
 
     InitializeDatabase();
-    appLogger.info(`Database initialized successfully at ${new Date().toLocaleString()}.`);
     console.log(`Database initialized successfully at ${new Date().toLocaleString()}.`);
 
     DefineRoutes();
 
     const PORT = process.env.MAIN_SERVER_PORT || 5000; 
     server.listen(PORT, () => {
-      appLogger.info(`All department servers are running successfully at ${new Date().toLocaleString()}.`);
-      console.log(`Server running on port ${PORT} at ${new Date().toLocaleString()}.`);      
+      console.log(`All department servers are running successfully at ${new Date().toLocaleString()}.`);
+      console.log(`Main server running on port ${PORT} at ${new Date().toLocaleString()}.`);      
     })
   } catch (error) {
     console.error('Error during server startup:', error.message);

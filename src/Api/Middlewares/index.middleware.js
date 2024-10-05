@@ -5,8 +5,6 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const { generalRateLimiter, rateLimiterWithWhitelist } = require('../../Config/Setting/rateLimiter.config.js');
 const securityConfig = require('../../Config/Setting/security.config.js');
-const { requestLogger } = require('../../Config/Setting/logger.config.js');
-const { logRequestDetails, logResponseDetails } = require('./loggingMiddleware.js.js');
 
 module.exports = () => {
   const app = express();
@@ -34,12 +32,8 @@ module.exports = () => {
   app.use(rateLimiterWithWhitelist);
   app.use(securityConfig);
 
-  app.use(requestLogger);
-  app.use(logRequestDetails);
-  app.use(logResponseDetails);
-
   app.use((err, req, res, next) => {
-    errorLogger.error(`${err.status || 500} - ${err.message}`);
+    console.error(`${err.status || 500} - ${err.message}`);
     res.status(500).send('Internal Server Error');
   });
 

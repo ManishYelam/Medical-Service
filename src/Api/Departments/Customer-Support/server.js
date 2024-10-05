@@ -3,7 +3,7 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -57,11 +57,9 @@ const StartCustomerSupportServer = async () => {
     const PORT = process.env.CUSTOMER_SUPPORT_PORT || 5003;
 
     server.listen(PORT, () => {
-      appLogger.info(`Customer Support server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`Customer Support server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`Customer Support server startup error:`, error.message);
     console.error(`Customer Support server startup error:`, error);
   }
 };

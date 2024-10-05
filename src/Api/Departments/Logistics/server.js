@@ -3,7 +3,7 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -58,11 +58,9 @@ const StartLogisticsServer = async () => {
     const PORT = process.env.LOGISTICS_PORT || 5002;
 
     server.listen(PORT, () => {
-      appLogger.info(`Logistics server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`Logistics server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`Logistics server startup error:`, error.message);
     console.error(`Logistics server startup error:`, error);
   }
 };

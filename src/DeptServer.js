@@ -13,7 +13,6 @@ const { StartInventoryManagementServer } = require('./Api/Departments/Inventory-
 const { StartDataAnalyticServer } = require('./Api/Departments/data-Analytic/server.js');
 const { StartHrServer } = require('./Api/Departments/HR/server.js');
 const { StartPartnershipsServer } = require('./Api/Departments/Partnerships/server.js');
-const { appLogger, errorLogger } = require('./Config/Setting/logger.config.js');
 
 const app = express();
 
@@ -46,11 +45,8 @@ const StartDeptServer = async () => {
     // await Promise.all(DeptMiddlewares.map(middleware => middleware()));
     // await Promise.all(DeptRoutes.map(route => route()));
 
-    appLogger.info(`All department servers are running successfully at ${new Date().toLocaleString()}.`)
     console.log(`All department servers are running successfully at ${new Date().toLocaleString()}.`);
   } catch (error) {
-    errorLogger.info('Error during department servers startup:', error.message);
-    errorLogger.info('Stack Trace:', error.stack);
     console.error('Error during department servers startup:', error.message);
     console.error('Stack Trace:', error.stack);
   }

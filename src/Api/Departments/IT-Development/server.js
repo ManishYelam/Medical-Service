@@ -3,7 +3,7 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -57,11 +57,9 @@ const StartItDevelopmentServer = async () => {
     const PORT = process.env.IT_DEVELOPMENT_PORT || 5008;
 
     server.listen(PORT, () => {
-      appLogger.info(`IT Development server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`IT Development server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`IT Development server startup error:`, error.message);
     console.error(`IT Development server startup error:`, error);
   }
 };

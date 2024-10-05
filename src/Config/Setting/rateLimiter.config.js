@@ -1,6 +1,4 @@
 const rateLimit = require('express-rate-limit');
-const { rateLimiterLogger } = require('./logger.config');
-
 
 // Function to create a rate limiter with dynamic configuration
 const createRateLimiter = (options = {}) => {
@@ -16,7 +14,7 @@ const createRateLimiter = (options = {}) => {
     max,
     message,
     handler: (req, res, next, options) => {
-      rateLimiterLogger.warn(`Rate limit exceeded for IP: ${req.ip}`);
+      console.log(`Rate limit exceeded for IP: ${req.ip}`);
       if (onLimitReached) {
         onLimitReached(req, res, next, options);
       } else {

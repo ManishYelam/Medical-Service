@@ -3,7 +3,7 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -57,11 +57,9 @@ const StartInventoryManagementServer = async () => {
     const PORT = process.env.INVENTORY_MANAGEMENT_PORT || 5009;
 
     server.listen(PORT, () => {
-      appLogger.info(`Inventory Management server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`Inventory Management server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`Inventory Management server startup error:`, error.message);
     console.error(`Inventory Management server startup error:`, error);
   }
 };

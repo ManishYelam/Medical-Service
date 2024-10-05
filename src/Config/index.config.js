@@ -5,7 +5,6 @@ module.exports = {
   baseUrls: require('./Setting/baseurls.config'),
   cache: require('./Setting/cache.config'),
   cors: require('./Setting/cors.config'),
-  logger: require('./Setting/logger.config'),
   nodemailer: require('./Setting/nodemailer.config'),
   rateLimiter: require('./Setting/rateLimiter.config'),
   redis: require('./Setting/redis.config'),

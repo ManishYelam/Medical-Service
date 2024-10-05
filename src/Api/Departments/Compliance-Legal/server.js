@@ -3,7 +3,7 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
+
 const app = express();
 
 const server = http.createServer(app);
@@ -57,11 +57,9 @@ const StartComplianceLegalServer = async () => {
     const PORT = process.env.COMPLIANCE_LEGAL_PORT || 5006;
 
     server.listen(PORT, () => {
-      appLogger.info(`Compliance and Legal server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`Compliance and Legal server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`Compliance and Legal server startup error:`, error.message);
     console.error(`Compliance and Legal server startup error:`, error);
   }
 };

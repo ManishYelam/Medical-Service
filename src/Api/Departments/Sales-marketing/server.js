@@ -3,7 +3,6 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
-const { appLogger, errorLogger } = require('../../../Config/Setting/logger.config');
 const app = express();
 
 const server = http.createServer(app);
@@ -58,11 +57,9 @@ const StartSalesMarketingServer = async () => {
     const PORT = process.env.SALES_MARKETING_PORT || 5004;
 
     server.listen(PORT, () => {
-      appLogger.info(`Sales and Marketing server running on port ${PORT} on ${moment().format('llll')}.`);
       console.log(`Sales and Marketing server running on port ${PORT} on ${moment().format('llll')}.`);
     });
   } catch (error) {
-    errorLogger.info(`Sales and Marketing server startup error:`, error.message);
     console.error(`Sales and Marketing server startup error:`, error);
   }
 };
