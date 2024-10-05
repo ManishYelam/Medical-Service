@@ -1,5 +1,13 @@
 module.exports = {
-  registrationTemplate: async ( userName, userEmail, userPhone, userPAN, userAadhar, userAddress, verificationLink ) => `
+  registrationTemplate: async (
+    userName,
+    userEmail,
+    userPhone,
+    userPAN,
+    userAadhar,
+    userAddress,
+    verificationLink
+  ) => `
     <!DOCTYPE html>
     <html>
     <head>
@@ -1107,7 +1115,12 @@ module.exports = {
   </html>
 `,
 
-  sendLocationTemplate: async ( userName, locationName, locationAddress,  locationLink ) => `
+  sendLocationTemplate: async (
+    userName,
+    locationName,
+    locationAddress,
+    locationLink
+  ) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1193,7 +1206,11 @@ module.exports = {
   </html>
 `,
 
-  documentUploadTemplate: async ( userName, uploadLink, documentTypes = 'PDF, DOCX, ZIP' ) => `
+  documentUploadTemplate: async (
+    userName,
+    uploadLink,
+    documentTypes = 'PDF, DOCX, ZIP'
+  ) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1292,5 +1309,4 @@ module.exports = {
   </body>
   </html>
 `,
-
 };

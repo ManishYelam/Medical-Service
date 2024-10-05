@@ -16,9 +16,13 @@ module.exports = {
    * @param {Object} [options] - Additional JWT options (like expiration).
    * @returns {string} Signed JWT token.
    */
-  generateToken: (payload, secret = JWT_CONFIG.SECRET, options = { expiresIn: JWT_CONFIG.EXPIRATION  , algorithm: 'HS256' }) => {
+  generateToken: (
+    payload,
+    secret = JWT_CONFIG.SECRET,
+    options = { expiresIn: JWT_CONFIG.EXPIRATION, algorithm: 'HS256' }
+  ) => {
     try {
-      const token = jwt.sign(payload, secret, {...options,});
+      const token = jwt.sign(payload, secret, { ...options });
       appLogger.info(`JWT generated`, {
         userId: payload.userId || 'unknown',
         token,

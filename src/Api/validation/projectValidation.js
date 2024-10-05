@@ -5,7 +5,9 @@ const projectSchema = Joi.object({
   description: Joi.string().required(),
   start_date: Joi.date().required(),
   end_date: Joi.date().optional().allow(null),
-  project_status: Joi.string().valid('Not Started', 'In Progress', 'Completed').required(), 
+  project_status: Joi.string()
+    .valid('Not Started', 'In Progress', 'Completed')
+    .required(),
 });
 
 module.exports = {

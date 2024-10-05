@@ -8,7 +8,9 @@ io.on('connection', (socket) => {
   const authenticated = true; // Replace with actual authentication logic
   if (!authenticated) {
     socket.disconnect();
-    socketLogger.warn('Client disconnected due to failed authentication', { id: socket.id });
+    socketLogger.warn('Client disconnected due to failed authentication', {
+      id: socket.id,
+    });
     return;
   }
 

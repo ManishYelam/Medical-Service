@@ -6,7 +6,9 @@ module.exports = {
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
     name: Joi.string().min(3).required(),
-    language: Joi.string().valid(...SUPPORTED_LANGUAGES).optional(),
+    language: Joi.string()
+      .valid(...SUPPORTED_LANGUAGES)
+      .optional(),
   }),
 
   userLoginSchema: Joi.object({

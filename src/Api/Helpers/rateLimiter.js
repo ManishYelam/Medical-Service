@@ -3,8 +3,8 @@ const { RATE_LIMIT_WINDOW, RATE_LIMIT_MAX } = require('./constants');
 
 // Rate limiter middleware
 const apiRateLimiter = rateLimit({
-  windowMs: RATE_LIMIT_WINDOW,  // 15 minutes
-  max: RATE_LIMIT_MAX,  // Limit each IP to 100 requests per windowMs
+  windowMs: RATE_LIMIT_WINDOW, // 15 minutes
+  max: RATE_LIMIT_MAX, // Limit each IP to 100 requests per windowMs
   message: 'Too many requests from this IP, please try again after 15 minutes.',
 });
 

@@ -74,40 +74,6 @@ module.exports = {
   },
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const fileHelper = require('./fileHelper');
 const filePath = './example.txt';
 const encodedFilePath = './encodedFile.txt';
@@ -184,6 +150,3 @@ app.get('/download/:fileName', (req, res) => {
   const filePath = `./uploads/${req.params.fileName}`;
   fileHelper.downloadFile(res, filePath, req.params.fileName);
 });
-
-
-

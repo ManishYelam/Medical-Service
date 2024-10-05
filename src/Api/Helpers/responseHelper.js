@@ -8,7 +8,12 @@ const { appLogger } = require('../../utils/logger');
  * @param {Object} [data={}] - Data to send in the response.
  * @returns {Object} - JSON response with status, message, and data.
  */
-const sendSuccessResponse = (res, statusCode = 200, message = 'Success', data = {}) => {
+const sendSuccessResponse = (
+  res,
+  statusCode = 200,
+  message = 'Success',
+  data = {}
+) => {
   const response = {
     status: 'success',
     message,
@@ -29,7 +34,12 @@ const sendSuccessResponse = (res, statusCode = 200, message = 'Success', data = 
  * @param {Object} [error={}] - Additional error details to send.
  * @returns {Object} - JSON response with status, message, and error details.
  */
-const sendErrorResponse = (res, statusCode = 500, message = 'An error occurred', error = {}) => {
+const sendErrorResponse = (
+  res,
+  statusCode = 500,
+  message = 'An error occurred',
+  error = {}
+) => {
   const response = {
     status: 'error',
     message,
@@ -67,8 +77,6 @@ module.exports = {
   sendValidationErrorResponse,
 };
 
-
-
 // const { sendSuccessResponse, sendErrorResponse, sendValidationErrorResponse } = require('./responseHelper');
 
 // // Example of sending success response
@@ -92,10 +100,13 @@ module.exports = {
 //   sendValidationErrorResponse(res, errors);
 // });
 
-
-
 module.exports = {
-  sendSuccessResponse: (res, statusCode = 200, message = 'Success', data = {}) => {
+  sendSuccessResponse: (
+    res,
+    statusCode = 200,
+    message = 'Success',
+    data = {}
+  ) => {
     res.status(statusCode).json({
       success: true,
       message,

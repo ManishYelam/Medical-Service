@@ -8,12 +8,11 @@ const router = express.Router();
 // const emailRoutes = require('./email.Routes');
 // const RoleRouter = require('./role.Routes');
 
-router
-  .use('/user', userRouter)
-  // .use('/role', RoleRouter)
-  // .use('/admin', adminRoutes)
-  // .use('/user', userRoutes)
-  // .use('/project', projectRoutes)
-  // .use('/emails', emailRoutes)
+router.use('/user', userRouter);
+// .use('/role', RoleRouter)
+// .use('/admin', adminRoutes)
+// .use('/user', userRoutes)
+// .use('/project', projectRoutes)
+// .use('/emails', emailRoutes)
 
 module.exports = router;

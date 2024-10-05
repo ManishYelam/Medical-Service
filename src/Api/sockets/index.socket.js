@@ -7,5 +7,7 @@ require('./socket.events');
 const PORT = process.env.WEBSOCKET_PORT || 8080;
 
 server.listen(PORT, () => {
-  socketLogger.info(`WebSocket server running on port ${PORT} on ${moment().format('llll')}.`);
+  socketLogger.info(
+    `WebSocket server running on port ${PORT} on ${moment().format('llll')}.`
+  );
 });
