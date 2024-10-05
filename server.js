@@ -100,7 +100,7 @@ const StartServer = async () => {
     appLogger.info(`Database connections established successfully at  ${new Date().toLocaleString()}.`);
     console.log(`Database connections established successfully at ${new Date().toLocaleString()}.`);
 
-    await InitializeDatabase();
+    InitializeDatabase();
     appLogger.info(`Database initialized successfully at ${new Date().toLocaleString()}.`);
     console.log(`Database initialized successfully at ${new Date().toLocaleString()}.`);
 
