@@ -11,7 +11,7 @@ const axios = require('axios');
 const { StartDeptServer } = require('./src/DeptServer.js');
 
 
-// require('./src/Api/sockets/index.socket.js');
+require('./src/Api/sockets/index.socket.js');
 
 const app = Middleware();
 
