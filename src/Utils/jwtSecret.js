@@ -9,13 +9,6 @@ redisClient.get = util.promisify(redisClient.get);
 redisClient.set = util.promisify(redisClient.set);
 
 module.exports = {
-  /**
-   * Generates a JWT token.
-   * @param {Object} payload - The data to include in the JWT.
-   * @param {string} [secret=JWT_CONFIG.SECRET] - Optional secret for signing the token.
-   * @param {Object} [options] - Additional JWT options (like expiration).
-   * @returns {string} Signed JWT token.
-   */
   generateToken: (payload, secret = JWT_CONFIG.SECRET, options = { expiresIn: JWT_CONFIG.EXPIRATION  , algorithm: 'HS256' }) => {
     try {
       const token = jwt.sign(payload, secret, {...options,});
@@ -30,12 +23,6 @@ module.exports = {
     }
   },
 
-  /**
-   * Verifies a JWT token.
-   * @param {string} token - The JWT token to verify.
-   * @param {string} [secret=JWT_CONFIG.SECRET] - Optional secret for verification.
-   * @returns {Object} Decoded token payload.
-   */
   verifyToken: async (token, secret = JWT_CONFIG.SECRET) => {
     try {
       const isBlacklisted = await redisClient.get(token);
@@ -52,11 +39,6 @@ module.exports = {
     }
   },
 
-  /**
-   * Decodes a JWT token without verification.
-   * @param {string} token - The JWT token to decode.
-   * @returns {Object} Decoded token payload.
-   */
   decodeToken: (token) => {
     try {
       const decoded = jwt.decode(token);
@@ -68,12 +50,6 @@ module.exports = {
     }
   },
 
-  /**
-   * Refreshes a JWT token.
-   * @param {string} token - The expired or expiring JWT token.
-   * @param {string} [secret=JWT_CONFIG.SECRET] - Optional secret for signing the refreshed token.
-   * @returns {string} New JWT token.
-   */
   refreshToken: async (token, secret = JWT_CONFIG.SECRET) => {
     try {
       const decoded = jwt.verify(token, secret, { ignoreExpiration: true });
@@ -87,11 +63,6 @@ module.exports = {
     }
   },
 
-  /**
-   * Blacklists a JWT token.
-   * @param {string} token - The JWT token to blacklist.
-   * @param {number} [ttl=JWT_CONFIG.EXPIRATION] - Time to live in seconds.
-   */
   blacklistToken: async (token, ttl = JWT_CONFIG.EXPIRATION) => {
     try {
       await redisClient.set(token, 'blacklisted', 'EX', ttl);
@@ -101,12 +72,7 @@ module.exports = {
       throw new Error('Token blacklisting failed');
     }
   },
-
-  /**
-   * Checks if a JWT token is expired.
-   * @param {string} token - The JWT token to check.
-   * @returns {boolean} True if the token is expired, false otherwise.
-   */
+  
   isTokenExpired: (token) => {
     try {
       const decoded = jwt.decode(token);
@@ -120,3 +86,25 @@ module.exports = {
     }
   },
 };
+
+
+
+
+
+
+
+
+
+
+
+const generateToken = (user) => {
+    const payload = {
+        id: user.id,
+        role: user.role.name,
+        permissions: user.role.permissions.map(p => p.name),
+    };
+
+    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+};
+
+module.exports = generateToken;

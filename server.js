@@ -9,7 +9,7 @@ const Middleware = require('./src/Api/Middlewares/index.middleware.js');
 const { InitializeDatabase } = require('./src/Api/Models/InitializeDatabase');
 const axios = require('axios');
 const { StartDeptServer } = require('./src/DeptServer.js');
-
+const baseUrls = require('./src/Config/Setting/baseurls.config.js');
 
 require('./src/Api/sockets/index.socket.js');
 
