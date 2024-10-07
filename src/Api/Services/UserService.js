@@ -1,16 +1,15 @@
-const { User, Role, Department } = require('../Models/InitializeDatabase');
+const { User, Role, Department } = require('../Models/Association');
 
 class UserService {
+    async createUser(data) {
+        return User.create(data);
+    }
     async getAllUsers() {
         return User.findAll({ include: [Role, Department] });
     }
 
     async getUserById(id) {
         return User.findByPk(id, { include: [Role, Department] });
-    }
-
-    async createUser(data) {
-        return User.create(data);
     }
 
     async updateUser(id, data) {
