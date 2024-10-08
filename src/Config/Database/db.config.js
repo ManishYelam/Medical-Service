@@ -22,7 +22,6 @@ const TestSequelizeConnection = async () => {
   try {
     await sequelize.authenticate();
     console.log(`Sequelize connection established successfully at Host: ${config.host}, Port: ${config.port}, Database: ${config.database}.`);
-    console.log(`Sequelize connection established successfully at Host: ${config.host}, Port: ${config.port}, Database: ${config.database}.`);
   } catch (error) {
     console.error(`Unable to connect to Sequelize database: ${error.message}`, { stack: error.stack });
     console.log(`Unable to connect to Sequelize database: ${error.message}`, { stack: error.stack });
@@ -62,18 +61,6 @@ process.on('exit', async () => {
     console.log('Redis connection closed on process exit.');
   } catch (error) {
     console.error('Error closing Redis connection on process exit:', { error: error.message, stack: error.stack });
-  }
-});
-
-// Graceful shutdown on SIGINT (Ctrl+C)
-process.on('SIGINT', async () => {
-  try {
-    await client.quit();
-    console.log('Redis client disconnected due to app termination');
-    process.exit(0);
-  } catch (error) {
-    console.error('Error closing Redis connection on SIGINT:', error);
-    process.exit(1);
   }
 });
 

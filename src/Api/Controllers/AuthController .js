@@ -1,57 +1,57 @@
 const { User } = require('../models');
 const generateOTP = require('../utils/generateOTP');
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const emailService = require('../services/EmailService');
+const generateResetToken = require('../utils/generateResetToken');
 
 class AuthController {
+    async register(req, res) {
+        const { username, email, password } = req.body;
+
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const user = await User.create({ username, email, password: hashedPassword });
+            res.status(201).json({ message: 'User registered successfully', user });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+    async logout(req, res) {
+        const { token } = req.body;
+
+        if (!token) return res.sendStatus(401); // Unauthorized
+
+        // Remove the refresh token from Redis
+        await client.del(`refresh_token_${token}`);
+        res.sendStatus(204); // No Content
+    }
+
+    async logout(req, res) {
+        res.status(200).json({ message: 'Logged out successfully' });
+    }
+
     async forgotPassword(req, res) {
         const { email } = req.body;
 
         try {
             const user = await User.findOne({ where: { email } });
 
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
+            if (!user) return res.status(404).json({ message: 'User not found' });
 
-            // Generate OTP and save it (in production, OTP should expire after a time)
             const otp = generateOTP();
             user.resetOTP = otp;
-            user.otpExpiry = Date.now() + 15 * 60 * 1000; // OTP expires in 15 minutes
+            user.otpExpiry = Date.now() + 15 * 60 * 1000; // 15 minutes expiry
             await user.save();
 
-            // Send OTP to user's email
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS
-                }
-            });
-
-            const mailOptions = {
-                from: process.env.EMAIL_USER,
-                to: user.email,
-                subject: 'Password Reset OTP',
-                text: `Your password reset OTP is ${otp}`
-            };
-
-            await transporter.sendMail(mailOptions);
-
+            await emailService.sendOTPEmail(user.email, otp);
             res.status(200).json({ message: 'OTP sent to your email' });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
     }
-}
 
-module.exports = new AuthController();
-
-
-
-
-
-
-class AuthController {
     async verifyOTP(req, res) {
         const { email, otp } = req.body;
 
@@ -66,24 +66,12 @@ class AuthController {
                 return res.status(400).json({ message: 'OTP has expired' });
             }
 
-            // OTP is valid
             res.status(200).json({ message: 'OTP verified. You can reset your password.' });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
     }
-}
 
-module.exports = new AuthController();
-
-
-
-
-
-
-const bcrypt = require('bcrypt');
-
-class AuthController {
     async resetPassword(req, res) {
         const { email, otp, newPassword } = req.body;
 
@@ -98,10 +86,7 @@ class AuthController {
                 return res.status(400).json({ message: 'OTP has expired' });
             }
 
-            // Hash the new password
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-            // Update the user's password and clear OTP
             user.password = hashedPassword;
             user.resetOTP = null;
             user.otpExpiry = null;
@@ -112,29 +97,17 @@ class AuthController {
             res.status(500).json({ message: error.message });
         }
     }
-}
 
-module.exports = new AuthController();
-
-
-class AuthController {
     async changePassword(req, res) {
         const { currentPassword, newPassword } = req.body;
-        const userId = req.user.id; // Assuming user is authenticated
+        const userId = req.user.id;
 
         try {
             const user = await User.findByPk(userId);
-
-            // Check if current password is valid
             const isMatch = await bcrypt.compare(currentPassword, user.password);
-            if (!isMatch) {
-                return res.status(400).json({ message: 'Current password is incorrect' });
-            }
+            if (!isMatch) return res.status(400).json({ message: 'Current password is incorrect' });
 
-            // Hash the new password
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-            // Update the password
             user.password = hashedPassword;
             await user.save();
 
@@ -143,17 +116,7 @@ class AuthController {
             res.status(500).json({ message: error.message });
         }
     }
-}
 
-module.exports = new AuthController();
-
-
-
-
-
-const jwt = require('jsonwebtoken');
-
-class AuthController {
     async refreshToken(req, res) {
         const { refreshToken } = req.body;
 
@@ -163,57 +126,13 @@ class AuthController {
 
         try {
             const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-
-            // Generate a new access token
             const newAccessToken = jwt.sign({ id: decoded.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
             res.status(200).json({ accessToken: newAccessToken });
         } catch (error) {
             return res.status(403).json({ message: 'Invalid or expired refresh token' });
         }
     }
-}
 
-module.exports = new AuthController();
-
-
-
-
-const emailService = require('../services/emailService');
-const generateOTP = require('../utils/generateOTP');
-
-class AuthController {
-    async forgotPassword(req, res) {
-        const { email } = req.body;
-
-        try {
-            const user = await User.findOne({ where: { email } });
-
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
-
-            // Generate OTP and save it
-            const otp = generateOTP();
-            user.resetOTP = otp;
-            user.otpExpiry = Date.now() + 15 * 60 * 1000; // OTP expires in 15 minutes
-            await user.save();
-
-            // Send OTP via email
-            await emailService.sendOTPEmail(user.email, otp);
-
-            res.status(200).json({ message: 'OTP sent to your email' });
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    }
-}
-
-module.exports = new AuthController();
-
-
-
-class AuthController {
     async sendPasswordResetLink(req, res) {
         const { email } = req.body;
 
@@ -224,14 +143,10 @@ class AuthController {
                 return res.status(404).json({ message: 'User not found' });
             }
 
-            // Generate password reset token (JWT or custom token)
-            const resetToken = generateResetToken(user);  // Assume a token generation function
-
+            const resetToken = generateResetToken(user);
             const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
-            // Send password reset email
             await emailService.sendPasswordResetEmail(user.email, resetLink);
-
             res.status(200).json({ message: 'Password reset link sent to your email' });
         } catch (error) {
             res.status(500).json({ message: error.message });
@@ -240,16 +155,3 @@ class AuthController {
 }
 
 module.exports = new AuthController();
-
-
-const jwt = require('jsonwebtoken');
-
-const generateResetToken = (user) => {
-    return jwt.sign(
-        { id: user.id, email: user.email },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }  // Reset token expires in 1 hour
-    );
-};
-
-module.exports = generateResetToken;

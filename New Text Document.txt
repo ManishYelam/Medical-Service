@@ -1,0 +1,171 @@
+const { Sequelize } = require('sequelize');
+require('dotenv').config();
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Use appropriate database host, user, and password based on the environment
+const DB_HOST = isProduction ? process.env.P_DB_HOST : process.env.L_DB_HOST;
+const DB_USER = isProduction ? process.env.P_DB_USER : process.env.L_DB_USER;
+const DB_PASSWORD = isProduction ? process.env.P_DB_PASSWORD : process.env.L_DB_PASSWORD;
+const DB_DIALECT = process.env.DB_DIALECT;
+const DB_PORT = process.env.DB_PORT;
+
+// Database names from environment variables or default values
+const DATABASES = {
+  MAIN_DB_NAME: process.env.MAIN_DB_NAME || 'medical_service',
+  COMPLIANCE_LEGAL_DB_NAME: process.env.COMPLIANCE_LEGAL_DB_NAME || 'compliance_legal',
+  CUSTOMER_SUPPORT_DB_NAME: process.env.CUSTOMER_SUPPORT_DB_NAME || 'customer_support',
+  DATA_ANALYTIC_DB_NAME: process.env.DATA_ANALYTIC_DB_NAME || 'data_analytic',
+  FINANCE_ACCOUNTING_DB_NAME: process.env.FINANCE_ACCOUNTING_DB_NAME || 'finance_accounting',
+  HEALTHCARE_DB_NAME: process.env.HEALTHCARE_DB_NAME || 'healthcare',
+  HR_DB_NAME: process.env.HR_DB_NAME || 'hr',
+  INVENTORY_MANAGEMENT_DB_NAME: process.env.INVENTORY_MANAGEMENT_DB_NAME || 'inventory_management',
+  IT_DEVELOPMENT_DB_NAME: process.env.IT_DEVELOPMENT_DB_NAME || 'it_development',
+  LOGISTIC_DB_NAME: process.env.LOGISTIC_DB_NAME || 'logistic',
+  PARTNERSHIP_DB_NAME: process.env.PARTNERSHIP_DB_NAME || 'partnership',
+  PHARMACY_DB_NAME: process.env.PHARMACY_DB_NAME || 'pharmacy',
+  SALES_MARKETING_DB_NAME: process.env.SALES_MARKETING_DB_NAME || 'sales_marketing',
+};
+
+// Function to create Sequelize instances
+const createSequelizeInstance = (dbName) => {
+  return new Sequelize(dbName, DB_USER, DB_PASSWORD, {
+    host: DB_HOST,
+    dialect: DB_DIALECT,
+    port: DB_PORT,
+    logging: (msg) => console.log(msg), // Change to false in production for less noise
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 60000,
+      idle: 10000,
+    },
+  });
+};
+
+// Create Sequelize instances for each database
+const sequelize = Object.entries(DATABASES).reduce((instances, [key, dbName]) => {
+  instances[key] = createSequelizeInstance(dbName);
+  return instances;
+}, {});
+
+// Export all Sequelize instances
+module.exports = sequelize;
+
+
+
+
+MAIN_SERVER_PORT=5000
+PHARMACY_PORT=5001
+LOGISTICS_PORT=5002
+CUSTOMER_SUPPORT_PORT=5003
+SALES_MARKETING_PORT=5004
+FINANCE_ACCOUNTING_PORT=5005
+COMPLIANCE_LEGAL_PORT=5006
+HEALTHCARE_PORT=5007
+IT_DEVELOPMENT_PORT=5008
+INVENTORY_MANAGEMENT_PORT=5009
+DATA_ANALYTICS_PORT=5010
+HR_PORT=5011
+PARTNERSHIPS_PORT=5012
+
+WEBSOCKET_PORT=8080
+
+JWT_SECRET=2277c863a356e796a1bd600d1f3d219ef0632bf1635f431886796298558be460055faa328045100fbd0a8b4551c938595409
+JWT_EXPIRATION=1h
+
+EMAIL_SERVICE=gmail
+EMAIL_USER=manishyelam@gmail.com
+EMAIL_PASS=zuufstekdejpggmu
+
+REDIS_HOST=redis-13742.c274.us-east-1-3.ec2.redns.redis-cloud.com
+REDIS_PORT=13742
+REDIS_PASSWORD=Pass@123
+
+API_KEY_GOOGLE=your-google-api-key
+API_KEY_STRIPE=your-stripe-api-key
+
+ENCRYPTION_ALGORITHM=aes-256-cbc
+ENCRYPTION_KEY=your-encryption-key
+ENCRYPTION_IV=your-initialization-vector
+
+LOG_LEVEL=info
+LOG_FILE_PATH=/var/log/medical-services/application.log
+
+CSP_DIRECTIVES="default-src 'self'"
+SALT_ROUNDS=10
+
+SUPPORTED_LANGUAGES=en,es,fr
+DEFAULT_LANGUAGE=en
+
+RATE_LIMIT_WINDOW_MS=900000  # 15 minutes
+RATE_LIMIT_MAX_REQUESTS=100
+
+# Local Node Environment
+L_NODE_ENV=development
+
+L_MAIN_SERVER_URL=http://127.0.0.1:${MAIN_SERVER_PORT}
+L_PHARMACY_URL=http://127.0.0.1:${PHARMACY_PORT}
+L_LOGISTICS_URL=http://127.0.0.1:${LOGISTICS_PORT}
+L_CUSTOMER_SUPPORT_URL=http://127.0.0.1:${CUSTOMER_SUPPORT_PORT}
+L_SALES_MARKETING_URL=http://127.0.0.1:${SALES_MARKETING_PORT}
+L_FINANCE_ACCOUNTING_URL=http://127.0.0.1:${FINANCE_ACCOUNTING_PORT}
+L_COMPLIANCE_LEGAL_URL=http://127.0.0.1:${COMPLIANCE_LEGAL_PORT}
+L_HEALTHCARE_URL=http://127.0.0.1:${HEALTHCARE_PORT}
+L_IT_DEVELOPMENT_URL=http://127.0.0.1:${IT_DEVELOPMENT_PORT}
+L_INVENTORY_MANAGEMENT_URL=http://127.0.0.1:${INVENTORY_MANAGEMENT_PORT}
+L_DATA_ANALYTICS_URL=http://127.0.0.1:${DATA_ANALYTICS_PORT}
+L_HR_URL=http://127.0.0.1:${HR_PORT}
+L_PARTNERSHIPS_URL=http://127.0.0.1:${PARTNERSHIPS_PORT}
+
+# Production Node Environment
+P_NODE_ENV=production
+
+P_MAIN_SERVER_URL=http://13.201.50.152:${MAIN_SERVER_PORT}
+P_PHARMACY_URL=http://13.201.50.152:${PHARMACY_PORT}
+P_LOGISTICS_URL=http://13.201.50.152:${LOGISTICS_PORT}
+P_CUSTOMER_SUPPORT_URL=http://13.201.50.152:${CUSTOMER_SUPPORT_PORT}
+P_SALES_MARKETING_URL=http://13.201.50.152:${SALES_MARKETING_PORT}
+P_FINANCE_ACCOUNTING_URL=http://13.201.50.152:${FINANCE_ACCOUNTING_PORT}
+P_COMPLIANCE_LEGAL_URL=http://13.201.50.152:${COMPLIANCE_LEGAL_PORT}
+P_HEALTHCARE_URL=http://13.201.50.152:${HEALTHCARE_PORT}
+P_IT_DEVELOPMENT_URL=http://13.201.50.152:${IT_DEVELOPMENT_PORT}
+P_INVENTORY_MANAGEMENT_URL=http://13.201.50.152:${INVENTORY_MANAGEMENT_PORT}
+P_DATA_ANALYTICS_URL=http://13.201.50.152:${DATA_ANALYTICS_PORT}
+P_HR_URL=http://13.201.50.152:${HR_PORT}
+P_PARTNERSHIPS_URL=http://13.201.50.152:${PARTNERSHIPS_PORT}
+
+L_DB_HOST=127.0.0.1
+L_DB_USER=root
+L_DB_PASSWORD=root
+
+P_DB_HOST=medical-service.cbummke68yhq.ap-south-1.rds.amazonaws.com
+P_DB_USER=admin
+P_DB_PASSWORD=Z\WP$z1z  
+
+DB_PORT=3306
+DB_DIALECT=mysql
+MAIN_DB_NAME=medical_service
+COMPLIANCE_LEGAL_DB_NAME=compliance_legal
+CUSTOMER_SUPPORT_DB_NAME=customer_support
+DATA_ANALYTIC_DB_NAME=data_analytic
+FINANCE_ACCOUNTING_DB_NAME=finance_accounting
+HEALTHCARE_DB_NAME=healthcare
+HR_DB_NAME=hr
+INVENTORY_MANAGEMENT_DB_NAME=inventory_management
+IT_DEVELOPMENT_DB_NAME=it_development
+LOGISTIC_DB_NAME=logistic
+PARTNERSHIP_DB_NAME=partnership
+PHARMACY_DB_NAME=pharmacy
+SALES_MARKETING_DB_NAME=sales_marketing
+
+
+# sudo mysql -h medical-service.cbummke68yhq.ap-south-1.rds.amazonaws.com -P 3306 -u admin -p
+
+# nslookup medical-service.cbummke68yhq.ap-south-1.rds.amazonaws.com 8.8.8.8
+
+# http://13.201.50.152:5000
+
+# console-ninja node --env-file .env --watch server.js
+
+# console-ninja npm run dev -- --watch
