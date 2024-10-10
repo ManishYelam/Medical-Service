@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
 
-const Department = sequelize.define('Department', {
+const Department = sequelize.MAIN_DB_NAME.define('Department', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

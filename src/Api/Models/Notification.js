@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');  // Import your database configuration
 
-const Notification = sequelize.define('Notification', {
+const Notification = sequelize.MAIN_DB_NAME.define('Notification', {
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,

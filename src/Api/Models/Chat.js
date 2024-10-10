@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Chat = sequelize.define('Chat', {
+const Chat = sequelize.MAIN_DB_NAME.define('Chat', {
     senderId: {
         type: DataTypes.INTEGER,
         allowNull: false,
