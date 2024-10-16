@@ -3,7 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const { generalRateLimiter, rateLimiterWithWhitelist } = require('../../Config/Setting/rateLimiter.config.js');
+// const { generalRateLimiter, rateLimiterWithWhitelist } = require('../../Config/Setting/rateLimiter.config.js');
 const securityConfig = require('../../Config/Setting/security.config.js');
 
 module.exports = () => {
@@ -28,8 +28,7 @@ module.exports = () => {
     })
   );
 
-  app.use(generalRateLimiter);
-  app.use(rateLimiterWithWhitelist);
+  // app.use(generalRateLimiter);
   app.use(securityConfig);
 
   app.use((err, req, res, next) => {
