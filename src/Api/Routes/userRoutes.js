@@ -1,44 +1,17 @@
 const express = require('express');
 const userController = require('../Controllers/UserController');
+const validate = require('../Middlewares/validateMiddleware');
+const { userSchema, userUpdateSchema } = require('../Middlewares/Joi_Validations/userSchema');
+const authMiddleware = require('../Middlewares/authorizationMiddleware');
 const userRouter = express.Router();
 
 userRouter
-    .post('/', userController.createUser)
-    .get('/', userController.getAllUsers)
-    .get('/:id', userController.getUserById)
-    .put('/:id', userController.updateUser)
-    .delete('/:id', userController.deleteUser)
+    .post('/', validate(userSchema), userController.createUser)
+    .get('/:userId/permissions/:permissionName', authMiddleware, userController.checkUserPermission)
+    .get('/', authMiddleware, userController.getAllUsers)
+    .get('/:id', authMiddleware, userController.getUserById)
+    .put('/:id', validate(userUpdateSchema), userController.updateUser)
+    .delete('/:id', authMiddleware, userController.deleteUser)
+    .delete('/user_range/:start_id/to/:end_id', authMiddleware, userController.deleteUserRanges)
 
 module.exports = userRouter;
-
-
-
-
-
-
-
-// // Only logged-in users with 'Admin' role or 'Write' permission can create users
-// router.post(
-//     '/',
-//     authMiddleware,
-//     authorizationMiddleware(['Admin'], ['Write']),
-//     userController.createUser
-// );
-
-// // Only logged-in users with 'Read' permission can view all users
-// router.get(
-//     '/',
-//     authMiddleware,
-//     authorizationMiddleware([], ['Read']),
-//     userController.getAllUsers
-// );
-
-// // Only logged-in users with 'Admin' role can delete users
-// router.delete(
-//     '/:id',
-//     authMiddleware,
-//     authorizationMiddleware(['Admin']),
-//     userController.deleteUser
-// );
-
-// module.exports = router;

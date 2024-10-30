@@ -1,5 +1,5 @@
 module.exports = {
-  registrationTemplate: async ( userName, userEmail, userPhone, userPAN, userAadhar, userAddress, verificationLink ) => `
+    registrationTemplate: async (userName, userEmail, userPhone, userPAN, userAadhar, userAddress, verificationLink) => `
     <!DOCTYPE html>
     <html>
     <head>
@@ -118,9 +118,37 @@ module.exports = {
         </div>
     </body>
     </html>
-  `,
+`,
 
-  verificationTemplate: async (userName) => `
+    otpTemplate: async (userName, otp) => `
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+          /* Your existing styles */
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <div class="header">
+              <h2>Your OTP Code</h2>
+          </div>
+          <div class="content">
+              <p>Hi ${userName},</p>
+              <p>Your OTP code is: <strong>${otp}</strong></p>
+              <p>This code is valid for a limited time. If you did not request this, please ignore this email.</p>
+          </div>
+          <div class="footer">
+              <p>&copy; ${new Date().getFullYear()} [Your App Name]. All rights reserved.</p>
+          </div>
+      </div>
+  </body>
+  </html>
+`,
+
+    verificationTemplate: async (userName) => `
   <!DOCTYPE html>
   <html>
   <head>
@@ -187,102 +215,254 @@ module.exports = {
   </html>
 `,
 
-  passwordChangeTemplate: async (userName) => `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            /* Universal Styles */
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f7f7f7;
-                margin: 0;
-                padding: 0;
-                color: #333;
-                line-height: 1.6;
-            }
-            .container {
-                max-width: 600px;
-                margin: 40px auto;
-                padding: 20px;
-                background-color: #fff;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-                border: 1px solid #ddd;
-            }
-            .header {
-                background-color: #4CAF50;
-                color: white;
-                padding: 15px;
-                text-align: center;
-                border-radius: 8px 8px 0 0;
-            }
-            .header h2 {
-                margin: 0;
-                font-size: 24px;
-            }
-            .content {
-                padding: 20px;
-                font-size: 16px;
-                color: #555;
-            }
-            .content p {
-                margin-bottom: 20px;
-            }
-            .alert {
-                color: #d9534f;
-                font-weight: bold;
-            }
-            .footer {
-                text-align: center;
-                font-size: 12px;
-                color: #888;
-                padding: 20px 0;
-                border-top: 1px solid #eee;
-            }
-            /* Responsive Styles */
-            @media (max-width: 600px) {
-                .container {
-                    width: 95%;
-                    margin: 20px auto;
-                }
-                .content {
-                    padding: 10px;
-                }
-            }
-            /* Hidden Preheader */
-            .preheader {
-                display: none;
-                visibility: hidden;
-                opacity: 0;
-                color: transparent;
-                height: 0;
-                width: 0;
-            }
-        </style>
-    </head>
-    <body>
-        <span class="preheader">Your password has been changed, ${userName}. If this wasn't you, please take action immediately.</span>
-        <div class="container">
-            <div class="header">
-                <h2>Password Changed Successfully</h2>
-            </div>
-            <div class="content">
-                <p>Hi ${userName},</p>
-                <p>Your password has been successfully updated. If you initiated this request, no further action is required.</p>
-                <p class="alert">If you did not make this change, please contact our support team immediately to secure your account.</p>
-            </div>
-            <div class="footer">
-                <p>&copy; ${new Date().getFullYear()} [Your App Name]. All rights reserved.</p>
-            </div>
-        </div>
-    </body>
-    </html>
-    `,
+    passwordChangeTemplate: data => `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+          /* Universal Styles */
+          body {
+              font-family: 'Arial', sans-serif;
+              background-color: #f4f4f9;
+              margin: 0;
+              padding: 0;
+              color: #333;
+              line-height: 1.6;
+          }
+          .container {
+              max-width: 600px;
+              margin: 40px auto;
+              padding: 20px;
+              background-color: #fff;
+              border-radius: 10px;
+              box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+              border: 1px solid #ddd;
+          }
+          .header {
+              background-color: #4CAF50;
+              color: white;
+              padding: 20px;
+              text-align: center;
+              border-radius: 10px 10px 0 0;
+          }
+          .header h2 {
+              margin: 0;
+              font-size: 26px;
+              font-weight: bold;
+          }
+          .content {
+              padding: 20px;
+              font-size: 16px;
+              color: #555;
+              line-height: 1.5;
+          }
+          .content p {
+              margin-bottom: 15px;
+          }
+          .alert {
+              color: #d9534f;
+              font-weight: bold;
+              background-color: #ffeef0;
+              padding: 10px;
+              border-left: 4px solid #d9534f;
+              border-radius: 4px;
+          }
+          .footer {
+              text-align: center;
+              font-size: 12px;
+              color: #888;
+              padding: 20px 0;
+              border-top: 1px solid #eee;
+          }
+          /* Responsive Styles */
+          @media (max-width: 600px) {
+              .container {
+                  width: 95%;
+                  margin: 20px auto;
+              }
+              .content {
+                  padding: 15px;
+              }
+          }
+          /* Hidden Preheader */
+          .preheader {
+              display: none;
+              visibility: hidden;
+              opacity: 0;
+              color: transparent;
+              height: 0;
+              width: 0;
+          }
+      </style>
+  </head>
+  <body>
+      <span class="preheader">Your password has been changed, ${data.userName}. If this wasn't you, please take action immediately.</span>
+      <div class="container">
+          <div class="header">
+              <h2>Password Changed Successfully</h2>
+          </div>
+          <div class="content">
+              <p>Hi ${data.userName},</p>
+              <p>Your password has been successfully updated. If you initiated this request, no further action is required.</p>
+              <div class="alert">
+                  If you did not make this change, please contact our support team immediately to secure your account.
+              </div>
+              <p><strong>User ID:</strong> ${data.userId}</p>
+          </div>
+          <div class="footer">
+              <p>&copy; ${new Date().getFullYear()} [Your App Name]. All rights reserved.</p>
+          </div>
+      </div>
+  </body>
+  </html>
+`,
 
-  performanceTrackingTemplate: async (data) => `
+    documentUploadTemplate: async (userName, uploadLink, documentTypes = 'PDF, DOCX, ZIP') => `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+          :root {
+              --primary-color: #4CAF50;
+              --secondary-color: #f7f7f7;
+              --text-color: #333;
+              --footer-color: #888;
+              --border-color: #ddd;
+          }
+          body {
+              font-family: Arial, sans-serif;
+              background-color: var(--secondary-color);
+              margin: 0;
+              padding: 20px;
+              color: var(--text-color);
+          }
+          .container {
+              max-width: 600px;
+              margin: 40px auto;
+              background-color: #fff;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+              border: 1px solid var(--border-color);
+          }
+          h2 {
+              color: var(--primary-color);
+              font-size: 24px;
+              text-align: center;
+              margin-bottom: 20px;
+          }
+          p {
+              font-size: 16px;
+              line-height: 1.6;
+              margin-bottom: 20px;
+          }
+          a {
+              color: var(--primary-color);
+              text-decoration: none;
+              font-weight: bold;
+          }
+          a:hover {
+              text-decoration: underline;
+          }
+          .button {
+              display: inline-block;
+              padding: 10px 20px;
+              background-color: var(--primary-color);
+              color: white;
+              border-radius: 5px;
+              text-decoration: none;
+              font-weight: bold;
+              text-align: center;
+              margin: 20px 0;
+          }
+          .button:hover {
+              background-color: #388E3C;
+          }
+          .footer {
+              text-align: center;
+              font-size: 12px;
+              color: var(--footer-color);
+              padding: 20px 0;
+              border-top: 1px solid var(--border-color);
+              margin-top: 40px;
+          }
+          @media screen and (max-width: 600px) {
+              .container {
+                  padding: 10px;
+              }
+              h2 {
+                  font-size: 20px;
+              }
+              p {
+                  font-size: 14px;
+              }
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <h2>Document Upload Request</h2>
+          <p>Hi ${userName},</p>
+          <p>We request you to upload your files (${documentTypes}) via the link below.</p>
+          <p><strong>Accepted formats:</strong> ${documentTypes}</p>
+          <a href="${uploadLink}" class="button">Upload Your Documents</a>
+          <p>If you have any questions, feel free to reach out.</p>
+          <div class="footer">
+              <p>&copy; ${new Date().getFullYear()} [Your Company Name]. All rights reserved.</p>
+          </div>
+      </div>
+  </body>
+  </html>
+`,
+
+    sendResetEmail: async (user, token) => {
+        const resetLink = `http://13.127.13.10:5000/reset-password?token=${token}`;
+        const resetEmail = `
+      <h2>Reset Your Password</h2>
+      <p>Hi ${user.name},</p>
+      <p>You have requested to reset your password. Please click the link below and enter your old password and a new password.</p>
+      
+      <form action="${resetLink}" method="POST">
+        <input type="hidden" name="token" value="${token}" />
+        
+        <label for="old-password">Old Password:</label>
+        <input type="password" id="old-password" name="oldPassword" required /><br><br>
+        
+        <label for="new-password">New Password:</label>
+        <input type="password" id="new-password" name="newPassword" required /><br><br>
+        
+        <button type="submit">Change Password</button>
+      </form>
+      
+      <p>If you did not request this change, please ignore this email.</p>
+    `
+    },
+
+    sendResetPasswordEmailTemplete: ({ name, resetLink }) => `
+  <h2>Reset Your Password</h2>
+  <p>Hi ${name},</p>
+  <p>You have requested to reset your password. Please click the link below and enter your old password and a new password.</p>
+  
+  <form action="${resetLink}" method="POST">
+    <input type="hidden" name="token" value="${resetLink.split('=')[1]}" />
+    
+    <label for="old-password">Old Password:</label>
+    <input type="password" id="old-password" name="oldPassword" required /><br><br>
+    
+    <label for="new-password">New Password:</label>
+    <input type="password" id="new-password" name="newPassword" required /><br><br>
+    
+    <button type="submit">Change Password</button>
+  </form>
+  
+  <p>If you did not request this change, please ignore this email.</p>
+`,
+
+    performanceTrackingTemplate: async (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -394,14 +574,14 @@ module.exports = {
                       <th>Duration</th>
                   </tr>
                   ${data
-                    .map(
-                      (item) => `
+            .map(
+                (item) => `
                   <tr>
                       <td>${item.Action}</td>
                       <td>${item.Duration}</td>
                   </tr>`
-                    )
-                    .join('')}
+            )
+            .join('')}
               </table>
               <p>If you have any questions about this report, please contact our support team.</p>
           </div>
@@ -411,9 +591,9 @@ module.exports = {
       </div>
   </body>
   </html>
-  `,
+`,
 
-  systemLogsTemplate: async (logData) => `
+    systemLogsTemplate: async (logData) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -526,15 +706,15 @@ module.exports = {
                       <th>Message</th>
                   </tr>
                   ${logData
-                    .map(
-                      (log) => `
+            .map(
+                (log) => `
                   <tr>
                       <td>${log.timestamp}</td>
                       <td>${log.level}</td>
                       <td>${log.message}</td>
                   </tr>`
-                    )
-                    .join('')}
+            )
+            .join('')}
               </table>
               <p>For any questions or further details, please reach out to support.</p>
           </div>
@@ -544,9 +724,9 @@ module.exports = {
       </div>
   </body>
   </html>
-  `,
+`,
 
-  notificationTemplate: async (title, content) => `
+    notificationTemplate: async (title, content) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -643,9 +823,9 @@ module.exports = {
       </div>
   </body>
   </html>
-  `,
+`,
 
-  welcomeTemplate: async (name) => `
+    welcomeTemplate: async (name) => `
   <!DOCTYPE html>
   <html>
   <head>
@@ -748,9 +928,9 @@ module.exports = {
       </div>
   </body>
   </html>
-  `,
+`,
 
-  eventInvitationTemplate: async (eventName, eventDate, eventLink) => `
+    eventInvitationTemplate: async (eventName, eventDate, eventLink) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -852,7 +1032,7 @@ module.exports = {
   </html>
 `,
 
-  downloadProjectTemplate: async (userName, projectName, downloadLink) => `
+    downloadProjectTemplate: async (userName, projectName, downloadLink) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -945,7 +1125,7 @@ module.exports = {
   </html>
 `,
 
-  eventCancellationTemplate: async (eventName) => `
+    eventCancellationTemplate: async (eventName) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1021,7 +1201,7 @@ module.exports = {
   </html>
 `,
 
-  termsAndConditionsTemplate: async (userName, companyName, termsLink) => `
+    termsAndConditionsTemplate: async (userName, companyName, termsLink) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1107,7 +1287,7 @@ module.exports = {
   </html>
 `,
 
-  sendLocationTemplate: async ( userName, locationName, locationAddress,  locationLink ) => `
+    sendLocationTemplate: async (userName, locationName, locationAddress, locationLink) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1193,7 +1373,7 @@ module.exports = {
   </html>
 `,
 
-  documentUploadTemplate: async ( userName, uploadLink, documentTypes = 'PDF, DOCX, ZIP' ) => `
+    documentUploadTemplate: async (userName, uploadLink, documentTypes = 'PDF, DOCX, ZIP') => `
   <!DOCTYPE html>
   <html lang="en">
   <head>

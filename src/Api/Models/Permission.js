@@ -1,3 +1,4 @@
+// models/Permission.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
 
@@ -12,6 +13,6 @@ const Permission = sequelize.MAIN_DB_NAME.define('Permission', {
         allowNull: false,
         unique: true
     }
-}, { timestamps: true });
+}, { tableName: 'tbl_permission',timestamps: true });
 
 module.exports = Permission;

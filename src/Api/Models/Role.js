@@ -1,3 +1,4 @@
+// models/Role.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
 
@@ -25,6 +26,6 @@ const Role = sequelize.MAIN_DB_NAME.define('Role', {
         type: DataTypes.STRING,
         allowNull: false
     }
-}, { timestamps: true });
+}, { tableName: 'tbl_role',timestamps: true });
 
 module.exports = Role;

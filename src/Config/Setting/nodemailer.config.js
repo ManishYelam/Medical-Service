@@ -9,15 +9,16 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendMail = async (to, subject, templateName, templateData, attachments = []) => {
+const sendMail = async (to, subject, templateName, templateData = {}, attachments = []) => {
   try {
-    const html = await emailTemplates[templateName](...templateData);
+    const template = emailTemplates[templateName];
+    const html = await template(templateData);
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to,
       subject,
-      html, 
+      html: html,
       attachments,
     };
 
@@ -26,7 +27,7 @@ const sendMail = async (to, subject, templateName, templateData, attachments = [
     return info;
   } catch (error) {
     console.error(`Failed to send email to ${to} with subject "${subject}". Error: ${error.message}`);
-    throw error; 
+    throw error;
   }
 };
 

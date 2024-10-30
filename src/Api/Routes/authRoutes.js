@@ -1,21 +1,16 @@
 const express = require('express');
-const authController = require('../Controllers/AuthController ');
-const authMiddleware = require('../middleware/authMiddleware');
-const router = express.Router();
+const AuthController = require('../Controllers/AuthController');
+const authMiddleware = require('../Middlewares/authorizationMiddleware');
+const validate = require('../Middlewares/validateMiddleware');
+const { loginSchema, resetPasswordSchema, changePasswordSchema, refreshTokenSchema, forgetPasswordSchema } = require('../Middlewares/Joi_Validations/authSchema');
 
-// Forgot Password
-router.post('/forgot-password', authController.forgotPassword);
+const authRouter = express.Router();
+authRouter
+.post('/login',validate(loginSchema), AuthController.login)
+.post('/logout', authMiddleware, AuthController.logout)
+.post('/forget-password', validate(forgetPasswordSchema), authMiddleware, AuthController.forgetPassword)
+.post('/reset-password', validate(resetPasswordSchema), authMiddleware, AuthController.resetPassword)
+.post('/change-password', validate(changePasswordSchema), authMiddleware, AuthController.changePassword)
+.post('/refresh-token', validate(refreshTokenSchema), authMiddleware, AuthController.refreshToken)
 
-// Verify OTP
-router.post('/verify-otp', authController.verifyOTP);
-
-// Reset Password
-router.post('/reset-password', authController.resetPassword);
-
-// Change Password (requires authentication)
-router.put('/change-password', authMiddleware, authController.changePassword);
-
-// Refresh Token
-router.post('/refresh-token', authController.refreshToken);
-
-module.exports = router;
+module.exports = authRouter;

@@ -9,7 +9,16 @@ class RoleController {
             res.status(500).json({ message: error.message });
         }
     }
-
+    async assignPermissionsToRole(req, res) {
+        try {
+            const { roleId } = req.params;
+            const { permissionIds } = req.body;
+            await roleService.assignPermissionsToRole(roleId, permissionIds);
+            res.status(200).json({ message: 'Permissions assigned successfully' });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
     async getAllRoles(req, res) {
         try {
             const roles = await roleService.getAllRoles();

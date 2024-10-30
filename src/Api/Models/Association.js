@@ -1,16 +1,23 @@
 const User = require('./User');
+const UserLog = require('./user_logs');
 const Role = require('./Role');
-const Department = require('./Department');
 const Permission = require('./Permission');
+const RolePermissions = require('./RolePermissions');
+const Department = require('./Department');
 
-User.belongsTo(Role, { foreignKey: 'role_id' });
-User.belongsTo(Department, { foreignKey: 'department_id' });
+// User-Role Relationship (Many Users to One Role)
+User.belongsTo(Role, { through: 'UserRoles', foreignKey: 'role_id', });
+Role.hasMany(User, { foreignKey: 'role_id' }); // One Role has Many Users
 
-Role.hasMany(User, { foreignKey: 'role_id' });
-Role.belongsToMany(Permission, { through: 'RolePermissions', foreignKey: 'role_id' });
+// User-UserLog Relationship (One User has Many Logs)
+User.hasMany(UserLog, { foreignKey: 'user_id', }); // Use 'user_id' as FK, to match the column definition
+UserLog.belongsTo(User, { foreignKey: 'user_id', }); // 'user_id' FK to match the column definition in UserLog
 
-Department.hasMany(User, { foreignKey: 'department_id' });
+// Role-Permission Relationship (Many-to-Many through RolePermissions)
+Role.belongsToMany(Permission, { through: 'RolePermissions', foreignKey: 'role_id', otherKey: 'permission_id', });
 
-Permission.belongsToMany(Role, { through: 'RolePermissions', foreignKey: 'permission_id' });
+Permission.belongsToMany(Role, { through: 'RolePermissions', foreignKey: 'permission_id', otherKey: 'role_id', });
 
-module.exports = { User, Role, Department, Permission };
+Department.hasMany(User, { foreignKey: 'dept_id' })
+
+module.exports = { User, UserLog, Role, Permission, RolePermissions, Department };

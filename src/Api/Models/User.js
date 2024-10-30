@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
+const Role = require('./Role');
 
 const User = sequelize.MAIN_DB_NAME.define('User', {
     id: {
@@ -45,11 +46,11 @@ const User = sequelize.MAIN_DB_NAME.define('User', {
         type: DataTypes.ENUM('active', 'inactive', 'banned'),
         defaultValue: 'active'
     },
-}, { timestamps: true });
+    // pin: {
+    //     type : DataTypes.STRING,
+    //     allowNull: true,
+    //     defaultValue: null
+    // }
+}, { tableName: 'tbl_user',timestamps: true });
 
 module.exports = User;
-
-
-
-
-

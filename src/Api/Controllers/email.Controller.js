@@ -1,4 +1,4 @@
-const emailService = require('../services/email.Service');
+const emailService = require('../Services/email.Service');
 const { User } = require('../models');
 
 module.exports = {

@@ -2,23 +2,31 @@ const { Department } = require('../Models/Association');
 
 class DepartmentService {
     async createDepartment(data) {
-        return Department.create(data);
+        return await Department.create(data);
     }
-    
+
     async getAllDepartments() {
-        return Department.findAll();
+        return await Department.findAll();
     }
 
     async getDepartmentById(id) {
-        return Department.findByPk(id);
+        return await Department.findByPk(id);
     }
 
     async updateDepartment(id, data) {
-        return Department.update(data, { where: { id } });
+        const department = await Department.findByPk(id);
+        if (!department) {
+            throw new Error('Department not found');
+        }
+        return await department.update(data);
     }
 
     async deleteDepartment(id) {
-        return Department.destroy({ where: { id } });
+        const department = await Department.findByPk(id);
+        if (!department) {
+            throw new Error('Department not found');
+        }
+        return await department.destroy();
     }
 }
 

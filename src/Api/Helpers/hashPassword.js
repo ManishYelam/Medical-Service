@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { SALT_ROUNDS } = require('../../utils/constants');
+const { SALT_ROUNDS } = require('../../Utils/constants');
 
 module.exports = {
    hashPassword: async (password) => {

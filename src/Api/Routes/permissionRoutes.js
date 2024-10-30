@@ -1,11 +1,14 @@
 const express = require('express');
 const permissionController = require('../Controllers/PermissionController');
+const validate = require('../Middlewares/validateMiddleware');
+const { permissionCreateSchema, permissionUpdateSchema } = require('../Middlewares/Joi_Validations/roleSchema');
 const permissionRouter = express.Router();
 
-permissionRouter.get('/', permissionController.getAllPermissions)
+permissionRouter
+    .post('/', validate(permissionCreateSchema), permissionController.createPermission)
+    .get('/', permissionController.getAllPermissions)
     .get('/:id', permissionController.getPermissionById)
-    .post('/', permissionController.createPermission)
-    .put('/:id', permissionController.updatePermission)
+    .put('/:id', validate(permissionUpdateSchema), permissionController.updatePermission)
     .delete('/:id', permissionController.deletePermission)
 
 module.exports = permissionRouter;

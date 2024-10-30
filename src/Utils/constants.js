@@ -16,7 +16,7 @@ const RATE_LIMIT_CONFIG = {
 };
 
 const APP_SETTINGS = {
-  SUPPORTED_LANGUAGES: process.env.SUPPORTED_LANGUAGES ? process.env.SUPPORTED_LANGUAGES.split(',') : ['en', 'es', 'fr'], // Allow dynamic addition via env
+  SUPPORTED_LANGUAGES: process.env.SUPPORTED_LANGUAGES ? process.env.SUPPORTED_LANGUAGES.split(',') : ['en', 'es', 'fr'],
   DEFAULT_LANGUAGE: process.env.DEFAULT_LANGUAGE || 'en',
 };
 

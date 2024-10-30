@@ -1,110 +1,88 @@
 const jwt = require('jsonwebtoken');
-const { appLogger } = require('../Config/Setting/logger.config');
 const { JWT_CONFIG } = require('./constants');
-const redis = require('redis');
-const util = require('util');
+const UserLog = require('../Api/Models/user_logs');
+const Role = require('../Api/Models/Role');
+const Permission = require('../Api/Models/Permission');
 
-const redisClient = redis.createClient(JWT_CONFIG.REDIS_URL);
-redisClient.get = util.promisify(redisClient.get);
-redisClient.set = util.promisify(redisClient.set);
-
-module.exports = {
-  generateToken: (payload, secret = JWT_CONFIG.SECRET, options = { expiresIn: JWT_CONFIG.EXPIRATION  , algorithm: 'HS256' }) => {
-    try {
-      const token = jwt.sign(payload, secret, {...options,});
-      appLogger.info(`JWT generated`, {
-        userId: payload.userId || 'unknown',
-        token,
-      });
-      return token;
-    } catch (error) {
-      appLogger.error('Error generating JWT token', { error });
-      throw new Error('Token generation failed');
-    }
-  },
-
-  verifyToken: async (token, secret = JWT_CONFIG.SECRET) => {
-    try {
-      const isBlacklisted = await redisClient.get(token);
-      if (isBlacklisted) {
-        throw new Error('Token is blacklisted');
-      }
-
-      const decoded = jwt.verify(token, secret);
-      appLogger.info(`JWT verified`, { userId: decoded.userId || 'unknown' });
-      return decoded;
-    } catch (error) {
-      appLogger.error('Error verifying JWT token', { error });
-      throw new Error('Token verification failed');
-    }
-  },
-
-  decodeToken: (token) => {
-    try {
-      const decoded = jwt.decode(token);
-      appLogger.info('JWT decoded without verification', { decoded });
-      return decoded;
-    } catch (error) {
-      appLogger.error('Error decoding JWT token', { error });
-      throw new Error('Token decoding failed');
-    }
-  },
-
-  refreshToken: async (token, secret = JWT_CONFIG.SECRET) => {
-    try {
-      const decoded = jwt.verify(token, secret, { ignoreExpiration: true });
-      const newToken = generateToken({ userId: decoded.userId }, secret);
-      await blacklistToken(token);
-      appLogger.info(`JWT refreshed`, { userId: decoded.userId || 'unknown' });
-      return newToken;
-    } catch (error) {
-      appLogger.error('Error refreshing JWT token', { error });
-      throw new Error('Token refresh failed');
-    }
-  },
-
-  blacklistToken: async (token, ttl = JWT_CONFIG.EXPIRATION) => {
-    try {
-      await redisClient.set(token, 'blacklisted', 'EX', ttl);
-      appLogger.info('JWT token blacklisted', { token });
-    } catch (error) {
-      appLogger.error('Error blacklisting JWT token', { error });
-      throw new Error('Token blacklisting failed');
-    }
-  },
-  
-  isTokenExpired: (token) => {
-    try {
-      const decoded = jwt.decode(token);
-      if (!decoded || !decoded.exp) {
-        throw new Error('Invalid token format');
-      }
-      return Date.now() >= decoded.exp * 1000;
-    } catch (error) {
-      appLogger.error('Error checking token expiration', { error });
-      return true;
-    }
-  },
-};
-
-
-
-
-
-
-
-
-
-
-
-const generateToken = (user) => {
+const generateToken = (user, secret = JWT_CONFIG.SECRET) => {
+    const role = Role.findByPk(user.role_id, {
+        include: {
+            model: Permission,
+            through: { attributes: ['id', 'name'] }
+        }
+    });
     const payload = {
         id: user.id,
-        role: user.role.name,
-        permissions: user.role.permissions.map(p => p.name),
+        role: user.role,
+        permissions: role.Permissions,
     };
-
-    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    try {
+        const token = jwt.sign(payload, secret, { expiresIn: JWT_CONFIG.EXPIRATION, algorithm: 'HS256' });
+        return token;
+    } catch (error) {
+        throw new Error('Token generation failed');
+    }
 };
 
-module.exports = generateToken;
+const verifyToken = (token, secret = JWT_CONFIG.SECRET) => {
+    try {
+        const decoded = jwt.verify(token, secret);
+        console.log('JWT verified:', { userId: decoded.id }); 
+        return decoded;
+    } catch (error) {
+        console.error('Error verifying JWT token:', error.message, error);
+        throw new Error('Token verification failed');
+    }
+};
+
+const decodeToken = (token) => {
+    try {
+        const decoded = jwt.decode(token);
+        if (!decoded) {
+            throw new Error('Invalid token format');
+        }
+        console.log('JWT decoded without verification:', { decoded });
+        return {
+            id: decoded.id,
+            role: decoded.role,
+        };
+    } catch (error) {
+        console.error('Error decoding JWT token:', error);
+        throw new Error('Token decoding failed');
+    }
+};
+
+const refreshToken = (token, secret = JWT_CONFIG.SECRET) => {
+    try {
+        const decoded = jwt.verify(token, secret, { ignoreExpiration: true });
+        const newToken = generateToken(decoded, secret);
+        console.log('JWT refreshed:', { userId: decoded.id });
+        return newToken;
+    } catch (error) {
+        console.error('Error refreshing JWT token:', error);
+        throw new Error('Token refresh failed');
+    }
+};
+
+const isTokenExpired = (token) => {
+    try {
+        const decoded = jwt.decode(token);
+        if (!decoded || !decoded.exp) {
+            throw new Error('Invalid token format');
+        }
+        const isExpired = Date.now() >= decoded.exp * 1000;
+        console.log('Token expiration status:', { isExpired });
+        return isExpired;
+    } catch (error) {
+        console.error('Error checking token expiration:', error);
+        return true;  
+    }
+};
+
+module.exports = {
+    generateToken,
+    verifyToken,
+    decodeToken,
+    refreshToken,
+    isTokenExpired,
+};

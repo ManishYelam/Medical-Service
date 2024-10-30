@@ -33,7 +33,7 @@ const Department = sequelize.MAIN_DB_NAME.define('Department', {
         type: DataTypes.STRING,
         allowNull: false
     }
-}, { timestamps: true });
+}, { tableName: 'tbl_departments',timestamps: true });
 
 module.exports = Department;
 
