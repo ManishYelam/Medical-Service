@@ -74,21 +74,26 @@ const permissionUpdateSchema = Joi.object({
 });
 
 const rolePermissionsAssignSchema = Joi.object({
-    role_id: Joi.number().integer().positive().required()
+    roleId: Joi.number().integer().positive().required()
         .messages({
             'number.base': 'Role ID must be a number',
             'number.integer': 'Role ID must be an integer',
             'number.positive': 'Role ID must be a positive integer',
             'any.required': 'Role ID is required',
         }),
-    permission_ids: Joi.array().items(Joi.number().integer().positive()).min(1).required()
-        .messages({
-            'array.base': 'Permission IDs must be an array',
-            'array.min': 'At least one Permission ID is required',
-            'number.base': 'Each Permission ID must be a number',
-            'number.integer': 'Each Permission ID must be an integer',
-            'number.positive': 'Each Permission ID must be a positive integer',
-        }),
+    permissionIds: Joi.array().items(
+        Joi.number().integer().positive()
+            .messages({
+                'number.base': 'Each Permission ID must be a number',
+                'number.integer': 'Each Permission ID must be an integer',
+                'number.positive': 'Each Permission ID must be a positive integer',
+            })
+    ).min(1).required()
+    .messages({
+        'array.base': 'Permission IDs must be an array',
+        'array.min': 'Permission IDs array must contain at least one item',
+        'any.required': 'Permission IDs are required',
+    })
 });
 
 module.exports = {

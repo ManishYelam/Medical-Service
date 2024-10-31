@@ -10,7 +10,7 @@ userRouter
     .get('/:userId/permissions/:permissionName', authMiddleware, userController.checkUserPermission)
     .get('/', authMiddleware, userController.getAllUsers)
     .get('/:id', authMiddleware, userController.getUserById)
-    .put('/:id', validate(userUpdateSchema), userController.updateUser)
+    .put('/:id', validate(userUpdateSchema), authMiddleware, userController.updateUser)
     .delete('/:id', authMiddleware, userController.deleteUser)
     .delete('/user_range/:start_id/to/:end_id', authMiddleware, userController.deleteUserRanges)
 

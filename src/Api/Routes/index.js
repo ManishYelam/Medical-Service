@@ -14,12 +14,12 @@ const router = express.Router();
 
 router
   .use('/', authRouter)
-  .use('/roles',  roleRouter)
+  .use('/roles', authMiddleware,roleRouter)
   .use('/permissions', authMiddleware, permissionRouter)
   .use('/users', userRouter)
   .use('/user_logs', authMiddleware, userLogRouter)
   .use('/departments', authMiddleware, departmentRouter)
-  .use('/totp', totpRouter)
-  .post('/upload/:category/:isMultiple', authMiddleware, uploadMiddleware, uploadMedia); 
+  .use('/totp', authMiddleware, totpRouter)
+  .post('/upload/:category/:isMultiple', authMiddleware, uploadMiddleware, uploadMedia);
 
 module.exports = router;
