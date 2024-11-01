@@ -10,6 +10,16 @@ class UserController {
         }
     }
 
+    async verifyCreateUser(req, res) {
+        try {
+            const { userId, launchCode } = req.query;
+            const newUser = await userService.verifyCreateUser(userId, launchCode);
+            res.status(200).json({ message: 'Account verified successfully!', user: newUser });
+        } catch (error) {
+            res.status(500).json({ message: 'Verification failed: ' + error.message });
+        }
+    }
+
     async getAllUsers(req, res) {
         try {
             const users = await userService.getAllUsers();

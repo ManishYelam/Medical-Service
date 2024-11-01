@@ -1,4 +1,111 @@
 module.exports = {
+    medicalLaunchCodeTemplate: data => `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+          /* Universal Styles */
+          body {
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f9;
+              margin: 0;
+              padding: 0;
+              color: #333;
+              line-height: 1.6;
+          }
+          .container {
+              max-width: 600px;
+              margin: 40px auto;
+              padding: 20px;
+              background-color: #fff;
+              border-radius: 8px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              border: 1px solid #ddd;
+          }
+          .header {
+              text-align: center;
+              padding: 20px;
+          }
+          .header img {
+              width: 50px;
+          }
+          .header h2 {
+              font-size: 24px;
+              margin: 10px 0;
+              color: #007bff;
+          }
+          .content {
+              text-align: center;
+              padding: 20px;
+              font-size: 16px;
+              color: #555;
+          }
+          .content p {
+              margin-bottom: 15px;
+          }
+          .code {
+              font-size: 32px;
+              font-weight: bold;
+              background-color: #f1f1f1;
+              padding: 10px 20px;
+              color: #007bff;
+              border-radius: 4px;
+              display: inline-block;
+              letter-spacing: 2px;
+              margin: 20px 0;
+          }
+          .btn {
+              background-color: #28a745;
+              color: white;
+              padding: 10px 20px;
+              font-size: 16px;
+              border-radius: 4px;
+              text-decoration: none;
+              display: inline-block;
+              margin-top: 20px;
+          }
+          .footer {
+              text-align: center;
+              font-size: 12px;
+              color: #888;
+              padding: 20px 0;
+              border-top: 1px solid #eee;
+          }
+          /* Responsive Styles */
+          @media (max-width: 600px) {
+              .container {
+                  width: 95%;
+                  margin: 20px auto;
+              }
+              .content {
+                  padding: 15px;
+              }
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <div class="header">
+              <img src="https://your-medical-service-logo-url.com/logo.png" alt="Medical Service Logo">
+              <h2>Welcome to [Medical Service Name]!</h2>
+          </div>
+          <div class="content">
+              <p>To complete your registration, please enter the code below:</p>
+              <div class="code">${data.launchCode}</div>
+              <a href="${data.verificationUrl}" class="btn">Complete Registration</a>
+              <p>If you didn’t request this, you can ignore this email.</p>
+          </div>
+          <div class="footer">
+              <p>&copy; ${new Date().getFullYear()} [Medical Service Name]. All rights reserved.</p>
+              <p>[Medical Service Name], 123 Medical St, Health City, HC 12345</p>
+          </div>
+      </div>
+  </body>
+  </html>
+`,
+
     registrationTemplate: async (userName, userEmail, userPhone, userPAN, userAadhar, userAddress, verificationLink) => `
     <!DOCTYPE html>
     <html>

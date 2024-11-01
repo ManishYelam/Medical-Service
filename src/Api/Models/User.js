@@ -46,11 +46,18 @@ const User = sequelize.MAIN_DB_NAME.define('User', {
         type: DataTypes.ENUM('active', 'inactive', 'banned'),
         defaultValue: 'active'
     },
-    // pin: {
-    //     type : DataTypes.STRING,
-    //     allowNull: true,
-    //     defaultValue: null
-    // }
-}, { tableName: 'tbl_user',timestamps: true });
+    otp: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    expiryTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    isVerified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    }
+}, { tableName: 'tbl_user', timestamps: true });
 
 module.exports = User;

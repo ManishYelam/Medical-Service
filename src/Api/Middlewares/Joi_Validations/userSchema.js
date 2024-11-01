@@ -1,8 +1,29 @@
 const Joi = require('joi');
+const { checkExistsEmail, checkExistsUsername } = require('../../Services/UserService');
+
+const checkEmailDuplicate = async (value, helpers) => {
+    const user = await checkExistsEmail(value);
+    if (user) {
+        return helpers.message(
+            `Duplicate email found. Please provide a unique email address. Email - ${value}`
+        );
+    }
+    return value;
+};
+
+const checkUsernameDuplicate = async (value, helpers) => {
+    const user = await checkExistsUsername(value);
+    if (user) {
+        return helpers.message(
+            `Duplicate username found. Please provide a unique username. Username - ${value}`
+        );
+    }
+    return value;
+};
 
 const userSchema = Joi.object({
-    username: Joi.string().max(50).required(),
-    email: Joi.string().email().max(100).required(),
+    username: Joi.string().max(50).required().external(checkUsernameDuplicate),
+    email: Joi.string().email().max(100).required().external(checkEmailDuplicate),
     password: Joi.string().min(8).max(255).required(),
     first_name: Joi.string().max(50).required(),
     last_name: Joi.string().max(50).required(),
@@ -28,12 +49,12 @@ const permissionSchema = Joi.object({
 });
 
 const userLogSchema = Joi.object({
-    userId: Joi.number().integer().positive().optional(), 
+    userId: Joi.number().integer().positive().optional(),
     sourceIp: Joi.string().ip().required(),
     relatedInfo: Joi.string().max(500).optional(),
     logoffBy: Joi.string().valid('SYSTEM', 'USER').optional(),
     logoffAt: Joi.date().iso().optional(),
-    loginAt: Joi.date().iso().optional().default(new Date()), 
+    loginAt: Joi.date().iso().optional().default(new Date()),
     jwtToken: Joi.string().required(),
 });
 

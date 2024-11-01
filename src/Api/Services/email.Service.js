@@ -3,7 +3,26 @@ const { registrationTemplate, passwordChangeTemplate, performanceTrackingTemplat
 const { User } = require('../Models/Association');
 
 module.exports = {
-  // Send registration email
+  sendLaunchCodeEmail: async (userId, userName, userEmail, verificationUrl, otp) => {       
+    const user_Email = userEmail;
+    const subject = 'Your Medical Service Launch Code';
+    const template_Name = 'medicalLaunchCodeTemplate';
+    const template_Data = {
+      userId: userId, userName: userName, launchCode: otp, verificationUrl: verificationUrl
+    };
+    await sendMail(user_Email, subject, template_Name, template_Data);
+  },
+
+  sendVerificationEmail: async (userName, userEmail) => {
+    const user_Email = userEmail;
+    const subject = 'Email Verification Successful';
+    const template_Name = 'verificationTemplate';
+    const template_Data = {
+      userId: userId, userName: userName, launchCode: otp, verificationUrl: verificationUrl
+    };
+    await sendMail(user_Email, subject, template_Name, template_Data);
+  },
+ 
   sendRegistrationEmail: async (userId) => {
     const user = await User.findByPk(userId);
     if (!user) throw new Error('User not found');
@@ -21,10 +40,10 @@ module.exports = {
     );
   },
 
-  sendVerificationEmail: async (userName, userEmail) => {
-    const emailContent = await verificationTemplate(userName);
-    await sendEmail(userEmail, 'Email Verification Successful', emailContent);
-  },
+  // sendVerificationEmail: async (userName, userEmail) => {
+  //   const emailContent = await verificationTemplate(userName);
+  //   await sendEmail(userEmail, 'Email Verification Successful', emailContent);
+  // },
   sendOtpEmail: async (userId, userName, userEmail, otp) => {
     const user_Email = userEmail;
     const subject = 'Your OTP Code';

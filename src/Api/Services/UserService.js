@@ -1,14 +1,63 @@
 const { User, Role, Permission, } = require('../Models/Association');
 const { hashPassword } = require('../Helpers/hashPassword');
 const { Op } = require('sequelize');
+const { generateOTPTimestamped, verifyOTPTimestamped } = require('../../Utils/OTP');
+const { sendLaunchCodeEmail } = require('./email.Service');
 
 class UserService {
+    // async createUser(data) {
+    //     try {
+    //         if (data.password) {
+    //             data.password = await hashPassword(data.password);
+    //         }
+    //         return await User.create(data);
+    //     } catch (error) {
+    //         throw new Error('Error creating user: ' + error.message);
+    //     }
+    // }
+
     async createUser(data) {
         try {
             if (data.password) {
                 data.password = await hashPassword(data.password);
             }
-            return await User.create(data);
+            const { otp, expiryTime } = generateOTPTimestamped();
+            data.otp = otp;
+            data.expiryTime = expiryTime;
+            const newUser = await User.create(data);
+            const generateVerificationUrl = (userId, otp) => {
+                const baseUrl = 'http://localhost:5000/verify';
+                return `${baseUrl}?userId=${userId}&otp=${otp}`;
+            };
+            const verificationUrl = generateVerificationUrl(newUser.id, otp);                    
+            await sendLaunchCodeEmail(newUser.id, newUser.username, newUser.email, verificationUrl, otp);
+            console.log(otp);
+            
+            return newUser;
+        } catch (error) {
+            throw new Error('Error creating user: ' + error.message);
+        }
+    }
+
+    async verifyCreateUser(data) {
+        try {
+            console.log(data);
+            
+            const user = await User.findByPk(data);
+            if (!user) throw new Error('User not found');
+
+            const { launchCode: savedCode, launchCodeExpiry } = user;
+            const { isValid, message } = verifyOTPTimestamped(data.launchCode, savedCode, launchCodeExpiry);
+
+            if (!isValid) throw new Error(message);
+
+            user.isVerified = true;
+            user.launchCode = null;
+            user.launchCodeExpiry = null;
+            await user.save();
+
+            return user;
+
         } catch (error) {
             throw new Error('Error creating user: ' + error.message);
         }
@@ -28,6 +77,16 @@ class UserService {
                 }
             }
         });
+        return user;
+    }
+
+    async checkExistsEmail(email) {
+        const user = await User.findOne({ where: { email } });
+        return user;
+    }
+
+    async checkExistsUsername(username) {
+        const user = await User.findOne({ where: { username } });
         return user;
     }
 

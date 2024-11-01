@@ -27,7 +27,7 @@ const sendMail = async (to, subject, templateName, templateData = {}, attachment
     return info;
   } catch (error) {
     console.error(`Failed to send email to ${to} with subject "${subject}". Error: ${error.message}`);
-    throw error;
+    throw `Invalid email address provided. Please check the email and try again.`;
   }
 };
 
