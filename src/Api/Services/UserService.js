@@ -2,20 +2,9 @@ const { User, Role, Permission, } = require('../Models/Association');
 const { hashPassword } = require('../Helpers/hashPassword');
 const { Op } = require('sequelize');
 const { generateOTPTimestamped, verifyOTPTimestamped } = require('../../Utils/OTP');
-const { sendLaunchCodeEmail } = require('./email.Service');
+const { sendLaunchCodeEmail, sendVerificationEmail } = require('./email.Service');
 
 class UserService {
-    // async createUser(data) {
-    //     try {
-    //         if (data.password) {
-    //             data.password = await hashPassword(data.password);
-    //         }
-    //         return await User.create(data);
-    //     } catch (error) {
-    //         throw new Error('Error creating user: ' + error.message);
-    //     }
-    // }
-
     async createUser(data) {
         try {
             if (data.password) {
@@ -29,10 +18,10 @@ class UserService {
                 const baseUrl = 'http://localhost:5000/verify';
                 return `${baseUrl}?userId=${userId}&otp=${otp}`;
             };
-            const verificationUrl = generateVerificationUrl(newUser.id, otp);                    
+            const verificationUrl = generateVerificationUrl(newUser.id, otp);
             await sendLaunchCodeEmail(newUser.id, newUser.username, newUser.email, verificationUrl, otp);
             console.log(otp);
-            
+
             return newUser;
         } catch (error) {
             throw new Error('Error creating user: ' + error.message);
@@ -41,23 +30,17 @@ class UserService {
 
     async verifyCreateUser(data) {
         try {
-            console.log(data);
-            
             const user = await User.findByPk(data);
             if (!user) throw new Error('User not found');
-
             const { launchCode: savedCode, launchCodeExpiry } = user;
             const { isValid, message } = verifyOTPTimestamped(data.launchCode, savedCode, launchCodeExpiry);
-
             if (!isValid) throw new Error(message);
-
             user.isVerified = true;
             user.launchCode = null;
             user.launchCodeExpiry = null;
             await user.save();
-
+            await sendVerificationEmail(user.username, user.email);
             return user;
-
         } catch (error) {
             throw new Error('Error creating user: ' + error.message);
         }

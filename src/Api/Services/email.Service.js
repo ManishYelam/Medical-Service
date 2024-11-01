@@ -3,7 +3,7 @@ const { registrationTemplate, passwordChangeTemplate, performanceTrackingTemplat
 const { User } = require('../Models/Association');
 
 module.exports = {
-  sendLaunchCodeEmail: async (userId, userName, userEmail, verificationUrl, otp) => {       
+  sendLaunchCodeEmail: async (userId, userName, userEmail, verificationUrl, otp) => {
     const user_Email = userEmail;
     const subject = 'Your Medical Service Launch Code';
     const template_Name = 'medicalLaunchCodeTemplate';
@@ -17,12 +17,10 @@ module.exports = {
     const user_Email = userEmail;
     const subject = 'Email Verification Successful';
     const template_Name = 'verificationTemplate';
-    const template_Data = {
-      userId: userId, userName: userName, launchCode: otp, verificationUrl: verificationUrl
-    };
+    const template_Data = { userName: userName };
     await sendMail(user_Email, subject, template_Name, template_Data);
   },
- 
+
   sendRegistrationEmail: async (userId) => {
     const user = await User.findByPk(userId);
     if (!user) throw new Error('User not found');

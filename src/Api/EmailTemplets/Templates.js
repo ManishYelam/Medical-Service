@@ -106,6 +106,73 @@ module.exports = {
   </html>
 `,
 
+    verificationTemplate: async (data) => `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+            color: #555;
+            font-size: 16px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Email Verification Successful</h2>
+        </div>
+        <div class="content">
+            <p>Hi ${data.userName},</p>
+            <p>Your email has been successfully verified! You can now log in to your account and enjoy our services.</p>
+            <p>If you have any questions or need assistance, feel free to reach out to us.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; ${new Date().getFullYear()} [Your App Name]. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+`,
+
     registrationTemplate: async (userName, userEmail, userPhone, userPAN, userAadhar, userAddress, verificationLink) => `
     <!DOCTYPE html>
     <html>
@@ -246,73 +313,6 @@ module.exports = {
               <p>Hi ${userName},</p>
               <p>Your OTP code is: <strong>${otp}</strong></p>
               <p>This code is valid for a limited time. If you did not request this, please ignore this email.</p>
-          </div>
-          <div class="footer">
-              <p>&copy; ${new Date().getFullYear()} [Your App Name]. All rights reserved.</p>
-          </div>
-      </div>
-  </body>
-  </html>
-`,
-
-    verificationTemplate: async (userName) => `
-  <!DOCTYPE html>
-  <html>
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <style>
-          body {
-              font-family: Arial, sans-serif;
-              background-color: #f9f9f9;
-              margin: 0;
-              padding: 0;
-              line-height: 1.6;
-              color: #333;
-          }
-          .container {
-              max-width: 600px;
-              margin: 40px auto;
-              padding: 20px;
-              background-color: #fff;
-              border-radius: 8px;
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-              border: 1px solid #ddd;
-          }
-          .header {
-              background-color: #4CAF50;
-              color: white;
-              padding: 15px;
-              text-align: center;
-              border-radius: 8px 8px 0 0;
-          }
-          .header h2 {
-              margin: 0;
-              font-size: 24px;
-          }
-          .content {
-              padding: 20px;
-              color: #555;
-              font-size: 16px;
-          }
-          .footer {
-              text-align: center;
-              font-size: 12px;
-              color: #888;
-              padding: 20px 0;
-              border-top: 1px solid #eee;
-          }
-      </style>
-  </head>
-  <body>
-      <div class="container">
-          <div class="header">
-              <h2>Email Verification Successful</h2>
-          </div>
-          <div class="content">
-              <p>Hi ${userName},</p>
-              <p>Your email has been successfully verified! You can now log in to your account and enjoy our services.</p>
-              <p>If you have any questions or need assistance, feel free to reach out to us.</p>
           </div>
           <div class="footer">
               <p>&copy; ${new Date().getFullYear()} [Your App Name]. All rights reserved.</p>
