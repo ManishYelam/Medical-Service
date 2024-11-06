@@ -43,7 +43,7 @@ const userUpdateSchema = Joi.object({
     health_id: Joi.string().max(50).optional().default(null),
     username: Joi.string().max(50).optional(),
     email: Joi.string().email().max(100).optional(),
-    password: Joi.string().min(8).max(255).optional(),
+    password: Joi.string().min(8).max(255).forbidden(),
     first_name: Joi.string().max(50).optional(),
     last_name: Joi.string().max(50).optional(),
     date_of_birth: Joi.date().iso().optional(),
