@@ -45,9 +45,6 @@ class UserController {
 
     async updateUser(req, res) {
         try {
-            if (!req.body.health_id) {
-                req.body.health_id = generateUniqueIDForHealth(req.body.department);
-            }
             const updatedUser = await userService.updateUser(req.params.id, req.body);
             if (updatedUser[0] === 0) return res.status(404).json({ message: 'User not found' });
             res.status(200).json({ message: 'User updated successfully', user: req.body });

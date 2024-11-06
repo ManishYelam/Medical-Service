@@ -3,6 +3,7 @@ const { hashPassword } = require('../Helpers/hashPassword');
 const { Op } = require('sequelize');
 const { generateOTPTimestamped, verifyOTPTimestamped } = require('../../Utils/OTP');
 const { sendLaunchCodeEmail, sendVerificationEmail } = require('./email.Service');
+const { generateUniqueIDForHealth } = require('../../Utils/generateUniqueID');
 
 class UserService {
     async createUser(data) {
@@ -75,6 +76,10 @@ class UserService {
 
     async updateUser(id, data) {
         try {
+            const user = await User.findOne({ where: { id } });
+            if (!data.health_id && !user.health_id) {
+                data.health_id = generateUniqueIDForHealth(data.department);
+            }
             if (data.password) {
                 data.password = await hashPassword(data.password);
             }
