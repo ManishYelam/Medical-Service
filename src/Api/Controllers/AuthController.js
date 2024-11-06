@@ -25,12 +25,11 @@ const AuthController = {
   },
 
   forgetPassword: async (req, res) => {
-    const { email } = req.body;
+    const { email } = req.params;
     try {
       const result = await AuthService.forgetPassword(email);
       res.status(200).json(result);
     } catch (error) {
-      console.error('Error sending OTP:', error);
       res.status(404).json({ error: error.message });
     }
   },

@@ -1,5 +1,6 @@
 const Joi = require('joi');
-const { checkExistsEmail, checkExistsUsername } = require('../../Services/UserService');
+const { checkExistsEmail, checkExistsUsername, } = require('../../Services/UserService');
+const { prefixes } = require('../../../Utils/generateUniqueID');
 
 const checkEmailDuplicate = async (value, helpers) => {
     const user = await checkExistsEmail(value);
@@ -22,6 +23,8 @@ const checkUsernameDuplicate = async (value, helpers) => {
 };
 
 const userSchema = Joi.object({
+    department: Joi.string().max(50).forbidden().optional(),
+    health_id: Joi.string().max(50).optional().forbidden().optional(),
     username: Joi.string().max(50).required().external(checkUsernameDuplicate),
     email: Joi.string().email().max(100).required().external(checkEmailDuplicate),
     password: Joi.string().min(8).max(255).required(),
@@ -35,7 +38,21 @@ const userSchema = Joi.object({
     dept_id: Joi.number().integer().optional(),
 });
 
-const userUpdateSchema = userSchema.fork(['password'], (schema) => schema.optional());
+const userUpdateSchema = Joi.object({
+    department: Joi.string().valid(...Object.keys(prefixes)).max(50).optional(),
+    health_id: Joi.string().max(50).optional().default(null),
+    username: Joi.string().max(50).optional(),
+    email: Joi.string().email().max(100).optional(),
+    password: Joi.string().min(8).max(255).optional(),
+    first_name: Joi.string().max(50).optional(),
+    last_name: Joi.string().max(50).optional(),
+    date_of_birth: Joi.date().iso().optional(),
+    phone_number: Joi.string().max(15).optional(),
+    address: Joi.string().max(500).optional(),
+    status: Joi.string().valid('active', 'inactive', 'banned').optional(),
+    role_id: Joi.number().integer().optional(),
+    dept_id: Joi.number().integer().optional(),
+});
 
 const roleSchema = Joi.object({
     name: Joi.string().max(100).required(),
@@ -58,10 +75,4 @@ const userLogSchema = Joi.object({
     jwtToken: Joi.string().required(),
 });
 
-module.exports = {
-    userSchema,
-    userUpdateSchema,
-    roleSchema,
-    permissionSchema,
-    userLogSchema,
-};
+module.exports = { userSchema, userUpdateSchema, roleSchema, permissionSchema, userLogSchema, };

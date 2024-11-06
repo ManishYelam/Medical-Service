@@ -1,33 +1,12 @@
+const { Op } = require('sequelize');
 const { JWT_CONFIG } = require('../../Utils/constants');
 const { comparePassword, hashPassword } = require('../Helpers/hashPassword');
-const { generateToken } = require('../../Utils/jwtSecret');
-const { generateOTP } = require('../../Utils/OTP');
+const { generateToken, verifyToken } = require('../../Utils/jwtSecret');
+const { generateOTPTimestamped } = require('../../Utils/OTP');
 const { User, Role, Permission, UserLog } = require('../Models/Association');
-const { Op } = require('sequelize');
-const EmailService = require('../Services/email.Service');
+const { sendResetPasswordCodeEmail, sendPasswordChangeEmail } = require('../Services/email.Service');
 
 const AuthService = {
-  verifyUserOTP: async (userId, inputOtp) => {
-    try {
-      const user = await User.findById(userId);
-      if (!user) {
-        throw new Error('User not found');
-      }
-      const { otp, otpExpiryTime } = user;
-      const verification = verifyOTPTimestamped(inputOtp, otp, otpExpiryTime);
-      if (verification.isValid) {
-        // OTP is valid, mark user as verified
-        user.isVerified = true;  // Optional: a field in the User model
-        user.otp = null;         // Clear the OTP after verification
-        user.otpExpiryTime = null;
-        await user.save();
-      }
-      return verification;
-    } catch (error) {
-      throw new Error('Error verifying OTP: ' + error.message);
-    }
-  },
-
   login: async (usernameOrEmail, password, req, res) => {
     const user = await User.findOne({
       where: {
@@ -93,7 +72,7 @@ const AuthService = {
       const newHashedPassword = await hashPassword(newPassword, 10);
       await User.update({ password: newHashedPassword }, { where: { id: userId } });
 
-      await EmailService.sendPasswordChangeEmail(userId, user.email, user.username);
+      await sendPasswordChangeEmail(userId, user.email, user.username);
       return { message: 'Password changed successfully' };
     } catch (error) {
       console.error('Error changing password:', error);
@@ -103,61 +82,88 @@ const AuthService = {
 
   forgetPassword: async (email) => {
     const user = await User.findOne({ where: { email } });
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    const otp = generateOTP(); // Generate OTP
-    user.otp = otp; // Save OTP to user record (make sure to have this field in your User model)
+    if (!user) { throw new Error('User not found'); }
+    const { otp, expiryTime } = generateOTPTimestamped();
+    user.otp = otp;
+    user.expiryTime = expiryTime;
+    const generateVerificationUrl = (userId, otp) => {
+      const baseUrl = 'http://localhost:5000/verify';
+      return `${baseUrl}?userId=${userId}&otp=${otp}`;
+    };
+    const verificationLink = generateVerificationUrl(user.id, otp);
+    const resetVerificationLink = `http://localhost:5000/reset-password?userId=${user.id}&token=${otp}`;
+    await sendResetPasswordCodeEmail(user.id, user.username, user.email, verificationLink, resetVerificationLink, otp);
     await user.save();
-
-    await EmailService.sendForgetPasswordEmail(user.id, otp); // Send email with OTP
     return { message: 'OTP sent to your email' };
   },
 
-  ResetPassword: async (email) => {
-    const { token } = req.query;
-    const { oldPassword, newPassword } = req.body;
-    EmailService.sendResetPasswordEmail
-  },
-
-  confirmEmail: async (req, res) => {
-    const { userId } = req.query;
-
-    try {
-      const user = await User.findByPk(userId);
-      if (!user) {
-        return res.status(404).send('User not found');
-      }
-      // Log confirmation or update a field as needed
-      console.log(`Email confirmed by user ID: ${userId}`);
-      // Optionally, update the user status
-      // user.emailConfirmed = true; // Assuming you have such a field
-      // await user.save();
-      res.send('Thank you for confirming! Your password change has been noted.');
-    } catch (error) {
-      console.error(`Error confirming email: ${error.message}`);
-      res.status(500).send('Internal server error');
-    }
-  },
-
-  refreshToken: async (token) => {
-    try {
-      const decoded = jwt.verify(token, JWT_CONFIG.SECRET, { ignoreExpiration: true });
-
-      // Generate a new token with the same user info (id and role)
-      const newToken = jwt.sign(
-        { id: decoded.id, role: decoded.role },
-        JWT_CONFIG.SECRET,
-        { expiresIn: '1h' }
-      );
-
-      return { token: newToken };
-    } catch (error) {
-      console.error('Error refreshing token:', error);
-      throw new Error('Token refresh failed');
-    }
-  }
 }
 
 module.exports = AuthService;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// confirmEmail: async (req, res) => {
+//   const { userId } = req.query;
+
+//   try {
+//     const user = await User.findByPk(userId);
+//     if (!user) {
+//       return res.status(404).send('User not found');
+//     }
+//     // Log confirmation or update a field as needed
+//     console.log(`Email confirmed by user ID: ${userId}`);
+//     // Optionally, update the user status
+//     // user.emailConfirmed = true; // Assuming you have such a field
+//     // await user.save();
+//     res.send('Thank you for confirming! Your password change has been noted.');
+//   } catch (error) {
+//     console.error(`Error confirming email: ${error.message}`);
+//     res.status(500).send('Internal server error');
+//   }
+// },
+
+// refreshToken: async (token) => {
+//   try {
+//     const decoded = verifyToken(token);
+//     const newToken = jwt.sign(
+//       { id: decoded.id, role: decoded.role },
+//       JWT_CONFIG.SECRET,
+//       { expiresIn: '1h' }
+//     );
+
+//     return { token: newToken };
+//   } catch (error) {
+//     console.error('Error refreshing token:', error);
+//     throw new Error('Token refresh failed');
+//   }
+// }

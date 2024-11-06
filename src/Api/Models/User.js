@@ -8,6 +8,11 @@ const User = sequelize.MAIN_DB_NAME.define('User', {
         autoIncrement: true,
         primaryKey: true
     },
+    health_id: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        unique: true
+    },
     username: {
         type: DataTypes.STRING(50),
         allowNull: false,

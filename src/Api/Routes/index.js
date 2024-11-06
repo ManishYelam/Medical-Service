@@ -14,7 +14,7 @@ const router = express.Router();
 
 router
   .use('/', authRouter)
-  .use('/roles', authMiddleware,roleRouter)
+  .use('/roles', roleRouter)
   .use('/permissions', authMiddleware, permissionRouter)
   .use('/users', userRouter)
   .use('/user_logs', authMiddleware, userLogRouter)

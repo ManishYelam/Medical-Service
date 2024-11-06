@@ -322,90 +322,113 @@ module.exports = {
   </html>
 `,
 
-    sendResetPassword: async (user, token) => {
-        const resetLink = `http://localhost:5000/reset-password?token=${token}`;
-        const newLink = `http://localhost:5000/request-new-reset`;
-        const resetEmail = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Password Reset</title>
-          <style>
-              body {
-                  font-family: Arial, sans-serif;
-                  background-color: #f6f8fa;
-                  margin: 0;
-                  padding: 0;
-                  color: #333;
-              }
-              .container {
-                  width: 100%;
-                  max-width: 600px;
-                  margin: 0 auto;
-                  padding: 20px;
-                  background-color: #ffffff;
-                  border-radius: 6px;
-                  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                  text-align: center;
-              }
-              .header img {
-                  width: 40px;
-                  margin-bottom: 20px;
-              }
-              .header h1 {
-                  font-size: 24px;
-                  color: #333;
-                  margin: 0;
-              }
-              .content p {
-                  font-size: 16px;
-                  color: #555;
-                  line-height: 1.5;
-                  margin: 0 0 15px;
-              }
-              .button {
-                  display: inline-block;
-                  padding: 12px 24px;
-                  margin: 20px 0;
-                  color: #fff;
-                  background-color: #28a745;
-                  border-radius: 5px;
-                  text-decoration: none;
-                  font-weight: bold;
-              }
-              .footer {
-                  font-size: 12px;
-                  color: #888;
-                  margin-top: 20px;
-              }
-              .footer a {
-                  color: #0366d6;
-                  text-decoration: none;
-              }
-          </style>
-      </head>
-      <body>
-          <div class="container">
-              <div class="header">
-                  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Logo">
-                  <h1>Reset your GitHub password</h1>
-              </div>
-              <div class="content">
-                  <h2>GitHub password reset</h2>
-                  <p>We heard that you lost your GitHub password. Sorry about that!</p>
-                  <p>But don’t worry! You can use the following button to reset your password:</p>
-                  <a href="${resetLink}" class="button">Reset your password</a>
-                  <p>If you don’t use this link within 3 hours, it will expire. <a href="${newLink}">Click here to get a new password reset link.</a></p>
-              </div>
-              <div class="footer">
-                  <p>Thanks,<br>The GitHub Team</p>
-              </div>
-          </div>
-      </body>
-      </html>
-    `},
+    sendResetPasswordTemplate: data => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Universal Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+        }
+        .header img {
+            width: 50px;
+        }
+        .header h2 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #dc3545;
+        }
+        .content {
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+        .content p {
+            margin-bottom: 15px;
+        }
+        .code {
+            font-size: 32px;
+            font-weight: bold;
+            background-color: #f1f1f1;
+            padding: 10px 20px;
+            color: #dc3545;
+            border-radius: 4px;
+            display: inline-block;
+            letter-spacing: 2px;
+            margin: 20px 0;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+        }
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin: 20px auto;
+            }
+            .content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://your-service-logo-url.com/logo.png" alt="Service Logo">
+            <h2>Password Reset Request</h2>
+        </div>
+        <div class="content">
+            <p>Hello ${data.userName},</p>
+            <p>You recently requested to reset your password. Use the code below to complete the process:</p>
+            <div class="code">${data.launchCode}</div>
+            <a href="${data.resetLink}" class="btn">Reset Password</a>
+            <p>If you didn’t request this, please ignore this email.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; ${new Date().getFullYear()} Your Service Name. All rights reserved.</p>
+            <p>Your Service Name, 123 Service St, City, Country</p>
+        </div>
+    </div>
+</body>
+</html>
+`,
 
     passwordChangeTemplate: data => `
   <!DOCTYPE html>

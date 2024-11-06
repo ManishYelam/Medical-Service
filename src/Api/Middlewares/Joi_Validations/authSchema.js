@@ -46,20 +46,6 @@ const changePasswordSchema = Joi.object({
         }),
 });
 
-const forgetPasswordSchema = Joi.object({
-    email: Joi.string()
-        .email()
-        .max(100)
-        .required()
-        .messages({
-            'string.base': 'Email must be a string.',
-            'string.empty': 'Email is required.',
-            'string.email': 'Email must be a valid email address.',
-            'string.max': 'Email must be at most 100 characters long.',
-            'any.required': 'Email is required.'
-        }),
-});
-
 const resetPasswordSchema = Joi.object({
     token: Joi.string()
         .required()
@@ -94,7 +80,6 @@ const refreshTokenSchema = Joi.object({
 module.exports = {
     loginSchema,
     changePasswordSchema,
-    forgetPasswordSchema,
     resetPasswordSchema,
     refreshTokenSchema,
 };

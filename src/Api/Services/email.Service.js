@@ -21,6 +21,22 @@ module.exports = {
     await sendMail(user_Email, subject, template_Name, template_Data);
   },
 
+  sendResetPasswordCodeEmail: async (userId, userName, userEmail, verificationUrl, resetLink, otp) => {
+    const user_Email = userEmail;
+    const subject = 'Reset Your Password';
+    const template_Name = 'sendResetPasswordTemplate';
+    const template_Data = { userId, userName, launchCode: otp, verificationUrl, resetLink, };
+    await sendMail(user_Email, subject, template_Name, template_Data);
+  },
+
+  sendPasswordChangeEmail: async (userId, userEmail, userName) => {
+    const user_Email = userEmail;
+    const subject = 'Your Password has been Changed';
+    const template_Name = 'passwordChangeTemplate';
+    const template_Data = { userId: userId, userName: userName };
+    await sendMail(user_Email, subject, template_Name, template_Data);
+  },
+
   sendRegistrationEmail: async (userId) => {
     const user = await User.findByPk(userId);
     if (!user) throw new Error('User not found');
@@ -32,16 +48,6 @@ module.exports = {
     await sendMail(user.email, subject, html);
   },
 
-  sendResetPasswordEmail: async (user, token) => {
-    const resetLink = `http://localhost:5000/reset-password?token=${token}`;
-    return await sendMail(user.email, 'Reset Your Password', 'resetPasswordTemplate', { name: user.name, resetLink }
-    );
-  },
-
-  // sendVerificationEmail: async (userName, userEmail) => {
-  //   const emailContent = await verificationTemplate(userName);
-  //   await sendEmail(userEmail, 'Email Verification Successful', emailContent);
-  // },
   sendOtpEmail: async (userId, userName, userEmail, otp) => {
     const user_Email = userEmail;
     const subject = 'Your OTP Code';
@@ -54,13 +60,7 @@ module.exports = {
     await sendEmail(userEmail, 'Password Change Confirmation', emailContent);
   },
 
-  sendPasswordChangeEmail: async (userId, userEmail, userName) => {
-    const user_Email = userEmail;
-    const subject = 'Your Password has been Changed';
-    const template_Name = 'passwordChangeTemplate';
-    const template_Data = { userId: userId, userName: userName };
-    await sendMail(user_Email, subject, template_Name, template_Data);
-  },
+
 
   // Send performance tracking email
   sendPerformanceTrackingEmail: async (userId, data) => {
