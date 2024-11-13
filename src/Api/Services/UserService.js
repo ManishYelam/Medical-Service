@@ -80,9 +80,9 @@ class UserService {
             if (!data.health_id && !user.health_id) {
                 data.health_id = generateUniqueIDForHealth(data.department);
             }
-            if (data.password) {
-                data.password = await hashPassword(data.password);
-            }
+            // if (data.password) {
+            //     data.password = await hashPassword(data.password);
+            // }
             return User.update(data, { where: { id } });
         } catch (error) {
             throw new Error('Error creating user: ' + error.message);
