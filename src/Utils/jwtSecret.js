@@ -13,6 +13,7 @@ const generateToken = (user, secret = JWT_CONFIG.SECRET) => {
     });
     const payload = {
         id: user.id,
+        health_id: user.health_id,
         role: user.role,
         permissions: role.Permissions,
     };
