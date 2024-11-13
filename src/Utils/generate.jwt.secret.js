@@ -4,7 +4,7 @@ const path = require('path');
 
 // Generate a secure 256-bit (50-byte) secret key suitable for HS256
 const generateSecret = () => {
-  return crypto.randomBytes(50).toString('hex');
+  return crypto.randomBytes(500).toString('hex');
 };
 
 // Save the generated secret to an environment file

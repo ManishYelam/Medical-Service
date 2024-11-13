@@ -1,5 +1,6 @@
 require('dotenv').config();
 const mysql = require('mysql2/promise');
+const { databases } = require('../Database/Data');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -10,13 +11,11 @@ const DB_PORT = process.env.DB_PORT || 3306;
 
 const baseConfig = { port: DB_PORT, connectionLimit: 10, multipleStatements: true, };
 
-const databases = ['MAIN','COMPLIANCE_LEGAL','CUSTOMER_SUPPORT','DATA_ANALYTIC','FINANCE_ACCOUNTING','HEALTHCARE','HR','INVENTORY_MANAGEMENT','IT_DEVELOPMENT','LOGISTIC','PARTNERSHIP','PHARMACY', 'SALES_MARKETING',];
-
 const createDbConfig = (dbName) => ({
   host: DB_HOST,
   user: DB_USER,
   password: DB_PASSWORD,
-  database: process.env[`${dbName}_DB_NAME`], 
+  database: process.env[`${dbName}_DB_NAME`],
   ...baseConfig,
 });
 
@@ -27,7 +26,7 @@ const sqlConfig = databases.reduce((acc, dbName) => {
 
 const createConnectionPools = () => {
   return Object.entries(sqlConfig).reduce((pools, [dbName, config]) => {
-    pools[dbName] = mysql.createPool(config); 
+    pools[dbName] = mysql.createPool(config);
     return pools;
   }, {});
 };
