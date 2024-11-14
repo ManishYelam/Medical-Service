@@ -1,17 +1,20 @@
 const Joi = require('joi');
 
 const loginSchema = Joi.object({
-    usernameOrEmail: Joi.string()
-        .required()
+    health_id: Joi.string().length(12).required()
+        .messages({
+            'string.base': 'Health ID must be a string.',
+            'string.empty': 'Health ID is required.',
+            'string.length': 'Health ID must be exactly 12 characters.',
+            'any.required': 'Health ID is required.'
+        }),
+    usernameOrEmail: Joi.string().required()
         .messages({
             'string.base': 'Username or email must be a string.',
             'string.empty': 'Username or email is required.',
             'any.required': 'Username or email is required.'
         }),
-    password: Joi.string()
-        .min(8)
-        .max(255)
-        .required()
+    password: Joi.string().min(8).max(255).required()
         .messages({
             'string.base': 'Password must be a string.',
             'string.empty': 'Password is required.',
@@ -22,10 +25,7 @@ const loginSchema = Joi.object({
 });
 
 const changePasswordSchema = Joi.object({
-    oldPassword: Joi.string()
-        .min(8)
-        .max(255)
-        .required()
+    oldPassword: Joi.string().min(8).max(255).required()
         .messages({
             'string.base': 'Old password must be a string.',
             'string.empty': 'Old password is required.',
@@ -33,10 +33,7 @@ const changePasswordSchema = Joi.object({
             'string.max': 'Old password must be at most 255 characters long.',
             'any.required': 'Old password is required.'
         }),
-    newPassword: Joi.string()
-        .min(8)
-        .max(255)
-        .required()
+    newPassword: Joi.string().min(8).max(255).required()
         .messages({
             'string.base': 'New password must be a string.',
             'string.empty': 'New password is required.',
@@ -47,17 +44,13 @@ const changePasswordSchema = Joi.object({
 });
 
 const resetPasswordSchema = Joi.object({
-    token: Joi.string()
-        .required()
+    token: Joi.string().required()
         .messages({
             'string.base': 'Token must be a string.',
             'string.empty': 'Token is required.',
             'any.required': 'Token is required.'
         }),
-    newPassword: Joi.string()
-        .min(8)
-        .max(255)
-        .required()
+    newPassword: Joi.string().min(8).max(255).required()
         .messages({
             'string.base': 'New password must be a string.',
             'string.empty': 'New password is required.',
@@ -68,8 +61,7 @@ const resetPasswordSchema = Joi.object({
 });
 
 const refreshTokenSchema = Joi.object({
-    token: Joi.string()
-        .required()
+    token: Joi.string().required()
         .messages({
             'string.base': 'Token must be a string.',
             'string.empty': 'Token is required.',

@@ -3,25 +3,26 @@ const { JWT_CONFIG } = require('../../Utils/constants');
 const { comparePassword, hashPassword } = require('../Helpers/hashPassword');
 const { generateToken, verifyToken } = require('../../Utils/jwtSecret');
 const { generateOTPTimestamped } = require('../../Utils/OTP');
-const { User, Role, Permission, UserLog } = require('../Models/Association');
+const { Role, Permission, UserLog } = require('../Models/Association');
+const models = require('../../Config/Database/centralModelLoader');
 const { sendResetPasswordCodeEmail, sendPasswordChangeEmail } = require('../Services/email.Service');
 
 const AuthService = {
-  login: async (usernameOrEmail, password, req, res) => {
-    const user = await User.findOne({
+  login: async (healthId, usernameOrEmail, password, req, res) => {
+    const user = await models.MAIN.User.findOne({
       where: {
+        health_id: healthId,
         [Op.or]: [
           { email: usernameOrEmail },
           { username: usernameOrEmail }
         ]
       },
-      attributes: ['id', 'username', 'email', 'password', 'first_name', 'last_name', 'date_of_birth', 'phone_number', 'address', 'status'],
+      attributes: ['id', 'health_id', 'username', 'email', 'password', 'first_name', 'last_name', 'date_of_birth', 'phone_number', 'address', 'status'],
       include: [{
         model: Role, attributes: ['id', 'name', 'description'],
         include:
           [{
-            model: Permission,
-            attributes: ['id', 'name'],
+            model: Permission, attributes: ['id', 'name'],
           }]
       }]
     });
@@ -49,7 +50,7 @@ const AuthService = {
     // Optionally, blacklist the JWT if using a blacklist mechanism
     // await blacklistToken(token);
     // Log the logout event in the UserLog table
-    await UserLog.create({
+    await models.MAIN.UserLog.create({
       userId,
       sourceIp: ip,
       logoffBy: 'USER',
@@ -61,7 +62,7 @@ const AuthService = {
 
   changePassword: async (userId, oldPassword, newPassword) => {
     try {
-      const user = await User.findByPk(userId);
+      const user = await models.MAIN.User.findByPk(userId);
       if (!user) {
         throw new Error('User not found');
       }
@@ -70,18 +71,16 @@ const AuthService = {
         throw new Error('Old password is incorrect');
       }
       const newHashedPassword = await hashPassword(newPassword, 10);
-      await User.update({ password: newHashedPassword }, { where: { id: userId } });
-
+      await models.MAIN.User.update({ password: newHashedPassword }, { where: { id: userId } });
       await sendPasswordChangeEmail(userId, user.email, user.username);
       return { message: 'Password changed successfully' };
     } catch (error) {
-      console.error('Error changing password:', error);
-      throw new Error('Password change failed');
+      throw new Error('Password change failed', error);
     }
   },
 
   forgetPassword: async (email) => {
-    const user = await User.findOne({ where: { email } });
+    const user = await models.MAIN.User.findOne({ where: { email } });
     if (!user) { throw new Error('User not found'); }
     const { otp, expiryTime } = generateOTPTimestamped();
     user.otp = otp;
@@ -96,7 +95,6 @@ const AuthService = {
     await user.save();
     return { message: 'OTP sent to your email' };
   },
-
 }
 
 module.exports = AuthService;
