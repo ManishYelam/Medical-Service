@@ -1,9 +1,13 @@
-const { User, Role, Permission, } = require('../Models/Association');
 const { hashPassword } = require('../Helpers/hashPassword');
 const { Op } = require('sequelize');
 const { generateOTPTimestamped, verifyOTPTimestamped } = require('../../Utils/OTP');
 const { sendLaunchCodeEmail, sendVerificationEmail } = require('./email.Service');
 const { generateUniqueIDForHealth } = require('../../Utils/generateUniqueID');
+const models = require('../../Config/Database/centralModelLoader');
+
+const User = models.MAIN.User;
+const Role = models.MAIN.Role;
+const Permission = models.MAIN.Permission;
 
 class UserService {
     async createUser(data) {

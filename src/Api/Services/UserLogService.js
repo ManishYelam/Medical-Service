@@ -1,5 +1,7 @@
-const UserLog = require('../Models/user_logs');
 const { Op } = require('sequelize');
+const models = require('../../Config/Database/centralModelLoader');
+
+const UserLog = models.MAIN.UserLog;
 
 class UserLogService {
     async createUserLog(data) {

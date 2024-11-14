@@ -1,4 +1,7 @@
-const { Role, Permission } = require('../Models/Association');
+const models = require("../../Config/Database/centralModelLoader");
+
+const Role = models.MAIN.Role;
+const Permission = models.MAIN.Permission;
 
 class RoleService {
     async createRole(data) {

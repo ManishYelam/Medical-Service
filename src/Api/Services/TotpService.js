@@ -1,6 +1,10 @@
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
-const { User, Role, Permission } = require('../Models/Association');
+const models = require('../../Config/Database/centralModelLoader');
+
+const User = models.MAIN.User;
+const Role = models.MAIN.Role;
+const Permission = models.MAIN.Permission;
 
 class TotpService {
     async generateTotp(userEmail) {

@@ -1,4 +1,6 @@
-const { Permission } = require('../Models/Association');
+const models = require("../../Config/Database/centralModelLoader");
+
+const Permission = models.MAIN.Permission;
 
 class PermissionService {
     async createPermission(data) {
