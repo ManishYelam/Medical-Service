@@ -3,11 +3,14 @@ const http = require('http');
 const moment = require('moment');
 const axios = require('axios');
 const express = require('express');
+const pharmaRoutes = require('../Pharmacy/Routes/index.pharma');
+const { InitializeDatabase } = require('./Models/InitializeDatabase');
 const app = express();
 
 const server = http.createServer(app);
 
 const DefinePharmacyRoutes = () => {
+
   app.get('/', async (req, res) => {
     try {
       const response = {
@@ -18,8 +21,8 @@ const DefinePharmacyRoutes = () => {
           description: "This is the gateway to manage pharmacy operations, including inventory management, order processing, and customer interactions.",
           api_version: "1.0",
           contact_info: {
-            email: "support@pharmacy.com",
-            phone: "+1234567890",
+            email: "manish@pharmacy.com",
+            phone: "+9373200525",
           },
           links: [
             { rel: "self", href: req.originalUrl },
@@ -40,7 +43,6 @@ const DefinePharmacyRoutes = () => {
     }
   });
 
-
   app.get('/data', async (req, res) => {
     try {
       const response = await axios.get(process.env.L_PHARMACY_URL);
@@ -50,10 +52,15 @@ const DefinePharmacyRoutes = () => {
       res.status(500).json({ error: 'Failed to fetch pharmacy data' });
     }
   });
+
+  app.use('/Api/pharma', pharmaRoutes);
 };
 
 const StartPharmacyServer = async () => {
   try {
+
+    InitializeDatabase();
+
     DefinePharmacyRoutes();
 
     const PORT = process.env.PHARMACY_PORT || 5001;
