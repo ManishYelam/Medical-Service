@@ -1,10 +1,10 @@
-const authRouter = require('./authRoutes');
-const roleRouter = require('./roleRoutes');
-const permissionRouter = require('./permissionRoutes');
-const userRouter = require('./userRoutes');
-const userLogRouter = require('./userLogRoutes');
-const departmentRouter = require('./departmentRoutes');
-const totpRouter = require('./TotpRoutes');
+const authRouter = require('../authRoutes');
+const roleRouter = require('../roleRoutes');
+const permissionRouter = require('../permissionRoutes');
+const userRouter = require('../userRoutes');
+const userLogRouter = require('../userLogRoutes');
+const departmentRouter = require('../departmentRoutes');
+const totpRouter = require('../TotpRoutes');
 const authMiddleware = require('../../Middlewares/authorizationMiddleware');
 const uploadMiddleware = require('../../Middlewares/uploadMiddleware');
 const { uploadMedia } = require('../../Controllers/mediaController');
