@@ -13,12 +13,12 @@ module.exports = [
     {
         path: '/',
         router: authRouter,
-        middleware: []  // No specific middleware needed
+        middleware: []
     },
     {
         path: '/roles',
         router: roleRouter,
-        middleware: []  // No specific middleware needed
+        middleware: []
     },
     {
         path: '/permissions',
@@ -28,7 +28,7 @@ module.exports = [
     {
         path: '/users',
         router: userRouter,
-        middleware: []  // No specific middleware needed
+        middleware: []
     },
     {
         path: '/user_logs',
