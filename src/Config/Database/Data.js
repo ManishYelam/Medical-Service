@@ -30,22 +30,6 @@ const departmentMapping = {
     'SALESM': "SALES_MARKETING",
 };
 
-const models = {
-    // MAIN: require('../../Api/Models/Association'),
-    // COMPLIANCE_LEGAL: require('../../Api/Departments/Compliance-Legal/Models/Association'),
-    // CUSTOMER_SUPPORT: require('../../Api/Departments/Customer-Support/Models/Association'),
-    // DATA_ANALYTIC: require('../../Api/Departments/data-Analytic/Models/Association'),
-    // FINANCE_ACCOUNTING: require('../../Api/Departments/Finance-Accounting/Models/Association'),
-    // HEALTHCARE: require('../../Api/Departments/Healthcare/Models/Association'),
-    // HR: require('../../Api/Departments/HR/Models/Association'),
-    // INVENTORY_MANAGEMENT: require('../../Api/Departments/Inventory-Management/Models/Association'),
-    // IT_DEVELOPMENT: require('../../Api/Departments/IT-Development/Models/Association'),
-    // LOGISTIC: require('../../Api/Departments/Logistics/Models/Association'),
-    // PARTNERSHIP: require('../../Api/Departments/Partnerships/Models/Association'),
-    // PHARMACY: require('../../Api/Departments/Pharmacy/Models/Association'),
-    // SALES_MARKETING: require('../../Api/Departments/Sales-marketing/Models/Association'),
-};
-
 const DEPARTMENTS = {
     MAIN: 'Main',
     COMPLIANCE_LEGAL: 'Compliance Legal',
@@ -62,9 +46,42 @@ const DEPARTMENTS = {
     SALES_MARKETING: 'Sales & Marketing',
 };
 
+const paths = {
+    MAIN: '../../Api/Models/Association',
+    COMPLIANCE_LEGAL: '../../Api/Departments/Compliance-Legal/Models/Association',
+    CUSTOMER_SUPPORT: '../../Api/Departments/Customer-Support/Models/Association',
+    DATA_ANALYTIC: '../../Api/Departments/data-Analytic/Models/Association',
+    FINANCE_ACCOUNTING: '../../Api/Departments/Finance-Accounting/Models/Association',
+    HEALTHCARE: '../../Api/Departments/Healthcare/Models/Association',
+    HR: '../../Api/Departments/HR/Models/Association',
+    INVENTORY_MANAGEMENT: '../../Api/Departments/Inventory-Management/Models/Association',
+    IT_DEVELOPMENT: '../../Api/Departments/IT-Development/Models/Association',
+    LOGISTIC: '../../Api/Departments/Logistics/Models/Association',
+    PARTNERSHIP: '../../Api/Departments/Partnerships/Models/Association',
+    PHARMACY: '../../Api/Departments/Pharmacy/Models/Association',
+    SALES_MARKETING: '../../Api/Departments/Sales-marketing/Models/Association'
+};
+
 module.exports = {
     databases,
     departmentMapping,
-    models,
-    DEPARTMENTS
+    DEPARTMENTS,
+    paths
 }
+
+
+// const models = {
+//     MAIN: require('../../Api/Models/Association'),
+//     COMPLIANCE_LEGAL: require('../../Api/Departments/Compliance-Legal/Models/Association'),
+//     CUSTOMER_SUPPORT: require('../../Api/Departments/Customer-Support/Models/Association'),
+//     DATA_ANALYTIC: require('../../Api/Departments/data-Analytic/Models/Association'),
+//     FINANCE_ACCOUNTING: require('../../Api/Departments/Finance-Accounting/Models/Association'),
+//     HEALTHCARE: require('../../Api/Departments/Healthcare/Models/Association'),
+//     HR: require('../../Api/Departments/HR/Models/Association'),
+//     INVENTORY_MANAGEMENT: require('../../Api/Departments/Inventory-Management/Models/Association'),
+//     IT_DEVELOPMENT: require('../../Api/Departments/IT-Development/Models/Association'),
+//     LOGISTIC: require('../../Api/Departments/Logistics/Models/Association'),
+//     PARTNERSHIP: require('../../Api/Departments/Partnerships/Models/Association'),
+//     PHARMACY: require('../../Api/Departments/Pharmacy/Models/Association'),
+//     SALES_MARKETING: require('../../Api/Departments/Sales-marketing/Models/Association'),
+// };
