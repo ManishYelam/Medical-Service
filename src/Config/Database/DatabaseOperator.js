@@ -22,7 +22,7 @@ const DatabaseOperator = async (health_id) => {
         }
     });
     
-    return data &&  console.log(data);;
+    return data &&  console.log(data);
 };
 
 DatabaseOperator('MEDSRV437293')

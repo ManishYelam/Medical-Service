@@ -14,6 +14,22 @@ const databases = [
     'SALES_MARKETING',
 ];
 
+const prefixes = {
+    medicalService: 'MEDSRV',
+    compliance: 'COMPLG',
+    customerSupport: 'CUSTSP',
+    dataAnalytics: 'DATANA',
+    financeAccounting: 'FINACC',
+    healthcare: 'HEALTH',
+    humanResources: 'HRDEPT',
+    inventoryManagement: 'INVMNT',
+    itDevelopment: 'ITDEVP',
+    logistics: 'LOGIST',
+    partnership: 'PARTNR',
+    pharmacy: 'PHARMA',
+    salesMarketing: 'SALESM',
+};
+
 const departmentMapping = {
     'MEDSRV': "MAIN",
     'COMPLG': "COMPLIANCE_LEGAL",
@@ -64,6 +80,7 @@ const paths = {
 
 module.exports = {
     databases,
+    prefixes,
     departmentMapping,
     DEPARTMENTS,
     paths

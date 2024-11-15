@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { prefixes } = require('./LOV/Dept');
+const { prefixes } = require('../Config/Database/Data');
 
 const generateUniqueID = (prefix) => {
     const randomDigits = Math.floor(100000 + Math.random() * 900000).toString();
