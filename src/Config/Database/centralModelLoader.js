@@ -13,6 +13,4 @@ for (const [key, relativePath] of Object.entries(paths)) {
     }
 }
 
-console.log(models);
-
 module.exports = models;
