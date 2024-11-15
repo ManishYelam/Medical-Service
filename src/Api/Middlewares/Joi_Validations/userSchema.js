@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const { checkExistsEmail, checkExistsUsername, } = require('../../Services/UserService');
-const { prefixes } = require('../../../Utils/LOV/Dept');
+const { prefixes } = require('../../../Config/Database/Data');
 
 const checkEmailDuplicate = async (value, helpers) => {
     const user = await checkExistsEmail(value);
