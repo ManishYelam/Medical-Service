@@ -2,8 +2,7 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config'); // Ensure this is the correct path
 const User = require('./User'); // Make sure the User model is correctly defined and exported
 
-// Define the UserLog model
-const UserLog = sequelize.MAIN_DB_NAME.define('UserLog', {
+const userlogAttribute = {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -53,10 +52,13 @@ const UserLog = sequelize.MAIN_DB_NAME.define('UserLog', {
         allowNull: false,
         defaultValue: DataTypes.NOW,
     }
-}, {
-    tableName: 'tbl_user_log',  // Table name in the database
-    timestamps: false,          // Disable automatic timestamps
-    underscored: true,          // Use snake_case in column names
-});
+}
+// Define the UserLog model
+const UserLog = sequelize.MAIN_DB_NAME.define('UserLog', userlogAttribute,
+    {
+        tableName: 'tbl_user_log',  // Table name in the database
+        timestamps: false,          // Disable automatic timestamps
+        underscored: true,          // Use snake_case in column names
+    });
 
 module.exports = UserLog;

@@ -14,6 +14,21 @@ const databases = [
     'SALES_MARKETING',
 ];
 
+const DATABASE_KEYS = [
+    'MAIN_DB_NAME',
+    'COMPLIANCE_LEGAL_DB_NAME',
+    'CUSTOMER_SUPPORT_DB_NAME',
+    'FINANCE_ACCOUNTING_DB_NAME',
+    'HEALTHCARE_DB_NAME',
+    'HR_DB_NAME',
+    'INVENTORY_MANAGEMENT_DB_NAME',
+    'IT_DEVELOPMENT_DB_NAME',
+    'LOGISTIC_DB_NAME',
+    'PARTNERSHIP_DB_NAME',
+    'PHARMACY_DB_NAME',
+    'SALES_MARKETING',
+  ];
+
 const prefixes = {
     medicalService: 'MEDSRV',
     compliance: 'COMPLG',
@@ -83,7 +98,8 @@ module.exports = {
     prefixes,
     departmentMapping,
     DEPARTMENTS,
-    paths
+    paths,
+    DATABASE_KEYS
 }
 
 

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
 
-const Department = sequelize.MAIN_DB_NAME.define('Department', {
+const departmentAttribute = {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -33,7 +33,13 @@ const Department = sequelize.MAIN_DB_NAME.define('Department', {
         type: DataTypes.STRING,
         allowNull: false
     }
-}, { tableName: 'tbl_departments',timestamps: true });
+}
+
+const Department = sequelize.MAIN_DB_NAME.define('Department', departmentAttribute,
+    {
+        tableName: 'tbl_departments',
+        timestamps: true
+    });
 
 module.exports = Department;
 

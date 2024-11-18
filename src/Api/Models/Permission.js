@@ -2,7 +2,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
 
-const Permission = sequelize.MAIN_DB_NAME.define('Permission', {
+const permissionAttribute = {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -13,6 +13,12 @@ const Permission = sequelize.MAIN_DB_NAME.define('Permission', {
         allowNull: false,
         unique: true
     }
-}, { tableName: 'tbl_permission',timestamps: true });
+}
+
+const Permission = sequelize.MAIN_DB_NAME.define('Permission', permissionAttribute,
+    {
+        tableName: 'tbl_permission',
+        timestamps: true
+    });
 
 module.exports = Permission;

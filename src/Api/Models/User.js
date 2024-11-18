@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
 const Role = require('./Role');
 
-const User = sequelize.MAIN_DB_NAME.define('User', {
+const userAttribute = {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -63,6 +63,11 @@ const User = sequelize.MAIN_DB_NAME.define('User', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     }
-}, { tableName: 'tbl_user', timestamps: true });
+}
+const User = sequelize.MAIN_DB_NAME.define('User', userAttribute,
+    {
+        tableName: 'tbl_user',
+        timestamps: true
+    });
 
 module.exports = User;
