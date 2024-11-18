@@ -7,14 +7,14 @@ const authMiddleware = async (req, res, next) => {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
     
     // Extract health_id from headers, body, or query (adjust as needed)
-    const health_id = req.headers['health_id'] || req.body.health_id || req.query.health_id;
-
+    // const health_id = req.headers['health_id'] || req.body.health_id || req.query.health_id;
+    // console.log(req);
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized: No token provided' });
     }
-    if (!health_id) {
-        return res.status(400).json({ message: 'Bad Request: No health_id provided' });
-    }
+    // if (!health_id) {
+    //     return res.status(400).json({ message: 'Bad Request: No health_id provided' });
+    // }
 
     try {
         // Verify the token
@@ -53,7 +53,7 @@ const authMiddleware = async (req, res, next) => {
         req.user = decoded; 
         req.token = token;
         req.ip = ip;
-        req.health_id = health_id; // Attach health_id to the request
+        // req.health_id = health_id; // Attach health_id to the request
 
         // Logging user activity
         const logData = {
