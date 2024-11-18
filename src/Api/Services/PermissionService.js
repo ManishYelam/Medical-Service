@@ -1,12 +1,16 @@
 const models = require("../../Config/Database/centralModelLoader");
 
+const { PermissionModel } = require("../Models/ModelOperator/DataModel");
+
 const Permission = models.MAIN.Permission;
+
+// const Permission = PermissionModel();
 
 class PermissionService {
     async createPermission(data) {
         return Permission.create(data);
     }
-    
+
     async getAllPermissions() {
         return Permission.findAll();
     }

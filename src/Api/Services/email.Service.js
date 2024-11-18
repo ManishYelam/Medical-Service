@@ -1,9 +1,12 @@
 
 const sendMail = require('../../Config/Setting/nodemailer.config');
 const { registrationTemplate, passwordChangeTemplate, performanceTrackingTemplate, systemLogsTemplate, notificationTemplate, } = require('../EmailTemplets/Templates');
-const models = require('../../Config/Database/centralModelLoader');
+const { UserModel } = require('../Models/ModelOperator/DataModel');
+// const models = require('../../Config/Database/centralModelLoader');
 
-const User = models.MAIN.User;
+// const User = models.MAIN.User;
+
+// const User = UserModel();
 
 module.exports = {
   sendLaunchCodeEmail: async (userId, userName, userEmail, verificationUrl, otp) => {

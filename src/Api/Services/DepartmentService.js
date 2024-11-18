@@ -1,6 +1,10 @@
-const models = require("../../Config/Database/centralModelLoader");
+// const models = require("../../Config/Database/centralModelLoader");
 
-const Department = models.MAIN.Department;
+const { DepartmentModel } = require("../Models/ModelOperator/DataModel");
+
+// const Department = models.MAIN.Department;
+
+// const Department = DepartmentModel();
 
 class DepartmentService {
     async createDepartment(data) {
