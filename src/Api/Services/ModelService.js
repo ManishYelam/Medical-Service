@@ -19,4 +19,4 @@ module.exports = {
     PermissionModel: async (req, operation, updateData) => await fetchModelData(req, 'Permission', 'Permission', operation, updateData),
     RolePermissionsModel: async (req, operation, updateData) => await fetchModelData(req, 'RolePermissions', 'RolePermissions', operation, updateData),
     DepartmentModel: async (req, operation, updateData) => await fetchModelData(req, 'Department', 'Department', operation, updateData)
-  };
+};
