@@ -27,7 +27,7 @@ const authRouter = express.Router();
 authRouter
 .post('/login',validate(loginSchema), AuthController.login)
 .post('/logout', authMiddleware, AuthController.logout)
-.post('/forget-password/:email', AuthController.forgetPassword)
+.post('/forget-password/:email', authMiddleware, AuthController.forgetPassword)
 .post('/reset-password', validate(resetPasswordSchema), authMiddleware, AuthController.resetPassword)
 .post('/change-password', validate(changePasswordSchema), authMiddleware, AuthController.changePassword)
 .post('/refresh-token', validate(refreshTokenSchema), authMiddleware, AuthController.refreshToken)
