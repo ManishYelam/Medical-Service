@@ -3,13 +3,25 @@ const { JWT_CONFIG } = require('../../Utils/constants');
 const { comparePassword, hashPassword } = require('../Helpers/hashPassword');
 const { generateToken, verifyToken } = require('../../Utils/jwtSecret');
 const { generateOTPTimestamped } = require('../../Utils/OTP');
+const { sendResetPasswordCodeEmail, sendPasswordChangeEmail } = require('../Services/email.Service');
+const { DatabaseOperator } = require('../../Config/Database/DatabaseOperator');
+const { UserModel, RoleModel, PermissionModel, UserLogModel } = require('../Models/ModelOperator/DataModel');
 const { Role, Permission, UserLog } = require('../Models/Association');
 const models = require('../../Config/Database/centralModelLoader');
-const { sendResetPasswordCodeEmail, sendPasswordChangeEmail } = require('../Services/email.Service');
+
+const User = models.MAIN.User;
+// const Role = models.MAIN.Role;
+// const Permission = models.MAIN.Permission;
+// const UserLog = models.MAIN.UserLog;
+
+// const User = UserModel();
+// const Role = RoleModel();
+// const Permission = PermissionModel();
+// const UserLog = UserLogModel();
 
 const AuthService = {
   login: async (healthId, usernameOrEmail, password, req, res) => {
-    const user = await models.MAIN.User.findOne({
+    const user = await User.findOne({
       where: {
         health_id: healthId,
         [Op.or]: [
@@ -22,7 +34,7 @@ const AuthService = {
         model: Role, attributes: ['id', 'name', 'description'],
         include:
           [{
-            model: Permission, attributes: ['id', 'name'],
+            model: Permission,
           }]
       }]
     });
@@ -40,7 +52,9 @@ const AuthService = {
       name: permission.name,
     }));
     const token = generateToken(user, req, res);
-    return { token, user, permissions: permissionsArray };
+    const data = await DatabaseOperator(healthId);
+
+    return { token, data, healthId, user, permissions: permissionsArray };
   },
 
   logout: async (userId, token, ip) => {
@@ -50,7 +64,7 @@ const AuthService = {
     // Optionally, blacklist the JWT if using a blacklist mechanism
     // await blacklistToken(token);
     // Log the logout event in the UserLog table
-    await models.MAIN.UserLog.create({
+    await UserLog.create({
       userId,
       sourceIp: ip,
       logoffBy: 'USER',

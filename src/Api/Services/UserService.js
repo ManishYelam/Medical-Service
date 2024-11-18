@@ -4,10 +4,15 @@ const { generateOTPTimestamped, verifyOTPTimestamped } = require('../../Utils/OT
 const { sendLaunchCodeEmail, sendVerificationEmail } = require('./email.Service');
 const { generateUniqueIDForHealth } = require('../../Utils/generateUniqueID');
 const models = require('../../Config/Database/centralModelLoader');
+const { UserModel, RoleModel, PermissionModel } = require('../Models/ModelOperator/DataModel');
 
 const User = models.MAIN.User;
 const Role = models.MAIN.Role;
 const Permission = models.MAIN.Permission;
+
+// const User = UserModel();
+// const Role = RoleModel();
+// const Permission = PermissionModel();
 
 class UserService {
     async createUser(data) {

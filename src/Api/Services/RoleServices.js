@@ -1,7 +1,12 @@
 const models = require("../../Config/Database/centralModelLoader");
 
+const { RoleModel, PermissionModel } = require("../Models/ModelOperator/DataModel");
+
 const Role = models.MAIN.Role;
 const Permission = models.MAIN.Permission;
+
+// const Role = RoleModel();
+// const Permission = PermissionModel();
 
 class RoleService {
     async createRole(data) {
@@ -14,7 +19,7 @@ class RoleService {
         const permissions = await Permission.findAll({ where: { id: permissionIds } });
         return role.addPermissions(permissions); // Sequelize magic method
     }
-    
+
     async getAllRoles() {
         return Role.findAll({ include: Permission });
     }
