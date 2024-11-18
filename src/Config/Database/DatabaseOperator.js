@@ -22,8 +22,7 @@ module.exports = {
                 data[key] = { deptKey, deptModel, value };
             }
         });
-        console.log(data);
-        
+        // console.log(data);
         return data;
     },
     
