@@ -3,9 +3,11 @@ const AuthService = require('../Services/AuthServices');
 const AuthController = {
   login: async (req, res) => {
     try {
-      const {health_id, usernameOrEmail, password} = req.body;
-      const { token, user } = await AuthService.login(health_id, usernameOrEmail, password);
-      res.status(200).json({ token, user });
+      const { health_id, usernameOrEmail, password } = req.body;
+      const { token, data, user, permissions } = await AuthService.login(health_id, usernameOrEmail, password);
+      // Store Health ID in session after successful login
+      req.session.healthID = user.health_id;
+      res.status(200).json({ token, user, permissions, data, });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -17,9 +19,14 @@ const AuthController = {
     const ip = req.headers['x-forwarded-for'] || req.ip;
     try {
       const response = await AuthService.logout(userId, token, ip);
-      req.token = null;
-      console.log(response);
-      return res.status(200).json(response);
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({ message: 'Logout failed: Session error' });
+        }
+        req.token = null;
+        res.clearCookie('connect.sid');
+        return res.status(200).json(response);
+      });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }

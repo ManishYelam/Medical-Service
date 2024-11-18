@@ -5,10 +5,19 @@ const UserLogService = require('../Services/UserLogService');
 const authMiddleware = async (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1];
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
+    
+    // Extract health_id from headers, body, or query (adjust as needed)
+    // const health_id = req.headers['health_id'] || req.body.health_id || req.query.health_id;
+    // console.log(req);
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized: No token provided' });
     }
+    // if (!health_id) {
+    //     return res.status(400).json({ message: 'Bad Request: No health_id provided' });
+    // }
+
     try {
+        // Verify the token
         const decoded = verifyToken(token);
         const user = await User.findByPk(decoded.id, {
             include: [
@@ -21,14 +30,19 @@ const authMiddleware = async (req, res, next) => {
                 }
             ]
         });
+
         if (!user) {
             return res.status(401).json({ message: 'Unauthorized: User not found' });
         }
+
+        // Extract role and permissions
         const role = user.Role;
         const permissions = role.Permissions ? role.Permissions.map(permission => ({
             id: permission.id,
             name: permission.name
         })) : [];
+
+        // Attach user details, token, ip, and health_id to req
         req.user = {
             id: user.id,
             username: user.username,
@@ -37,8 +51,9 @@ const authMiddleware = async (req, res, next) => {
             permissions: permissions
         };
         req.user = decoded; 
-        req.token = token; 
+        req.token = token;
         req.ip = ip;
+        // req.health_id = health_id; // Attach health_id to the request
 
         // Logging user activity
         const logData = {
