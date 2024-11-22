@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
-const Role = require('./Role');
 
 const userAttribute = {
     id: {
@@ -64,6 +63,7 @@ const userAttribute = {
         defaultValue: false,
     }
 }
+
 const User = sequelize.MAIN_DB_NAME.define('User', userAttribute,
     {
         tableName: 'tbl_user',

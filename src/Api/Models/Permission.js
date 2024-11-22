@@ -1,4 +1,3 @@
-// models/Permission.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
 

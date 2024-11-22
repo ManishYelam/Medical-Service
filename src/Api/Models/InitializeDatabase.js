@@ -4,6 +4,8 @@ const { User, UserLog, Role, Permission, RolePermissions, Department } = require
 module.exports = {
   InitializeDatabase: async () => {
     try {
+      // console.log(sequelize);
+      
       sequelize.MAIN_DB_NAME.sync();
       // sequelize.COMPLIANCE_LEGAL_DB_NAME.sync();
       // sequelize.CUSTOMER_SUPPORT__DB_NAME.sync();
@@ -15,7 +17,7 @@ module.exports = {
       // sequelize.LOGISTIC_DB_NAME.sync();
       // sequelize.PARTNERSHIP_DB_NAME.sync();
       // sequelize.PHARMACY_DB_NAME.sync();
-      // sequelize.SALES_MARKETING.sync();
+      // sequelize.SALES_MARKETING_DB_NAME.sync();
 
       // sequelize.MAIN_DB_NAME.drop();
       // sequelize.COMPLIANCE_LEGAL_DB_NAME.drop();
@@ -28,7 +30,7 @@ module.exports = {
       // sequelize.LOGISTIC_DB_NAME.drop();
       // sequelize.PARTNERSHIP_DB_NAME.drop();
       // sequelize.PHARMACY_DB_NAME.drop();
-      // sequelize.SALES_MARKETING.drop();
+      // sequelize.SALES_MARKETING_DB_NAME.drop();
 
       console.log('Database & tables created!');
     } catch (error) {

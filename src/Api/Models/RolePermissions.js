@@ -1,7 +1,5 @@
-// models/RolePermissions.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../Config/Database/db.config');
-console.log(sequelize);
 
 const rolePermissionsAttributes = {
     role_id: {
