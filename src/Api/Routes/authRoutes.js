@@ -22,6 +22,7 @@ const AuthController = require('../Controllers/AuthController');
 const authMiddleware = require('../Middlewares/authorizationMiddleware');
 const validate = require('../Middlewares/validateMiddleware');
 const { loginSchema, resetPasswordSchema, changePasswordSchema, refreshTokenSchema, forgetPasswordSchema } = require('../Middlewares/Joi_Validations/authSchema');
+const { getAllRecords, getRecords } = require('../Controllers/ModelController');
 
 const authRouter = express.Router();
 authRouter
@@ -31,6 +32,7 @@ authRouter
 .post('/reset-password', validate(resetPasswordSchema), authMiddleware, AuthController.resetPassword)
 .post('/change-password', validate(changePasswordSchema), authMiddleware, AuthController.changePassword)
 .post('/refresh-token', validate(refreshTokenSchema), authMiddleware, AuthController.refreshToken)
+.get('/models-data', authMiddleware, getRecords)
 
 module.exports = authRouter;
 

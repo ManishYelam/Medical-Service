@@ -1,6 +1,54 @@
-const { Op } = require('sequelize');
-const { UserLogModel } = require('../Models/ModelOperator/DataModel');
-const { UserLog } = require('../Models/Association');
+const { Op } = require("sequelize");
+const { fetchModelData } = require("../Models/ModelOperator/DataModel");
+
+class UserLogService {
+    // Create a new user log
+    async createUserLog(health_id, data) {
+        return await fetchModelData(health_id, 'UserLog', 'UserLog', 'create', data);
+    }
+
+    // Get all user logs
+    async getAllUserLogs(health_id) {
+        return await fetchModelData(health_id, 'UserLog', 'UserLog', 'findAll');
+    }
+
+    // Get user log by ID
+    async getUserLogById(health_id, id) {
+        return await fetchModelData(health_id, 'UserLog', 'UserLog', 'findOne', { id });
+    }
+
+    // Update a user log by ID
+    async updateUserLog(health_id, id, data) {
+        return await fetchModelData(health_id, 'UserLog', 'UserLog', 'update', { id, ...data });
+    }
+
+    // Delete a user log by ID
+    async deleteUserLog(health_id, id) {
+        return await fetchModelData(health_id, 'UserLog', 'UserLog', 'destroy', { id });
+    }
+
+    // Delete logs in a date range
+    async deleteLogsInRange(health_id, startDate, endDate) {
+        return await fetchModelData(health_id, 'UserLog', 'UserLog', 'destroy', {
+            login_at: {
+                [Op.between]: [new Date(startDate), new Date(endDate)],
+            },
+        });
+    }
+}
+
+module.exports = new UserLogService();
+
+
+
+
+
+
+
+
+// const { Op } = require('sequelize');
+// const { UserLogModel } = require('../Models/ModelOperator/DataModel');
+// const { UserLog } = require('../Models/Association');
 
 
 // class UserLogService {
@@ -100,41 +148,41 @@ const { UserLog } = require('../Models/Association');
 
 
 
-class UserLogService {
-    async createUserLog(data) {
-        return await UserLog.create(data);
-    }
+// class UserLogService {
+//     async createUserLog(data) {
+//         return await UserLog.create(data);
+//     }
 
-    async getAllUserLogs() {
-        return await UserLog.findAll();
-        // return await UserLogModel('MEDSRV718079');
-    }
+//     async getAllUserLogs() {
+//         return await UserLog.findAll();
+//         // return await UserLogModel('MEDSRV718079');
+//     }
 
-    async getUserLogById(id) {
-        return await UserLog.findByPk(id);
-    }
+//     async getUserLogById(id) {
+//         return await UserLog.findByPk(id);
+//     }
 
-    async updateUserLog(id, data) {
-        const userLog = await UserLog.findByPk(id);
-        if (!userLog) throw new Error('User Log not found');
-        return await UserLog.update(data, { where: { id } });
-    }
+//     async updateUserLog(id, data) {
+//         const userLog = await UserLog.findByPk(id);
+//         if (!userLog) throw new Error('User Log not found');
+//         return await UserLog.update(data, { where: { id } });
+//     }
 
-    async deleteUserLog(id) {
-        const userLog = await UserLog.findByPk(id);
-        if (!userLog) throw new Error('User Log not found');
-        return await UserLog.destroy({ where: { id } });
-    }
+//     async deleteUserLog(id) {
+//         const userLog = await UserLog.findByPk(id);
+//         if (!userLog) throw new Error('User Log not found');
+//         return await UserLog.destroy({ where: { id } });
+//     }
 
-    async deleteLogsInRange(startDate, endDate) {
-        return UserLog.destroy({
-            where: {
-                login_at: {
-                    [Op.between]: [new Date(startDate), new Date(endDate)],
-                },
-            },
-        });
-    }
-}
+//     async deleteLogsInRange(startDate, endDate) {
+//         return UserLog.destroy({
+//             where: {
+//                 login_at: {
+//                     [Op.between]: [new Date(startDate), new Date(endDate)],
+//                 },
+//             },
+//         });
+//     }
+// }
 
-module.exports = new UserLogService();
+// module.exports = new UserLogService();
