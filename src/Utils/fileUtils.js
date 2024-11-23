@@ -29,12 +29,12 @@ const validateFile = (file) => {
     } else if (fileCategories.csvFiles.includes(mimetype)) {
         return file.size <= maxSmallSize;
     } else {
-        return false; // Invalid file type
+        return false; 
     }
 };
 
 const generateFileUrl = (filename) => {
-    return `/uploads/${filename}`; // Generates URL for uploaded files
+    return `/uploads/${filename}`;
 };
 
 module.exports = { validateFile, generateFileUrl };

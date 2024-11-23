@@ -3,6 +3,18 @@ const path = require('path');
 const XLSX = require('xlsx');
 
 module.exports = {
+  parseCSV: (filePath) => {
+    return new Promise((resolve, reject) => {
+      const data = [];
+      // Stream the CSV file using fast-csv
+      fs.createReadStream(filePath)
+        .pipe(csv.parse({ headers: true, skipEmptyLines: true }))
+        .on('data', (row) => { data.push(row); })
+        .on('end', () => { resolve(data); })
+        .on('error', (error) => { reject(error); });
+    });
+  },
+
   // Read an Excel file and return its content as JSON
   readExcelFile: (filePath) => {
     try {
