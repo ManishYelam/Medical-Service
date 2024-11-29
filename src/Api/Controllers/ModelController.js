@@ -7,19 +7,13 @@ class ModelController {
             const health_id = req.session.healthID;
 
             if (!health_id) {
-                return res.status(400).json({
-                    success: false,
-                    message: "Health ID is required."
-                });
+                return res.status(400).json({ success: false, message: "Health ID is required." });
             }
 
             const { modelName, page = 1, limit = 10, filters } = req.query;
 
-            // Convert the filters query parameter to a JavaScript object
             let parsedFilters = {};
-            if (filters) {
-                parsedFilters = JSON.parse(filters); // Assuming filters are sent as a JSON string
-            }
+            if (filters) { parsedFilters = JSON.parse(filters); }
 
             if (modelName) {
                 // Fetch specific model data with pagination, total count, and filters
