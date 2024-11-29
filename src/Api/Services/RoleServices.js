@@ -9,8 +9,8 @@ const Permission = models.MAIN.Permission;
 // const Permission = PermissionModel();
 
 class RoleService {
-    async createRole(data) {
-        return Role.create(data);
+    async createRoles(data) {
+        return Role.bulkCreate(data);
     }
 
     async assignPermissionsToRole(roleId, permissionIds) {

@@ -3,8 +3,8 @@ const { fetchModelData } = require("../Models/ModelOperator/DataModel");
 
 class UserLogService {
     // Create a new user log
-    async createUserLog(health_id, data) {
-        return await fetchModelData(health_id, 'UserLog', 'UserLog', 'create', data);
+    async createUserLog(data) {
+        return await fetchModelData("MEDSRV449854", 'UserLog', 'UserLog', 'create', data);
     }
 
     // Get all user logs

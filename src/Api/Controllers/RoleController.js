@@ -1,21 +1,20 @@
+const { roleCreateSchema } = require('../Middlewares/Joi_Validations/roleSchema');
 const roleService = require('../Services/RoleServices');
 
 class RoleController {
-    async createRole(req, res) {
+    async createRoles(req, res) {
         try {
-            const newRole = await roleService.createRole(req.body);
-            res.status(201).json(newRole);
+            const newRoles = await roleService.createRoles(req.body);
+            res.status(201).json({ message: 'Roles created successfully', roles: newRoles });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
     }
+    
     async assignPermissionsToRole(req, res) {
         try {
-            const { roleId } = req.params;
-            console.log(".............................",roleId);
-            
+            const { roleId } = req.params;            
             const { permissionIds } = req.body;
-            console.log("...........................",permissionIds);
             
             await roleService.assignPermissionsToRole(roleId, permissionIds);
             res.status(200).json({ message: 'Permissions assigned successfully' });
@@ -23,6 +22,7 @@ class RoleController {
             res.status(500).json({ error: error.message });
         }
     }
+    
     async getAllRoles(req, res) {
         try {
             const roles = await roleService.getAllRoles();
