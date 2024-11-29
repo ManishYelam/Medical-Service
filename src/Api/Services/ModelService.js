@@ -11,17 +11,17 @@ class ModelService {
             Department: { type: 'Department', key: 'Department' }
         };
     }
-    async fetchAllRecords(health_id) {
+
+    async fetchAllRecords(health_id, page = 1, limit = 10) {
         const results = {};
         for (const modelName in this.modelMapping) {
             const selectedModel = this.modelMapping[modelName];
             try {
-                const records = await fetchModelData(health_id, selectedModel.type, selectedModel.key, 'findAll');
-                if (records.error) {
-                    results[modelName] = { error: records.error };
-                }
-                else {
-                    results[modelName] = { count: records.length, data: records };
+                const { data, totalCount } = await fetchModelData(health_id, selectedModel.type, selectedModel.key, {}, page, limit);
+                if (data.error) {
+                    results[modelName] = { error: data.error };
+                } else {
+                    results[modelName] = { totalCount: totalCount, data: data };
                 }
             } catch (error) {
                 results[modelName] = { error: error.message };
@@ -30,18 +30,19 @@ class ModelService {
         return results;
     }
 
-    async fetchSpecificModelRecords(health_id, modelName) {
+    async fetchSpecificModelRecords(health_id, modelName, page = 1, limit = 10) {
         const selectedModel = this.modelMapping[modelName];
         if (!selectedModel) { throw new Error(`Model "${modelName}" not found.`); }
 
-        const records = await fetchModelData(health_id, selectedModel.type, selectedModel.key, 'findAll');
-        if (records.error) { throw new Error(records.error); }
+        const { data, totalCount } = await fetchModelData(health_id, selectedModel.type, selectedModel.key, {}, page, limit);
+        if (data.error) { throw new Error(data.error); }
 
-        return { model: modelName, count: records.length, data: records };
+        return { model: modelName, totalCount: totalCount, data: data };
     }
 }
 
 module.exports = new ModelService();
+
 
 
 // module.exports = {
