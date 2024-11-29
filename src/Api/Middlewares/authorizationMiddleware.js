@@ -63,7 +63,7 @@ const authMiddleware = async (req, res, next) => {
             loginAt: new Date(),
             createdAt: new Date(),
         };
-        const existingLog = await UserLogService.getUserLogById(user.id);
+        const existingLog = await UserLogService.getUserLogById(user.health_id, user.id);
         if (!existingLog) {
             await UserLogService.createUserLog(logData);
         } else {
