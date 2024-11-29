@@ -16,7 +16,6 @@ class ModelController {
             if (filters) { parsedFilters = JSON.parse(filters); }
 
             if (modelName) {
-                // Fetch specific model data with pagination, total count, and filters
                 const result = await ModelService.fetchSpecificModelRecords(health_id, modelName, page, limit, parsedFilters);
                 return res.status(200).json({
                     success: true,
@@ -25,7 +24,6 @@ class ModelController {
                     totalCount: result.totalCount
                 });
             } else {
-                // Fetch all model data with pagination, total count, and filters
                 const results = await ModelService.fetchAllRecords(health_id, page, limit, parsedFilters);
                 return res.status(200).json({
                     success: true,
