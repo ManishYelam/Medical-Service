@@ -8,7 +8,7 @@ const Permission = models.MAIN.Permission;
 
 class PermissionService {
     async createPermission(data) {
-        return Permission.create(data);
+        return Permission.bulkCreate(data);
     }
 
     async getAllPermissions() {

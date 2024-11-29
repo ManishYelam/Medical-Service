@@ -24,7 +24,7 @@ const { permissionCreateSchema, permissionUpdateSchema } = require('../Middlewar
 const permissionRouter = express.Router();
 
 permissionRouter
-    .post('/', validate(permissionCreateSchema), permissionController.createPermission)
+    .post('/', validate(permissionCreateSchema), permissionController.createPermissions)
     .get('/', permissionController.getAllPermissions)
     .get('/:id', permissionController.getPermissionById)
     .put('/:id', validate(permissionUpdateSchema), permissionController.updatePermission)

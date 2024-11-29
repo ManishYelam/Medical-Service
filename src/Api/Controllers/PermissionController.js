@@ -1,7 +1,7 @@
 const permissionService = require('../Services/PermissionService');
 
 class PermissionController {
-    async createPermission(req, res) {
+    async createPermissions(req, res) {
         try {
             const newPermission = await permissionService.createPermission(req.body);
             res.status(201).json(newPermission);

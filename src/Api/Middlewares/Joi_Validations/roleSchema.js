@@ -60,14 +60,21 @@ const roleQuerySchema = Joi.object({
         }),
 });
 
-const permissionCreateSchema = Joi.object({
-    name: Joi.string().max(100).required()
-        .messages({
-            'string.base': 'Permission name must be a string',
-            'string.empty': 'Permission name is required',
-            'string.max': 'Permission name must be at most 100 characters long',
-        }),
-});
+const permissionCreateSchema = Joi.array()
+    .items(
+        Joi.object({
+            name: Joi.string().max(100).required().messages({
+                'string.base': 'Permission name must be a string',
+                'string.empty': 'Permission name is required',
+                'string.max': 'Permission name must be at most 100 characters long',
+            }),
+        })
+    )
+    .min(1)
+    .messages({
+        'array.base': 'Request body must be an array of permissions',
+        'array.min': 'At least one permission is required',
+    });
 
 const permissionUpdateSchema = Joi.object({
     name: Joi.string().max(100).optional()
@@ -86,11 +93,11 @@ const rolePermissionsAssignSchema = Joi.object({
                 'number.positive': 'Each Permission ID must be a positive integer',
             })
     ).min(1).required()
-    .messages({
-        'array.base': 'Permission IDs must be an array',
-        'array.min': 'Permission IDs array must contain at least one item',
-        'any.required': 'Permission IDs are required',
-    })
+        .messages({
+            'array.base': 'Permission IDs must be an array',
+            'array.min': 'Permission IDs array must contain at least one item',
+            'any.required': 'Permission IDs are required',
+        })
 });
 
 module.exports = {
