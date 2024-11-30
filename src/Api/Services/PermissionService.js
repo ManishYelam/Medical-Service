@@ -1,29 +1,28 @@
-const models = require("../../Config/Database/centralModelLoader");
-
-const { PermissionModel } = require("../Models/ModelOperator/DataModel");
-
-const Permission = models.MAIN.Permission;
-
-// const Permission = PermissionModel();
+const { loadModels } = require("../Models/ModelOperator/LoadModels");
 
 class PermissionService {
-    async createPermission(data) {
+    async createPermission(health_id, data) {
+        const { Permission } = await loadModels(health_id);
         return Permission.bulkCreate(data);
     }
 
-    async getAllPermissions() {
+    async getAllPermissions(health_id) {
+        const { Permission } = await loadModels(health_id);
         return Permission.findAll();
     }
 
-    async getPermissionById(id) {
+    async getPermissionById(health_id, id) {
+        const { Permission } = await loadModels(health_id);
         return Permission.findByPk(id);
     }
 
-    async updatePermission(id, data) {
+    async updatePermission(health_id, id, data) {
+        const { Permission } = await loadModels(health_id);
         return Permission.update(data, { where: { id } });
     }
 
-    async deletePermission(id) {
+    async deletePermission(health_id, id) {
+        const { Permission } = await loadModels(health_id);
         return Permission.destroy({ where: { id } });
     }
 }

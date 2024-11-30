@@ -3,16 +3,18 @@ const permissionService = require('../Services/PermissionService');
 class PermissionController {
     async createPermissions(req, res) {
         try {
-            const newPermission = await permissionService.createPermission(req.body);
+            const health_id = req.session.healthID;
+            const newPermission = await permissionService.createPermission(health_id, req.body);
             res.status(201).json(newPermission);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
     }
-    
+
     async getAllPermissions(req, res) {
         try {
-            const permissions = await permissionService.getAllPermissions();
+            const health_id = req.session.healthID;
+            const permissions = await permissionService.getAllPermissions(health_id);
             res.status(200).json(permissions);
         } catch (error) {
             res.status(500).json({ message: error.message });
@@ -21,7 +23,8 @@ class PermissionController {
 
     async getPermissionById(req, res) {
         try {
-            const permission = await permissionService.getPermissionById(req.params.id);
+            const health_id = req.session.healthID;
+            const permission = await permissionService.getPermissionById(health_id, req.params.id);
             if (!permission) return res.status(404).json({ message: 'Permission not found' });
             res.status(200).json(permission);
         } catch (error) {
@@ -31,7 +34,8 @@ class PermissionController {
 
     async updatePermission(req, res) {
         try {
-            const updatedPermission = await permissionService.updatePermission(req.params.id, req.body);
+            const health_id = req.session.healthID;
+            const updatedPermission = await permissionService.updatePermission(health_id, req.params.id, req.body);
             if (updatedPermission[0] === 0) return res.status(404).json({ message: 'Permission not found' });
             res.status(200).json({ message: 'Permission updated successfully' });
         } catch (error) {
@@ -41,7 +45,8 @@ class PermissionController {
 
     async deletePermission(req, res) {
         try {
-            const deleted = await permissionService.deletePermission(req.params.id);
+            const health_id = req.session.healthID;
+            const deleted = await permissionService.deletePermission(health_id, req.params.id);
             if (!deleted) return res.status(404).json({ message: 'Permission not found' });
             res.status(200).json({ message: 'Permission deleted successfully' });
         } catch (error) {
