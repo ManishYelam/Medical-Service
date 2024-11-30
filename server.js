@@ -47,8 +47,7 @@ const DefineRoutes = () => {
       const results = await Promise.all(promises);
       res.json(results);
     } catch (error) {
-      console.error('Error fetching data:', error);
-      res.status(500).json({ error: 'Error fetching data from services' });
+      throw new Error('Error fetching data from services');
     }
   });
 
@@ -58,8 +57,7 @@ const DefineRoutes = () => {
       await sendMail(to, subject, text);
       res.status(200).send('Email sent successfully.');
     } catch (error) {
-      console.error('Error sending email', { error });
-      res.status(500).send('Failed to send email.');
+      throw new Error('Failed to send email.');
     }
   });
 
@@ -68,33 +66,22 @@ const DefineRoutes = () => {
 
 const StartServer = async () => {
   try {
-    console.log(`Initializing server... at  ${new Date().toLocaleString()}.`);
-
     await Promise.all([
       TestMySQLConnection(),
-      TestSequelizeConnection(),      
-      StartDeptServer()
+      TestSequelizeConnection(),
+      StartDeptServer(),
     ]);
-
-    console.log(`Database connections established successfully at ${new Date().toLocaleString()}.`);
-
     InitializeDatabase();
-    console.log(`Database initialized successfully at ${new Date().toLocaleString()}.`);
-
     DefineRoutes();
 
-    const PORT = process.env.MAIN_SERVER_PORT || 5000; 
+    const PORT = process.env.MAIN_SERVER_PORT || 5000;
     server.listen(PORT, () => {
       console.log(`All department servers are running successfully at ${new Date().toLocaleString()}.`);
-      console.log(`Main server running on port ${PORT} at ${new Date().toLocaleString()}.`);      
-    })
+      console.log(`Main server running on port ${PORT} at ${new Date().toLocaleString()}.`);
+    });
   } catch (error) {
-    console.error('Error during server startup:', error.message);
-    console.error('Stack Trace:', error.stack);
-    process.exit(1); 
+    throw new Error(`Error during server startup: ${error.message}`);
   }
 };
 
 StartServer();
-
-
