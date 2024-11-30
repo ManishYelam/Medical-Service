@@ -1,30 +1,26 @@
-const models = require("../../Config/Database/centralModelLoader");
-
-const { RoleModel, PermissionModel } = require("../Models/ModelOperator/DataModel");
-
-const Role = models.MAIN.Role;
-const Permission = models.MAIN.Permission;
-
-// const Role = RoleModel();
-// const Permission = PermissionModel();
+const { loadModels } = require("../Models/ModelOperator/LoadModels");
 
 class RoleService {
-    async createRoles(data) {
+    async createRoles(health_id, data) {
+        const { Role } = await loadModels(health_id);
         return Role.bulkCreate(data);
     }
 
-    async assignPermissionsToRole(roleId, permissionIds) {
+    async assignPermissionsToRole(health_id, roleId, permissionIds) {
+        const { Role, Permission } = await loadModels(health_id);
         const role = await Role.findByPk(roleId);
         if (!role) throw new Error('Role not found');
         const permissions = await Permission.findAll({ where: { id: permissionIds } });
         return role.addPermissions(permissions); // Sequelize magic method
     }
 
-    async getAllRoles() {
+    async getAllRoles(health_id,) {
+        const { Role, Permission } = await loadModels(health_id);
         return Role.findAll({ include: Permission });
     }
 
-    async getRoleById(id) {
+    async getRoleById(health_id, id) {
+        const { Role, Permission } = await loadModels(health_id);
         const role = await Role.findByPk(id, {
             include: {
                 model: Permission,
@@ -34,11 +30,13 @@ class RoleService {
         return role;
     }
 
-    async updateRole(id, data) {
+    async updateRole(health_id, id, data) {
+        const { Role } = await loadModels(health_id);
         return Role.update(data, { where: { id } });
     }
 
-    async deleteRole(id) {
+    async deleteRole(health_id, id) {
+        const { Role } = await loadModels(health_id);
         return Role.destroy({ where: { id } });
     }
 }
