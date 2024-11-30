@@ -47,8 +47,7 @@ const StartDeptServer = async () => {
 
     console.log(`All department servers are running successfully at ${new Date().toLocaleString()}.`);
   } catch (error) {
-    console.error('Error during department servers startup:', error.message);
-    console.error('Stack Trace:', error.stack);
+    throw new Error('Error during department servers startup:', error.message);
   }
 };
 
