@@ -1,61 +1,53 @@
 const { DatabaseOperator } = require('../../../Config/Database/DatabaseOperator');
 
 module.exports = {
-    fetchModelData: async (health_id, modelType, modelKey, filters = {}, page = 1, limit = 10) => {
-        try {
-            console.log(`✨ Received Health ID: ${health_id} ✨`);
+  fetchModelData: async (health_id, modelType, modelKey, filters = {}, page = 1, limit = 10) => {
+    try {
+      const data = await DatabaseOperator(health_id);
+      if (data.error) {
+        return { error: `Error in ${modelType}: ${data.error}` };
+      }
 
-            const data = await DatabaseOperator(health_id);
-            if (data.error) {
-                return { error: `Error in ${modelType}: ${data.error}` };
-            }
+      const userModel = data[modelKey];
+      const deptModel = userModel.deptModel;
+      const Model = deptModel[modelKey];
 
-            const userModel = data[modelKey];
-            const deptKey = userModel.deptKey;
-            const deptModel = userModel.deptModel;
-            const Model = deptModel[modelKey];
+      page = parseInt(page, 10);
+      limit = parseInt(limit, 10);
 
-            console.log(`✨ Performing 'findAll' on ${modelType} with pagination...✨ `);
-            console.log(`✨ Department Key: ✨`, deptKey);
-            console.log(`✨ Department Model: ✨`, deptModel);
-            console.log(`✨ Type of ${modelType}: ✨`, typeof Model);
-            console.log(`✨ ${modelType} Content: ✨`, Model);
+      const offset = (page - 1) * limit;
 
-            // Ensure that page and limit are integers
-            page = parseInt(page, 10);
-            limit = parseInt(limit, 10);
-
-            // Calculate offset for pagination
-            const offset = (page - 1) * limit;
-
-            // Apply filters and pagination (if any)
-            const modelData = await Model.findAll({
-                where: filters,
-                limit: limit,
-                offset: offset
-            });
-
-            // Get the total count of records without pagination
-            const totalCount = await Model.count({
-                where: filters
-            });
-
-            return {
-                data: modelData,
-                totalCount: totalCount
-            };
-
-        } catch (error) {
-            console.error(`Error performing 'findAll' on ${modelType}:`, error.message);
-            return { error: error.message };
-        }
+      const modelData = await Model.findAll({ where: filters, limit: limit, offset: offset });
+      const totalCount = await Model.count({ where: filters });
+      
+      return { data: modelData, totalCount: totalCount };
+    } catch (error) {
+      return { error: error.message };
     }
+  },
+
+  UserModel: async (health_id, filters = {}, page = 1, limit = 10) => {
+    return await module.exports.fetchModelData(health_id, 'User', 'User', filters, page, limit);
+  },
+
+  UserLogModel: async (health_id, filters = {}, page = 1, limit = 10) => {
+    return await module.exports.fetchModelData(health_id, 'UserLog', 'UserLog', filters, page, limit);
+  },
+
+  RoleModel: async (health_id, filters = {}, page = 1, limit = 10) => {
+    return await module.exports.fetchModelData(health_id, 'Role', 'Role', filters, page, limit);
+  },
+
+  PermissionModel: async (health_id, filters = {}, page = 1, limit = 10) => {
+    return await module.exports.fetchModelData(health_id, 'Permission', 'Permission', filters, page, limit);
+  },
+
+  RolePermissionsModel: async (health_id, filters = {}, page = 1, limit = 10) => {
+    return await module.exports.fetchModelData(health_id, 'RolePermissions', 'RolePermissions', filters, page, limit);
+  },
+
+  DepartmentModel: async (health_id, filters = {}, page = 1, limit = 10) => {
+    return await module.exports.fetchModelData(health_id, 'Department', 'Department', filters, page, limit);
+  },
+  
 };
-
-
-// module.exports.UserModel = async (health_id) => await fetchModelData(health_id, 'User', 'User');
-// module.exports.UserLogModel = async (health_id) => await fetchModelData(health_id, 'UserLog', 'UserLog');
-// module.exports.RoleModel = async (health_id) => await fetchModelData(health_id, 'Role', 'Role');
-// module.exports.PermissionModel = async (health_id) => await fetchModelData(health_id, 'Permission', 'Permission');
-// module.exports.RolePermissionsModel = async (health_id) => await fetchModelData(health_id, 'RolePermissions', 'RolePermissions');
-// module.exports.DepartmentModel = async (health_id) => await fetchModelData(health_id, 'Department', 'Department');
