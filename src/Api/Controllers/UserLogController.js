@@ -4,7 +4,7 @@ module.exports = {
     // Create a new user log
     createUserLog: async (req, res) => {
         try {
-            const newUserLog = await userLogService.createUserLog(req.session.healthID, req.body);
+            const newUserLog = await userLogService.createUserLog(req.user.health_id, req.body);
             res.status(201).json(newUserLog);
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -14,7 +14,7 @@ module.exports = {
     // Get all user logs
     getAllUserLogs: async (req, res) => {
         try {
-            const userLogs = await userLogService.getAllUserLogs(req.session.healthID);
+            const userLogs = await userLogService.getAllUserLogs(req.user.health_id);
             if (userLogs && userLogs.length > 0) {
                 res.json({ success: true, data: userLogs });
             } else {
@@ -29,7 +29,7 @@ module.exports = {
     // Get user log by ID
     getUserLogById: async (req, res) => {
         try {
-            const userLog = await userLogService.getUserLogById(req.session.healthID, req.params.id);
+            const userLog = await userLogService.getUserLogById(req.user.health_id, req.params.id);
             if (!userLog) return res.status(404).json({ error: 'User Log not found' });
             res.status(200).json(userLog);
         } catch (error) {
@@ -40,7 +40,7 @@ module.exports = {
     // Update a user log by ID
     updateUserLog: async (req, res) => {
         try {
-            const updatedUserLog = await userLogService.updateUserLog(req.session.healthID, req.params.id, req.body);
+            const updatedUserLog = await userLogService.updateUserLog(req.user.health_id, req.params.id, req.body);
             res.status(200).json(updatedUserLog);
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -50,7 +50,7 @@ module.exports = {
     // Delete a user log by ID
     deleteUserLog: async (req, res) => {
         try {
-            await userLogService.deleteUserLog(req.session.healthID, req.params.id);
+            await userLogService.deleteUserLog(req.user.health_id, req.params.id);
             res.status(204).send();
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -64,7 +64,7 @@ module.exports = {
             return res.status(400).json({ error: 'startDate and endDate are required.' });
         }
         try {
-            const result = await userLogService.deleteLogsInRange(req.session.healthID, start_date, end_date);
+            const result = await userLogService.deleteLogsInRange(req.user.health_id, start_date, end_date);
             if (result === 0) {
                 return res.status(404).json({ message: 'No records found in the specified range.' });
             }
@@ -93,7 +93,7 @@ module.exports = {
 
 //     getAllUserLogs: async (req, res) => {
 //         try {
-//             const userLogs = await UserLogModel(req.session.healthID);
+//             const userLogs = await UserLogModel(req.user.health_id);
 //             if (userLogs && userLogs.length > 0) {
 //               res.json({ success: true, data: userLogs });
 //             } else {

@@ -4,7 +4,7 @@ const { Op } = require('sequelize');
 class ModelController {
     async getRecords(req, res) {
         try {
-            const health_id = req.session.healthID;
+            const health_id = req.user.health_id;
 
             if (!health_id) {
                 return res.status(400).json({ success: false, message: "Health ID is required." });
@@ -52,7 +52,7 @@ module.exports = new ModelController();
 //     // Fetch records
 //     async getRecords(req, res) {
 //         try {
-//             const health_id = req.session.healthID;
+//             const health_id = req.user.health_id;
 
 //             if (!health_id) {
 //                 return res.status(400).json({
