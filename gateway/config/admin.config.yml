@@ -1,3 +1,4 @@
+# config/admin.yml
 admin:
   ui: true  # Enable UI for managing the gateway
   port: 9876

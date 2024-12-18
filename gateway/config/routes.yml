@@ -1,3 +1,4 @@
+# config/routes.yml
 - apiEndpoint: '/main/*'
   service: 'main-server'
   methods: ['GET', 'POST']
