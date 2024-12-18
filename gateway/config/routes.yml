@@ -1,0 +1,51 @@
+- apiEndpoint: '/main/*'
+  service: 'main-server'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/pharmacy/*'
+  service: 'pharmacy'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/logistics/*'
+  service: 'logistics'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/customer-support/*'
+  service: 'customer-support'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/sales-marketing/*'
+  service: 'sales-marketing'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/finance-accounting/*'
+  service: 'finance-accounting'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/compliance-legal/*'
+  service: 'compliance-legal'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/healthcare/*'
+  service: 'healthcare'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/it-development/*'
+  service: 'it-development'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/inventory-management/*'
+  service: 'inventory-management'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/data-analytics/*'
+  service: 'data-analytics'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/hr/*'
+  service: 'hr'
+  methods: ['GET', 'POST']
+
+- apiEndpoint: '/partnerships/*'
+  service: 'partnerships'
+  methods: ['GET', 'POST']

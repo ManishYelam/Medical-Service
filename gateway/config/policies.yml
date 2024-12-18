@@ -1,0 +1,14 @@
+- name: cors
+  enabled: true
+
+- name: basic-auth
+  enabled: true
+  config:
+    users:
+      admin: admin  
+
+- name: rate-limit
+  enabled: true
+  config:
+    max: 100
+    windowMs: 15 * 60 * 1000  # 15 minutes

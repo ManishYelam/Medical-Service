@@ -1,0 +1,129 @@
+http:
+  port: 8080  # API Gateway runs on port 8080
+
+# Define your services and their respective ports
+services:
+  - name: main-server
+    proxy:
+      target: 'http://localhost:5000'
+      changeOrigin: true
+
+  - name: pharmacy
+    proxy:
+      target: 'http://localhost:5001'
+      changeOrigin: true
+
+  - name: logistics
+    proxy:
+      target: 'http://localhost:5002'
+      changeOrigin: true
+
+  - name: customer-support
+    proxy:
+      target: 'http://localhost:5003'
+      changeOrigin: true
+
+  - name: sales-marketing
+    proxy:
+      target: 'http://localhost:5004'
+      changeOrigin: true
+
+  - name: finance-accounting
+    proxy:
+      target: 'http://localhost:5005'
+      changeOrigin: true
+
+  - name: compliance-legal
+    proxy:
+      target: 'http://localhost:5006'
+      changeOrigin: true
+
+  - name: healthcare
+    proxy:
+      target: 'http://localhost:5007'
+      changeOrigin: true
+
+  - name: it-development
+    proxy:
+      target: 'http://localhost:5008'
+      changeOrigin: true
+
+  - name: inventory-management
+    proxy:
+      target: 'http://localhost:5009'
+      changeOrigin: true
+
+  - name: data-analytics
+    proxy:
+      target: 'http://localhost:5010'
+      changeOrigin: true
+
+  - name: hr
+    proxy:
+      target: 'http://localhost:5011'
+      changeOrigin: true
+
+  - name: partnerships
+    proxy:
+      target: 'http://localhost:5012'
+      changeOrigin: true
+
+# Define your API endpoints
+apiEndpoints:
+  /main/*:
+    target: main-server
+    methods: ['GET', 'POST']
+
+  /pharmacy/*:
+    target: pharmacy
+    methods: ['GET', 'POST']
+
+  /logistics/*:
+    target: logistics
+    methods: ['GET', 'POST']
+
+  /customer-support/*:
+    target: customer-support
+    methods: ['GET', 'POST']
+
+  /sales-marketing/*:
+    target: sales-marketing
+    methods: ['GET', 'POST']
+
+  /finance-accounting/*:
+    target: finance-accounting
+    methods: ['GET', 'POST']
+
+  /compliance-legal/*:
+    target: compliance-legal
+    methods: ['GET', 'POST']
+
+  /healthcare/*:
+    target: healthcare
+    methods: ['GET', 'POST']
+
+  /it-development/*:
+    target: it-development
+    methods: ['GET', 'POST']
+
+  /inventory-management/*:
+    target: inventory-management
+    methods: ['GET', 'POST']
+
+  /data-analytics/*:
+    target: data-analytics
+    methods: ['GET', 'POST']
+
+  /hr/*:
+    target: hr
+    methods: ['GET', 'POST']
+
+  /partnerships/*:
+    target: partnerships
+    methods: ['GET', 'POST']
+
+# Optionally configure any security, authentication, etc.
+security:
+  enabled: true
+  policies:
+    - basic-auth

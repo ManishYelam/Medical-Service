@@ -1,0 +1,166 @@
+http:
+  port: 8080  # API Gateway runs on port 8080
+
+admin:
+  port: 9876
+  host: localhost
+
+serviceEndpoints:
+  httpbin:
+    url: 'https://httpbin.org'
+
+# Define your services and their respective ports
+services:
+  - name: main-server
+    proxy:
+      target: 'http://localhost:5000'
+      changeOrigin: true
+
+  - name: pharmacy
+    proxy:
+      target: 'http://localhost:5001'
+      changeOrigin: true
+
+  - name: logistics
+    proxy:
+      target: 'http://localhost:5002'
+      changeOrigin: true
+
+  - name: customer-support
+    proxy:
+      target: 'http://localhost:5003'
+      changeOrigin: true
+
+  - name: sales-marketing
+    proxy:
+      target: 'http://localhost:5004'
+      changeOrigin: true
+
+  - name: finance-accounting
+    proxy:
+      target: 'http://localhost:5005'
+      changeOrigin: true
+
+  - name: compliance-legal
+    proxy:
+      target: 'http://localhost:5006'
+      changeOrigin: true
+
+  - name: healthcare
+    proxy:
+      target: 'http://localhost:5007'
+      changeOrigin: true
+
+  - name: it-development
+    proxy:
+      target: 'http://localhost:5008'
+      changeOrigin: true
+
+  - name: inventory-management
+    proxy:
+      target: 'http://localhost:5009'
+      changeOrigin: true
+
+  - name: data-analytics
+    proxy:
+      target: 'http://localhost:5010'
+      changeOrigin: true
+
+  - name: hr
+    proxy:
+      target: 'http://localhost:5011'
+      changeOrigin: true
+
+  - name: partnerships
+    proxy:
+      target: 'http://localhost:5012'
+      changeOrigin: true
+
+# Define your API endpoints
+apiEndpoints:
+  /main/*:
+    target: main-server
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /pharmacy/*:
+    target: pharmacy
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /logistics/*:
+    target: logistics
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /customer-support/*:
+    target: customer-support
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /sales-marketing/*:
+    target: sales-marketing
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /finance-accounting/*:
+    target: finance-accounting
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /compliance-legal/*:
+    target: compliance-legal
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /healthcare/*:
+    target: healthcare
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /it-development/*:
+    target: it-development
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /inventory-management/*:
+    target: inventory-management
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /data-analytics/*:
+    target: data-analytics
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /hr/*:
+    target: hr
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+  /partnerships/*:
+    target: partnerships
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+  
+pipelines:
+  default:
+    apiEndpoints:
+      - api
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: httpbin 
+              changeOrigin: true
+
+# Optionally configure any security, authentication, etc.
+security:
+  enabled: true
+  policies:
+    - basic-auth
+
+
+
+
+
+
+

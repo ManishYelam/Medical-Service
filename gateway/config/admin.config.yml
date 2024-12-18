@@ -1,0 +1,10 @@
+admin:
+  ui: true  # Enable UI for managing the gateway
+  port: 9876
+  user: admin
+  password: secret
+  https:
+    enabled: true
+    port: 443  # Secure admin panel over HTTPS
+    cert: '/path/to/cert.pem'
+    key: '/path/to/key.pem'

@@ -1,0 +1,39 @@
+# config/services.yml
+main-server:
+  url: 'http://localhost:5000'
+
+pharmacy:
+  url: 'http://localhost:5001'
+
+logistics:
+  url: 'http://localhost:5002'
+
+customer-support:
+  url: 'http://localhost:5003'
+
+sales-marketing:
+  url: 'http://localhost:5004'
+
+finance-accounting:
+  url: 'http://localhost:5005'
+
+compliance-legal:
+  url: 'http://localhost:5006'
+
+healthcare:
+  url: 'http://localhost:5007'
+
+it-development:
+  url: 'http://localhost:5008'
+
+inventory-management:
+  url: 'http://localhost:5009'
+
+data-analytics:
+  url: 'http://localhost:5010'
+
+hr:
+  url: 'http://localhost:5011'
+
+partnerships:
+  url: 'http://localhost:5012'
