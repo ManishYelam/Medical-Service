@@ -1,36 +1,44 @@
 const multer = require('multer');
+const fs = require('fs');
 const path = require('path');
-const { validateFile } = require('../../Utils/fileUtils');
+const { getUploadPath, validateFile, generateFileUrl } = require('../../Utils/fileUtils');
+const { sizeLimits } = require('../../Config/Database/Data');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Directory where files are saved
+        const uploadPath = getUploadPath(file);
+        fs.mkdirSync(uploadPath, { recursive: true });
+        cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Unique filename with timestamp
-    }
+        const uniqueSuffix = `${file.originalname.replace(/[: ]/g, '_')}`;
+        cb(null, uniqueSuffix);
+    },
 });
 
+const upload = multer({ storage, limits: { fileSize: sizeLimits.large }, });
+
 const uploadMiddleware = (req, res, next) => {
-    const isMultiple = req.params.isMultiple === 'true'; // Use params to determine if multiple uploads
+    const isSingle = req.headers['upload-type'] === 'single';
+    const uploadHandler = isSingle ? upload.single('file') : upload.array('files', 10);
 
-    const multerConfig = multer({
-        storage,
-        limits: { fileSize: 10 * 1024 * 1024 }, // General file size limit for all file types
-        fileFilter: (req, file, cb) => {
-            if (validateFile(file, )) { // Pass category to validateFile
-                cb(null, true); // File is valid
-            } else {
-                cb(new Error(`Invalid file type or size. Please upload a valid document, image, video, or text file.`));
-            }
+    uploadHandler(req, res, (err) => {
+        const files = isSingle ? [req.file] : req.files;
+        if (!files || files.length === 0) {
+            return res.status(400).json({ error: 'No files uploaded.' });
         }
-    });
 
-    if (isMultiple) {        
-        multerConfig.array('files', 10)(req, res, next); // Allow up to 10 files for multiple uploads
-    } else {        
-        multerConfig.single('file')(req, res, next); // Only one file for single upload
-    }
+        const validFiles = files.filter(file => validateFile(file, req.headers['upload-category']));
+        if (validFiles.length === 0) {
+            return res.status(400).json({ error: 'No valid files uploaded.' });
+        }
+
+        const fileDetails = validFiles.map((file, index) => {
+            const fileUrl = generateFileUrl(file.filename, path.basename(getUploadPath(file)));
+            return { id: index + 1, file, url: fileUrl };
+        });
+        return res.status(201).json({ message: 'File uploaded successfully!', files: fileDetails, });
+    });
 };
 
 module.exports = uploadMiddleware;

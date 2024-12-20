@@ -1,40 +1,34 @@
-const fileCategories = {
-    images: ['image/jpeg', 'image/png', 'image/gif'],
-    videos: ['video/mp4', 'video/mkv'],
-    documents: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
-    spreadsheets: ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
-    presentations: ['application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'],
-    textFiles: ['text/plain'],
-    csvFiles: ['text/csv']
-};
+const path = require('path');
+const fs = require('fs');
+const { fileCategories, sizeLimits } = require('../Config/Database/Data');
 
-const maxSize = 10 * 1024 * 1024; // 10 MB for larger file types
-const maxSmallSize = 5 * 1024 * 1024; // 5 MB for smaller file types
-
-const validateFile = (file) => {
-    const mimetype = file.mimetype;
-
-    if (fileCategories.images.includes(mimetype)) {
-        return file.size <= maxSmallSize;
-    } else if (fileCategories.videos.includes(mimetype)) {
-        return file.size <= maxSize;
-    } else if (fileCategories.documents.includes(mimetype)) {
-        return file.size <= maxSize;
-    } else if (fileCategories.spreadsheets.includes(mimetype)) {
-        return file.size <= maxSmallSize;
-    } else if (fileCategories.presentations.includes(mimetype)) {
-        return file.size <= maxSmallSize;
-    } else if (fileCategories.textFiles.includes(mimetype)) {
-        return file.size <= maxSmallSize;
-    } else if (fileCategories.csvFiles.includes(mimetype)) {
-        return file.size <= maxSmallSize;
-    } else {
-        return false; 
+const validateFile = (file, category) => {    
+    if (!file || !file.mimetype || !file.size) return false;
+    const { mimetype, size } = file;
+    if (fileCategories[category].includes(mimetype)) {
+        const maxSize = sizeLimits[category] || sizeLimits.large;
+        if (size <= maxSize) {
+            return true;
+        } else {
+            return false;
+        }
     }
+    return false;
 };
 
-const generateFileUrl = (filename) => {
-    return `/uploads/${filename}`;
+const getUploadPath = (file) => {
+    const baseDir = path.join(process.cwd(), '/UploadedFiles');
+    if (fileCategories.images.includes(file.mimetype)) return path.join(baseDir, 'Images');
+    if (fileCategories.documents.includes(file.mimetype)) return path.join(baseDir, 'Documents');
+    if (fileCategories.csvFiles.includes(file.mimetype)) return path.join(baseDir, 'CSV');
+    if (fileCategories.videos.includes(file.mimetype)) return path.join(baseDir, 'Videos');
+    return path.join(baseDir, 'Others');
 };
 
-module.exports = { validateFile, generateFileUrl };
+const generateFileUrl = (filename, directory) => `/uploads/${directory}/${filename}`;
+
+module.exports = {
+    validateFile,
+    getUploadPath,
+    generateFileUrl
+};
