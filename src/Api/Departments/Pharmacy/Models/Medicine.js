@@ -86,11 +86,10 @@ const medicineAttributes = {
     }
 };
 
-// Define the Medicine model
 const Medicine = sequelize.PHARMACY_DB_NAME.define('Medicine', medicineAttributes, {
-    tableName: 'tbl_medicine',  // Table name in the database
-    timestamps: false,          // Disable automatic timestamps
-    underscored: true,          // Use snake_case in column names
+    tableName: 'tbl_medicine', 
+    timestamps: false,          
+    underscored: true,          
 });
 
 module.exports = Medicine;
