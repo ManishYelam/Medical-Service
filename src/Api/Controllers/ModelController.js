@@ -7,7 +7,12 @@ class ModelController {
             const health_id = req.user.health_id;
 
             if (!health_id) {
-                return res.status(400).json({ success: false, message: "Health ID is required." });
+                return res.status(400).json({
+                    name: "BadRequest",
+                    status: false,
+                    code: 400,
+                    message: "Health ID is required."
+                });
             }
 
             const { modelName, page = 1, limit = 10, filters } = req.query;
@@ -15,16 +20,23 @@ class ModelController {
             let parsedFilters = {};
             if (filters) {
                 try {
-                    parsedFilters = JSON.parse(filters); 
+                    parsedFilters = JSON.parse(filters);
                 } catch (err) {
-                    return res.status(400).json({ success: false, message: "Invalid filters format." });
+                    return res.status(400).json({
+                        name: "BadRequest",
+                        status: false,
+                        code: 400,
+                        message: "Invalid filters format."
+                    });
                 }
             }
 
             if (modelName) {
                 const result = await ModelService.fetchSpecificModelRecords(health_id, modelName, page, limit, parsedFilters);
                 return res.status(200).json({
-                    success: true,
+                    name: "OK",
+                    status: true,
+                    code: 200,
                     message: `${result.totalCount} records found, displaying ${result.data.length} records.`,
                     data: result.data,
                     totalCount: result.totalCount
@@ -32,15 +44,19 @@ class ModelController {
             } else {
                 const results = await ModelService.fetchAllRecords(health_id, page, limit, parsedFilters);
                 return res.status(200).json({
-                    success: true,
+                    name: "OK",
+                    status: true,
+                    code: 200,
                     message: "Data fetched successfully for all models.",
-                    data: results,
+                    data: results
                 });
             }
         } catch (error) {
             console.error("Error in getRecords:", error.message);
             return res.status(500).json({
-                success: false,
+                name: "InternalServerError",
+                status: false,
+                code: 500,
                 message: "Failed to fetch records.",
                 error: error.message
             });
