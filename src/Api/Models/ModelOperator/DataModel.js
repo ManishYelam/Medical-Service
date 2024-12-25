@@ -26,6 +26,66 @@ module.exports = {
     }
   },
 
+  createModelData: async (health_id, modelType, modelKey, data) => {
+    try {
+      const response = await DatabaseOperator(health_id);
+      if (response.error) {
+        return { error: `Error in ${modelType}: ${response.error}` };
+      }
+
+      const userModel = response[modelKey];
+      const deptModel = userModel.deptModel;
+      const Model = deptModel[modelKey];
+
+      const newRecord = await Model.create(data);
+      return { data: newRecord };
+    } catch (error) {
+      return { error: error.message };
+    }
+  },
+
+  updateModelData: async (health_id, modelType, modelKey, id, updateData) => {
+    try {
+      const response = await DatabaseOperator(health_id);
+      if (response.error) {
+        return { error: `Error in ${modelType}: ${response.error}` };
+      }
+
+      const userModel = response[modelKey];
+      const deptModel = userModel.deptModel;
+      const Model = deptModel[modelKey];
+
+      const updatedRecord = await Model.update(updateData, { where: { id: id } });
+      if (updatedRecord[0] === 0) {
+        return { error: `Record with ID ${id} not found.` };
+      }
+      return { data: `Record with ID ${id} successfully updated.` };
+    } catch (error) {
+      return { error: error.message };
+    }
+  },
+
+  deleteModelData: async (health_id, modelType, modelKey, id) => {
+    try {
+      const response = await DatabaseOperator(health_id);
+      if (response.error) {
+        return { error: `Error in ${modelType}: ${response.error}` };
+      }
+
+      const userModel = response[modelKey];
+      const deptModel = userModel.deptModel;
+      const Model = deptModel[modelKey];
+
+      const deletedRecord = await Model.destroy({ where: { id: id } });
+      if (deletedRecord === 0) {
+        return { error: `Record with ID ${id} not found.` };
+      }
+      return { data: `Record with ID ${id} successfully deleted.` };
+    } catch (error) {
+      return { error: error.message };
+    }
+  },
+
   UserModel: async (health_id, filters = {}, page = 1, limit = 10) => {
     return await module.exports.fetchModelData(health_id, 'User', 'User', filters, page, limit);
   },

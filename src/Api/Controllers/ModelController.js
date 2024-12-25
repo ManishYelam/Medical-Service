@@ -62,6 +62,144 @@ class ModelController {
             });
         }
     }
+
+    async createRecord(req, res) {
+        try {
+            const health_id = req.user.health_id;
+            const { modelName, data } = req.body;
+
+            if (!health_id || !modelName || !data) {
+                return res.status(400).json({
+                    name: "BadRequest",
+                    status: false,
+                    code: 400,
+                    message: "Health ID, modelName, and data are required."
+                });
+            }
+
+            try {
+                const result = await ModelService.createRecord(health_id, modelName, data);
+                return res.status(201).json({
+                    name: "Created",
+                    status: true,
+                    code: 201,
+                    message: "Record created successfully.",
+                    data: result
+                });
+            } catch (error) {
+                console.error(`Error creating record for model "${modelName}": ${error.message}`);
+                return res.status(500).json({
+                    name: "InternalServerError",
+                    status: false,
+                    code: 500,
+                    message: `Failed to create record for model: ${modelName}`,
+                    error: error.message
+                });
+            }
+        } catch (error) {
+            console.error("Unexpected error in createRecord:", error.message);
+            return res.status(500).json({
+                name: "InternalServerError",
+                status: false,
+                code: 500,
+                message: "Failed to create record.",
+                error: error.message
+            });
+        }
+    }
+
+    async updateRecord(req, res) {
+        try {
+            const health_id = req.user.health_id;
+            const { modelName, data } = req.body;
+            const { id } = req.params;
+
+            if (!health_id || !modelName || !data || !id) {
+                return res.status(400).json({
+                    name: "BadRequest",
+                    status: false,
+                    code: 400,
+                    message: "Health ID, modelName, data, and id are required."
+                });
+            }
+
+            try {
+                const result = await ModelService.updateRecord(health_id, modelName, data, id);
+                return res.status(200).json({
+                    name: "OK",
+                    status: true,
+                    code: 200,
+                    message: `Record with ID ${id} updated successfully.`,
+                    data: result
+                });
+            } catch (error) {
+                console.error(`Error updating record for model "${modelName}": ${error.message}`);
+                return res.status(500).json({
+                    name: "InternalServerError",
+                    status: false,
+                    code: 500,
+                    message: `Failed to update record for model: ${modelName}`,
+                    error: error.message
+                });
+            }
+        } catch (error) {
+            console.error("Unexpected error in updateRecord:", error.message);
+            return res.status(500).json({
+                name: "InternalServerError",
+                status: false,
+                code: 500,
+                message: "Failed to update record.",
+                error: error.message
+            });
+        }
+    }
+
+    async deleteRecord(req, res) {
+        try {
+            const health_id = req.user.health_id;
+            const { modelName } = req.body;
+            const { id } = req.params;
+
+            if (!health_id || !modelName || !id) {
+                return res.status(400).json({
+                    name: "BadRequest",
+                    status: false,
+                    code: 400,
+                    message: "Health ID, modelName, and id are required."
+                });
+            }
+
+            try {
+                const result = await ModelService.deleteRecord(health_id, modelName, id);
+                return res.status(200).json({
+                    name: "OK",
+                    status: true,
+                    code: 200,
+                    message: `Record with ID ${id} deleted successfully.`,
+                    data: result
+                });
+            } catch (error) {
+                console.error(`Error deleting record for model "${modelName}": ${error.message}`);
+                return res.status(500).json({
+                    name: "InternalServerError",
+                    status: false,
+                    code: 500,
+                    message: `Failed to delete record for model: ${modelName}`,
+                    error: error.message
+                });
+            }
+        } catch (error) {
+            console.error("Unexpected error in deleteRecord:", error.message);
+            return res.status(500).json({
+                name: "InternalServerError",
+                status: false,
+                code: 500,
+                message: "Failed to delete record.",
+                error: error.message
+            });
+        }
+    }
+
 }
 
 module.exports = new ModelController();

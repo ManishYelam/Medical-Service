@@ -1,4 +1,4 @@
-const { fetchModelData } = require("../Models/ModelOperator/DataModel");
+const { fetchModelData, createModelData, updateModelData, deleteModelData } = require("../Models/ModelOperator/DataModel");
 
 class ModelService {
     constructor() {
@@ -38,6 +38,42 @@ class ModelService {
         if (data.error) { throw new Error(data.error); }
 
         return { model: modelName, totalCount: totalCount, data: data };
+    }
+
+    async createRecord(health_id, modelName, data) {
+        const selectedModel = this.modelMapping[modelName];
+        if (!selectedModel) { throw new Error(`Model "${modelName}" not found.`); }
+
+        try {
+            const result = await createModelData(health_id, selectedModel.type, selectedModel.key, data);
+            return result;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async updateRecord(health_id, modelName, data, id) {
+        const selectedModel = this.modelMapping[modelName];
+        if (!selectedModel) { throw new Error(`Model "${modelName}" not found.`); }
+
+        try {
+            const result = await updateModelData(health_id, selectedModel.type, selectedModel.key, data, id);
+            return result;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async deleteRecord(health_id, modelName, id) {
+        const selectedModel = this.modelMapping[modelName];
+        if (!selectedModel) { throw new Error(`Model "${modelName}" not found.`); }
+
+        try {
+            const result = await deleteModelData(health_id, selectedModel.type, selectedModel.key, id);
+            return result;
+        } catch (error) {
+            throw new Error(error.message);
+        }
     }
 }
 
