@@ -2,15 +2,15 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../../../Config/Database/db.config');
 
 const medicineAttributes = {
-    pharmacyId: {
+    pharmacy_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    medicineName: {
+    medicine_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    genericName: {
+    generic_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -36,11 +36,11 @@ const medicineAttributes = {
             min: 0,
         },
     },
-    expiryDate: {
+    expiry_date: {
         type: DataTypes.DATE,
         allowNull: false,
     },
-    sideEffects: {
+    side_effects: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -56,11 +56,11 @@ const medicineAttributes = {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    healthIssues: {
+    health_issues: {
         type: DataTypes.JSON,
         allowNull: false,
     },
-    diseasesTreated: {
+    diseases_treated: {
         type: DataTypes.JSON,
         allowNull: false,
     },
@@ -68,19 +68,19 @@ const medicineAttributes = {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    importSource: {
+    import_source: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    regulatoryApprovals: {
+    regulatory_approvals: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    storageConditions: {
+    storage_conditions: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    availableInStock: {
+    available_in_stock: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
     }
