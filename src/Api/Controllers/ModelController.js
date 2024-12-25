@@ -31,18 +31,19 @@ class ModelController {
                 }
             }
 
+            let results;
             if (modelName) {
-                const result = await ModelService.fetchSpecificModelRecords(health_id, modelName, page, limit, parsedFilters);
+                results = await ModelService.fetchSpecificModelRecords(health_id, modelName, page, limit, parsedFilters);
                 return res.status(200).json({
                     name: "OK",
                     status: true,
                     code: 200,
-                    message: `${result.totalCount} records found, displaying ${result.data.length} records.`,
-                    data: result.data,
-                    totalCount: result.totalCount
+                    message: `${results.totalCount} records found, displaying ${results.data.length} records.`,
+                    data: results.data,
+                    totalCount: results.totalCount
                 });
             } else {
-                const results = await ModelService.fetchAllRecords(health_id, page, limit, parsedFilters);
+                results = await ModelService.fetchAllRecords(health_id, page, limit, parsedFilters);
                 return res.status(200).json({
                     name: "OK",
                     status: true,
@@ -66,7 +67,8 @@ class ModelController {
     async createRecord(req, res) {
         try {
             const health_id = req.user.health_id;
-            const { modelName, data } = req.body;
+            const { data } = req.body;
+            const { modelName } = req.params;
 
             if (!health_id || !modelName || !data) {
                 return res.status(400).json({
@@ -111,8 +113,8 @@ class ModelController {
     async updateRecord(req, res) {
         try {
             const health_id = req.user.health_id;
-            const { modelName, data } = req.body;
-            const { id } = req.params;
+            const { data } = req.body;
+            const { modelName, id } = req.params;
 
             if (!health_id || !modelName || !data || !id) {
                 return res.status(400).json({
@@ -157,8 +159,7 @@ class ModelController {
     async deleteRecord(req, res) {
         try {
             const health_id = req.user.health_id;
-            const { modelName } = req.body;
-            const { id } = req.params;
+            const { modelName, id } = req.params;
 
             if (!health_id || !modelName || !id) {
                 return res.status(400).json({

@@ -21,18 +21,22 @@ const express = require('express');
 const AuthController = require('../Controllers/AuthController');
 const authMiddleware = require('../Middlewares/authorizationMiddleware');
 const validate = require('../Middlewares/validateMiddleware');
-const { loginSchema, resetPasswordSchema, changePasswordSchema, refreshTokenSchema, forgetPasswordSchema } = require('../Middlewares/Joi_Validations/authSchema');
-const { getAllRecords, getRecords } = require('../Controllers/ModelController');
+const { loginSchema, resetPasswordSchema, changePasswordSchema, refreshTokenSchema } = require('../Middlewares/Joi_Validations/authSchema');
+const { getRecords, createRecord, updateRecord, deleteRecord } = require('../Controllers/ModelController');
 
 const authRouter = express.Router();
 authRouter
-.post('/login',validate(loginSchema), AuthController.login)
-.post('/logout', authMiddleware, AuthController.logout)
-.post('/forget-password/:email', authMiddleware, AuthController.forgetPassword)
-.post('/reset-password', validate(resetPasswordSchema), authMiddleware, AuthController.resetPassword)
-.post('/change-password', validate(changePasswordSchema), authMiddleware, AuthController.changePassword)
-.post('/refresh-token', validate(refreshTokenSchema), authMiddleware, AuthController.refreshToken)
-.get('/models-data', authMiddleware, getRecords)
+    .post('/login', validate(loginSchema), AuthController.login)
+    .post('/logout', authMiddleware, AuthController.logout)
+    .post('/forget-password/:email', authMiddleware, AuthController.forgetPassword)
+    .post('/reset-password', validate(resetPasswordSchema), authMiddleware, AuthController.resetPassword)
+    .post('/change-password', validate(changePasswordSchema), authMiddleware, AuthController.changePassword)
+    .post('/refresh-token', validate(refreshTokenSchema), authMiddleware, AuthController.refreshToken)
+
+    .get('/records', authMiddleware, getRecords)
+    .post('/record/:modelName', authMiddleware, createRecord)
+    .put('/record/:modelName/:id', authMiddleware, updateRecord)
+    .delete('/record/:modelName/:id', authMiddleware, deleteRecord)
 
 module.exports = authRouter;
 
