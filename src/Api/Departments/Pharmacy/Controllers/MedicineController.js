@@ -71,18 +71,12 @@ module.exports = {
             }
     
             const rows = await parseCSV(req.file.path);
-            console.log(rows);
     
             deleteFile(req.file.path);
     
             const parseData = (row) => {
                 const [day, month, year] = row.expiry_date.split('-');
                 const formattedExpiryDate = new Date(`${year}-${month}-${day}`).toISOString();
-    
-                const health_issues = row.health_issues ? row.health_issues.split('|') : [];
-                const diseases_treated = row.diseases_treated ? row.diseases_treated.split('|') : [];
-    
-                const availableInStock = row.available_in_stock && row.available_in_stock.toUpperCase() === 'true';
     
                 return {
                     pharmacy_id: parseInt(row.pharmacy_id, 10),
@@ -93,16 +87,17 @@ module.exports = {
                     price: parseFloat(row.price),
                     quantity: parseInt(row.quantity, 10),
                     expiry_date: formattedExpiryDate,
-                    side_effects: row.side_effects,
-                    contraindications: row.contraindications,
-                    dosage: row.dosage,
-                    instructions: row.instructions,
-                    health_issues,
-                    diseases_treated,
-                    barcode: row.barcode.toString(),
-                    import_source: row.import_source,
-                    regulatory_approvals: row.regulatory_approvals,
-                    storage_conditions: row.storage_conditions,
+                    side_effects: row.side_effects || null,
+                    contraindications: row.contraindications || null,
+                    dosage: row.dosage || null,
+                    instructions: row.instructions || null,
+                    health_issues: row.health_issues ? row.health_issues.split('|') : [],
+                    diseases_treated: row.diseases_treated ? row.diseases_treated.split('|') : [],
+                    barcode: row.barcode?.toString() || null,
+                    import_source: row.import_source || null,
+                    regulatory_approvals: row.regulatory_approvals || null,
+                    storage_conditions: row.storage_conditions || null,
+                    available_in_stock: row.available_in_stock?.toUpperCase() === 'TRUE',
                 };
             };
     
@@ -110,13 +105,23 @@ module.exports = {
             const errors = [];
     
             rows.forEach((row, index) => {
-                const parsedRow = parseData(row);
+                try {
+                    const parsedRow = parseData(row);
+                    const { error } = createMedicineValidation.validate(parsedRow);
     
-                const { error } = createMedicineValidation.validate(parsedRow);
-                if (error) {
-                    errors.push({ row: index + 1, error: error.details[0].message });
-                } else {
-                    medicines.push(parsedRow);
+                    if (error) {
+                        errors.push({
+                            row: index + 1,
+                            error: error.details[0]?.message || 'Unknown validation error',
+                        });
+                    } else {
+                        medicines.push(parsedRow);
+                    }
+                } catch (parseError) {
+                    errors.push({
+                        row: index + 1,
+                        error: `Error parsing row: ${parseError.message}`,
+                    });
                 }
             });
     
@@ -130,6 +135,9 @@ module.exports = {
             const medicinesResult = await MedicineService.bulkCreateMedicines(medicines);
     
             return res.status(201).json({
+                name: 'OK',
+                status: true,
+                code: 201,
                 message: 'Medicines uploaded successfully',
                 result: {
                     file: req.file,
@@ -138,10 +146,15 @@ module.exports = {
                     message: 'Medicines data processed and saved successfully.',
                 },
             });
-            
         } catch (err) {
-            console.error(err);
-            res.status(500).json({ message: 'Internal server error', error: err.message });
+            console.error('Error in bulkCreateMedicines:', err);
+            return res.status(500).json({
+                name: 'Error',
+                status: false,
+                code: 500,
+                message: 'Internal server error',
+                error: err.message,
+            });
         }
     },    
 
