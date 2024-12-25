@@ -12,12 +12,12 @@ class ModelService {
         };
     }
 
-    async fetchAllRecords(health_id, page = 1, limit = 10) {
+    async fetchAllRecords(health_id, page = 1, limit = 10, filters = {}) {
         const results = {};
         for (const modelName in this.modelMapping) {
             const selectedModel = this.modelMapping[modelName];
             try {
-                const { data, totalCount } = await fetchModelData(health_id, selectedModel.type, selectedModel.key, {}, page, limit);
+                const { data, totalCount } = await fetchModelData(health_id, selectedModel.type, selectedModel.key, filters, page, limit);
                 if (data.error) {
                     results[modelName] = { error: data.error };
                 } else {
@@ -30,11 +30,11 @@ class ModelService {
         return results;
     }
 
-    async fetchSpecificModelRecords(health_id, modelName, page = 1, limit = 10) {
+    async fetchSpecificModelRecords(health_id, modelName, page = 1, limit = 10, filters = {}) {
         const selectedModel = this.modelMapping[modelName];
         if (!selectedModel) { throw new Error(`Model "${modelName}" not found.`); }
 
-        const { data, totalCount } = await fetchModelData(health_id, selectedModel.type, selectedModel.key, {}, page, limit);
+        const { data, totalCount } = await fetchModelData(health_id, selectedModel.type, selectedModel.key, filters, page, limit);
         if (data.error) { throw new Error(data.error); }
 
         return { model: modelName, totalCount: totalCount, data: data };

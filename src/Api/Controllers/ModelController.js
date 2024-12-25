@@ -13,7 +13,13 @@ class ModelController {
             const { modelName, page = 1, limit = 10, filters } = req.query;
 
             let parsedFilters = {};
-            if (filters) { parsedFilters = JSON.parse(filters); }
+            if (filters) {
+                try {
+                    parsedFilters = JSON.parse(filters); 
+                } catch (err) {
+                    return res.status(400).json({ success: false, message: "Invalid filters format." });
+                }
+            }
 
             if (modelName) {
                 const result = await ModelService.fetchSpecificModelRecords(health_id, modelName, page, limit, parsedFilters);
