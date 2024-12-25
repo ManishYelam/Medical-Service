@@ -33,11 +33,11 @@ const uploadMiddleware = (req, res, next) => {
             return res.status(400).json({ error: 'No valid files uploaded.' });
         }
 
-        const fileDetails = validFiles.map((file, index) => {
+        req.uploadedFiles = validFiles.map((file, index) => {
             const fileUrl = generateFileUrl(file.filename, path.basename(getUploadPath(file)));
             return { id: index + 1, file, url: fileUrl };
         });
-        return res.status(201).json({ message: 'File uploaded successfully!', files: fileDetails, });
+        next();
     });
 };
 

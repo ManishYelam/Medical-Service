@@ -108,82 +108,82 @@ module.exports = {
 
 
 
-const fileHelper = require('./fileHelper');
-const filePath = './example.txt';
-const encodedFilePath = './encodedFile.txt';
+// const fileHelper = require('./fileHelper');
+// const filePath = './example.txt';
+// const encodedFilePath = './encodedFile.txt';
 
-// Example: Reading a file
-try {
-  const fileContent = fileHelper.readFile(filePath);
-  console.log('File Content:', fileContent);
-} catch (error) {
-  console.error('Failed to read file.');
-}
+// // Example: Reading a file
+// try {
+//   const fileContent = fileHelper.readFile(filePath);
+//   console.log('File Content:', fileContent);
+// } catch (error) {
+//   console.error('Failed to read file.');
+// }
 
-// Example: Writing to a file
-fileHelper.writeFile(filePath, 'This is sample content');
+// // Example: Writing to a file
+// fileHelper.writeFile(filePath, 'This is sample content');
 
-// Example: Deleting a file
-fileHelper.deleteFile(filePath);
+// // Example: Deleting a file
+// fileHelper.deleteFile(filePath);
 
-// Example: Encode a file to Base64
-const encodedString = fileHelper.encodeFileToBase64(filePath);
-console.log('Encoded Base64:', encodedString);
+// // Example: Encode a file to Base64
+// const encodedString = fileHelper.encodeFileToBase64(filePath);
+// console.log('Encoded Base64:', encodedString);
 
-// Example: Decode Base64 and save as file
-fileHelper.decodeBase64ToFile(encodedString, encodedFilePath);
+// // Example: Decode Base64 and save as file
+// fileHelper.decodeBase64ToFile(encodedString, encodedFilePath);
 
-// Example: Check if file exists
-const exists = fileHelper.fileExists(filePath);
-console.log('File exists:', exists);
+// // Example: Check if file exists
+// const exists = fileHelper.fileExists(filePath);
+// console.log('File exists:', exists);
 
-// Example: Get file metadata
-const stats = fileHelper.getFileStats(filePath);
-console.log('File Stats:', stats);
+// // Example: Get file metadata
+// const stats = fileHelper.getFileStats(filePath);
+// console.log('File Stats:', stats);
 
-const multer = require('multer');
+// const multer = require('multer');
 
-module.exports = {
-  // Configure multer for file uploads
-  uploadFile: (destinationPath) => {
-    const storage = multer.diskStorage({
-      destination: (req, file, cb) => {
-        cb(null, destinationPath);
-      },
-      filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-      },
-    });
+// module.exports = {
+//   // Configure multer for file uploads
+//   uploadFile: (destinationPath) => {
+//     const storage = multer.diskStorage({
+//       destination: (req, file, cb) => {
+//         cb(null, destinationPath);
+//       },
+//       filename: (req, file, cb) => {
+//         cb(null, `${Date.now()}-${file.originalname}`);
+//       },
+//     });
 
-    return multer({ storage }).single('file');
-  },
+//     return multer({ storage }).single('file');
+//   },
 
-  // Serve a file for download
-  downloadFile: (res, filePath, fileName) => {
-    try {
-      res.download(filePath, fileName, (err) => {
-        if (err) {
-          console.error(`Error downloading file: ${err.message}`);
-        }
-      });
-    } catch (error) {
-      console.error(`Error serving file for download: ${error.message}`);
-      throw error;
-    }
-  },
-};
-const fileHelper = require('./fileHelper');
+//   // Serve a file for download
+//   downloadFile: (res, filePath, fileName) => {
+//     try {
+//       res.download(filePath, fileName, (err) => {
+//         if (err) {
+//           console.error(`Error downloading file: ${err.message}`);
+//         }
+//       });
+//     } catch (error) {
+//       console.error(`Error serving file for download: ${error.message}`);
+//       throw error;
+//     }
+//   },
+// };
+// const fileHelper = require('./fileHelper');
 
-// File upload endpoint
-app.post('/upload', fileHelper.uploadFile('./uploads'), (req, res) => {
-  res.json({ message: 'File uploaded successfully', file: req.file });
-});
+// // File upload endpoint
+// app.post('/upload', fileHelper.uploadFile('./uploads'), (req, res) => {
+//   res.json({ message: 'File uploaded successfully', file: req.file });
+// });
 
-// File download endpoint
-app.get('/download/:fileName', (req, res) => {
-  const filePath = `./uploads/${req.params.fileName}`;
-  fileHelper.downloadFile(res, filePath, req.params.fileName);
-});
+// // File download endpoint
+// app.get('/download/:fileName', (req, res) => {
+//   const filePath = `./uploads/${req.params.fileName}`;
+//   fileHelper.downloadFile(res, filePath, req.params.fileName);
+// });
 
 
 
