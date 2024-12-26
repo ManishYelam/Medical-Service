@@ -1,6 +1,8 @@
 // const models = require("../../Config/Database/centralModelLoader");
 
-const { DepartmentModel } = require("../Models/ModelOperator/DataModel");
+const { loadModels } = require("../Models/ModelOperator/LoadModels");
+
+// const { DepartmentModel } = require("../Models/ModelOperator/DataModel");
 
 // const Department = models.MAIN.Department;
 
@@ -9,6 +11,11 @@ const { DepartmentModel } = require("../Models/ModelOperator/DataModel");
 class DepartmentService {
     async createDepartment(data) {
         return await Department.create(data);
+    }
+
+    async createDepartmentsBulk(health_id,data) {
+        const { Department } = await loadModels(health_id);
+        return await Department.bulkCreate(data);
     }
 
     async getAllDepartments() {

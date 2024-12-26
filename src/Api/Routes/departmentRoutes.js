@@ -25,6 +25,7 @@ const departmentRouter = express.Router();
 
 departmentRouter
     .post('/', validate(departmentCreateSchema), departmentController.createDepartment)
+    .post('/bulk', departmentController.createDepartmentsBulk)
     .get('/', departmentController.getAllDepartments)
     .get('/:id', departmentController.getDepartmentById)
     .put('/:id', validate(departmentUpdateSchema), departmentController.updateDepartment)

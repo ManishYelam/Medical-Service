@@ -11,6 +11,21 @@ class DepartmentController {
         }
     }
 
+    async createDepartmentsBulk(req, res) {
+        try {
+            const departmentsData = req.body; 
+            const health_id = req.user.health_id;
+            if (!Array.isArray(departmentsData) || departmentsData.length === 0) {
+                return res.status(400).json({ message: 'Invalid data. Please provide an array of departments.' });
+            }
+
+            const departments = await departmentService.createDepartmentsBulk(health_id,departmentsData);
+            res.status(201).json(departments);
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
     async getAllDepartments(req, res) {
         try {
             const departments = await departmentService.getAllDepartments();
