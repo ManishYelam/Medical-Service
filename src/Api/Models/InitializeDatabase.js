@@ -6,18 +6,18 @@ module.exports = {
     try {
       // console.log(sequelize);
       
-      sequelize.MAIN_DB_NAME.sync();
-      // sequelize.COMPLIANCE_LEGAL_DB_NAME.sync();
-      // sequelize.CUSTOMER_SUPPORT__DB_NAME.sync();
-      // sequelize.FINANCE_ACCOUNTING_DB_NAME.sync();
-      // sequelize.HEALTHCARE_DB_NAME.sync();
-      // sequelize.HR_DB_NAME.sync();
-      // sequelize.INVENTORY_MANAGEMENT_DB_NAME.sync();
-      // sequelize.IT_DEVELOPMENT_DB_NAME.sync();
-      // sequelize.LOGISTIC_DB_NAME.sync();
-      // sequelize.PARTNERSHIP_DB_NAME.sync();
-      // sequelize.PHARMACY_DB_NAME.sync();
-      // sequelize.SALES_MARKETING_DB_NAME.sync();
+      // sequelize.MAIN_DB_NAME.sync({ alter: true });
+      // sequelize.COMPLIANCE_LEGAL_DB_NAME.sync({ alter: true });
+      // sequelize.CUSTOMER_SUPPORT__DB_NAME.sync({ alter: true });
+      // sequelize.FINANCE_ACCOUNTING_DB_NAME.sync({ alter: true });
+      // sequelize.HEALTHCARE_DB_NAME.sync({ alter: true });
+      // sequelize.HR_DB_NAME.sync({ alter: true });
+      // sequelize.INVENTORY_MANAGEMENT_DB_NAME.sync({ alter: true });
+      // sequelize.IT_DEVELOPMENT_DB_NAME.sync({ alter: true });
+      // sequelize.LOGISTIC_DB_NAME.sync({ alter: true });
+      // sequelize.PARTNERSHIP_DB_NAME.sync({ alter: true });
+      // sequelize.PHARMACY_DB_NAME.sync({ alter: true });
+      // sequelize.SALES_MARKETING_DB_NAME.sync({ alter: true });
 
       // sequelize.MAIN_DB_NAME.drop();
       // sequelize.COMPLIANCE_LEGAL_DB_NAME.drop();
