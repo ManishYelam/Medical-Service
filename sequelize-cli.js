@@ -11,11 +11,11 @@ const sequelize = new Sequelize(
   configEnv.password,
   {
     host: configEnv.host,
-    dialect: configEnv.dialect || 'mysql',  // Add other dialects like 'postgres', 'sqlite' as needed
+    dialect: configEnv.dialect || 'mysql', // Add other dialects like 'postgres', 'sqlite' as needed
     logging: configEnv.logging, // Enable query logging
     define: {
-      timestamps: false // Disable automatic timestamp columns if not needed
-    }
+      timestamps: false, // Disable automatic timestamp columns if not needed
+    },
   }
 );
 

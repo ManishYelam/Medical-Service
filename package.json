@@ -8,6 +8,7 @@
     "dev:watch": "console-ninja npm run dev -- --watch",
     "prod": "cross-env NODE_ENV=production node server.js",
     "build": "npm run prod",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "start:prod": "NODE_ENV=production nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate:all": "sequelize db:migrate --env MAIN && sequelize db:migrate --env COMPLIANCE_LEGAL && sequelize db:migrate --env CUSTOMER_SUPPORT && sequelize db:migrate --env DATA_ANALYTIC && sequelize db:migrate --env FINANCE_ACCOUNTING && sequelize db:migrate --env HEALTHCARE && sequelize db:migrate --env HR && sequelize db:migrate --env INVENTORY_MANAGEMENT && sequelize db:migrate --env IT_DEVELOPMENT && sequelize db:migrate --env LOGISTIC && sequelize db:migrate --env PARTNERSHIP && sequelize db:migrate --env PHARMACY && sequelize db:migrate --env SALES_MARKETING",
