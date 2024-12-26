@@ -11,6 +11,11 @@ const permissionAttribute = {
         type: DataTypes.STRING(100),
         allowNull: false,
         unique: true
+    },
+    level: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+        defaultValue: "A1"
     }
 }
 
