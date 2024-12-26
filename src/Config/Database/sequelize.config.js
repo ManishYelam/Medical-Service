@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
-const { databases } = require('../Database/Data')
+const { databases } = require('../Database/Data');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -36,7 +36,7 @@ const initDatabases = () => {
 
 const sequelize = initDatabases();
 
-module.exports = sequelize; 
+module.exports = sequelize;
 
 // const { Sequelize } = require('sequelize');
 // require('dotenv').config();
@@ -85,4 +85,4 @@ module.exports = sequelize;
 
 // const sequelize = initDatabases();
 
-// module.exports = sequelize; 
+// module.exports = sequelize;

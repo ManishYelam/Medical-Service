@@ -46,14 +46,6 @@ router
   .use('/users', userRouter)
   .use('/user_logs', authMiddleware, userLogRouter)
   .use('/departments', authMiddleware, departmentRouter)
-  .use('/totp', authMiddleware, totpRouter)
+  .use('/totp', authMiddleware, totpRouter);
 
 module.exports = router;
-
-
-
-
-
-
-
-

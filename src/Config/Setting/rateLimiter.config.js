@@ -6,7 +6,7 @@ const createRateLimiter = (options = {}) => {
     windowMs = 15 * 60 * 1000, // Default: 15 minutes
     max = 100, // Default: limit each IP to 100 requests per windowMs
     message = 'Too many requests from this IP, please try again later',
-    onLimitReached // Optional: function to call when the rate limit is exceeded
+    onLimitReached, // Optional: function to call when the rate limit is exceeded
   } = options;
 
   return rateLimit({
@@ -20,20 +20,20 @@ const createRateLimiter = (options = {}) => {
       } else {
         res.status(options.statusCode).json({ message: options.message });
       }
-    }
+    },
   });
 };
 
 // Example of how to use different rate limits for different routes
 const generalRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,
-  max: 100
+  max: 100,
 });
 
 const authRouteRateLimiter = createRateLimiter({
   windowMs: 10 * 60 * 1000, // Shorter window for auth routes
   max: 50,
-  message: 'Too many login attempts, please try again later'
+  message: 'Too many login attempts, please try again later',
 });
 
 // IP whitelisting example
@@ -50,5 +50,5 @@ const rateLimiterWithWhitelist = (req, res, next) => {
 module.exports = {
   generalRateLimiter,
   authRouteRateLimiter,
-  rateLimiterWithWhitelist
+  rateLimiterWithWhitelist,
 };

@@ -8,7 +8,10 @@ const fetchData = async (serviceUrl, endpoint) => {
     const { data } = await axios.get(`${serviceUrl}${endpoint}`);
     return data;
   } catch (error) {
-    console.error(`Error fetching data from ${serviceUrl}${endpoint}:`, error.message);
+    console.error(
+      `Error fetching data from ${serviceUrl}${endpoint}:`,
+      error.message
+    );
     throw new Error(`Failed to fetch data from ${serviceUrl}`); // More descriptive error message
   }
 };
@@ -31,16 +34,23 @@ const fetchAllServicesData = async () => {
     partnerships: '/api/partnerships',
   };
 
-  const fetchPromises = Object.entries(services).map(async ([serviceName, endpoint]) => {
-    const serviceUrl = baseUrls[`${serviceName.toUpperCase()}_URL`];
-    return fetchData(serviceUrl, endpoint);
-  });
+  const fetchPromises = Object.entries(services).map(
+    async ([serviceName, endpoint]) => {
+      const serviceUrl = baseUrls[`${serviceName.toUpperCase()}_URL`];
+      return fetchData(serviceUrl, endpoint);
+    }
+  );
 
   try {
     const responses = await Promise.all(fetchPromises);
-    return Object.fromEntries(Object.keys(services).map((key, index) => [key, responses[index]]));
+    return Object.fromEntries(
+      Object.keys(services).map((key, index) => [key, responses[index]])
+    );
   } catch (error) {
-    console.error('Error fetching data from one or more services:', error.message);
+    console.error(
+      'Error fetching data from one or more services:',
+      error.message
+    );
     throw new Error('Failed to fetch data from one or more services');
   }
 };

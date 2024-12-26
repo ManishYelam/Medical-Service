@@ -1,6 +1,5 @@
-const Department = require("../Api/Models/Association");
-const sequelize = require("../Config/Database/sequelize.config");
-
+const Department = require('../Api/Models/Association');
+const sequelize = require('../Config/Database/sequelize.config');
 
 const departments = [
   {
@@ -17,7 +16,7 @@ const departments = [
     num_employees: 50,
     description: 'Handles all server management and infrastructure.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Pharmacy',
@@ -33,7 +32,7 @@ const departments = [
     num_employees: 30,
     description: 'Handles medication and health products.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Logistics',
@@ -49,7 +48,7 @@ const departments = [
     num_employees: 40,
     description: 'Manages all product deliveries and distribution.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Customer Support',
@@ -65,7 +64,7 @@ const departments = [
     num_employees: 20,
     description: 'Handles customer queries and support tickets.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Sales & Marketing',
@@ -81,7 +80,7 @@ const departments = [
     num_employees: 35,
     description: 'Manages all sales and marketing campaigns.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Finance & Accounting',
@@ -97,7 +96,7 @@ const departments = [
     num_employees: 25,
     description: 'Handles financial records and accounting processes.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Compliance & Legal',
@@ -113,7 +112,7 @@ const departments = [
     num_employees: 15,
     description: 'Ensures legal compliance and handles contracts.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Healthcare',
@@ -129,7 +128,7 @@ const departments = [
     num_employees: 40,
     description: 'Provides healthcare services and medical management.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'IT Development',
@@ -143,9 +142,10 @@ const departments = [
     status: 'Active',
     date_founded: new Date('2012-08-25'),
     num_employees: 60,
-    description: 'Responsible for all IT infrastructure and software development.',
+    description:
+      'Responsible for all IT infrastructure and software development.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Inventory Management',
@@ -161,7 +161,7 @@ const departments = [
     num_employees: 50,
     description: 'Manages inventory control and stock records.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Data Analytics',
@@ -177,7 +177,7 @@ const departments = [
     num_employees: 25,
     description: 'Handles data analysis and business intelligence.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Human Resources',
@@ -193,7 +193,7 @@ const departments = [
     num_employees: 40,
     description: 'Manages employee relations and organizational structure.',
     created_by: 'System',
-    updated_by: 'System'
+    updated_by: 'System',
   },
   {
     name: 'Partnerships',
@@ -209,11 +209,11 @@ const departments = [
     num_employees: 10,
     description: 'Handles business partnerships and external relationships.',
     created_by: 'System',
-    updated_by: 'System'
-  }
+    updated_by: 'System',
+  },
 ];
 
-sequelize.MAIN_DB_NAME.sync({ force: false }) 
+sequelize.MAIN_DB_NAME.sync({ force: false })
   .then(() => {
     return Department.bulkCreate(departments);
   })
