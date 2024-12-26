@@ -48,26 +48,20 @@ const baseDepartmentSchema = Joi.object({
 
 // Schema for "create" operation
 const departmentCreateSchema = baseDepartmentSchema.keys({
-    name: Joi.string().max(100).required()
-        .messages({
-            'any.required': 'Name is required',
-        }),
-    head_of_department: Joi.string().required()
-        .messages({
-            'any.required': 'Head of Department is required',
-        }),
-    email: Joi.string().email().max(100).required()
-        .messages({
-            'any.required': 'Email is required',
-        }),
-    created_by: Joi.string().required()
-        .messages({
-            'any.required': 'Created By is required',
-        }),
-    updated_by: Joi.string().required()
-        .messages({
-            'any.required': 'Updated By is required',
-        }),
+    name: Joi.string().required(),
+    head_of_department: Joi.string().required(),
+    branch: Joi.string().required(),
+    branch_of_department: Joi.string().required(),
+    contact_number: Joi.string().optional(),
+    address: Joi.string().required(),
+    email: Joi.string().email().required(),
+    department_code: Joi.string().required(),
+    status: Joi.string().valid('Active', 'Inactive').default('Active'),
+    date_founded: Joi.date().optional(),
+    num_employees: Joi.number().integer().default(0),
+    description: Joi.string().optional(),
+    created_by: Joi.string().required(),
+    updated_by: Joi.string().required(),
 });
 
 // Schema for "update" operation (allows partial updates)
