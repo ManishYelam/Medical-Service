@@ -8,11 +8,12 @@ const getRandomInt = (max) => {
 // Generates an OTP of a specified length, using either numeric or alphanumeric characters
 const generateOTP = (length = 6, useAlphaNumeric = false) => {
   const digits = '0123456789';
-  const alphaNumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  
+  const alphaNumeric =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
   const characters = useAlphaNumeric ? alphaNumeric : digits;
   const charactersLength = characters.length;
-  
+
   let otp = '';
   for (let i = 0; i < length; i++) {
     otp += characters[getRandomInt(charactersLength)];
@@ -38,7 +39,7 @@ const verifyOTPTimestamped = (inputOtp, savedOtp, expiryTime) => {
   if (Date.now() > expiryTime) {
     return { isValid: false, message: 'OTP has expired' };
   }
-  
+
   if (inputOtp === savedOtp) {
     return { isValid: true, message: 'OTP is valid' };
   }
