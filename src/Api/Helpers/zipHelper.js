@@ -8,7 +8,7 @@ module.exports = {
     try {
       const zip = new AdmZip();
 
-      inputPaths.forEach(inputPath => {
+      inputPaths.forEach((inputPath) => {
         if (fs.lstatSync(inputPath).isDirectory()) {
           zip.addLocalFolder(inputPath, path.basename(inputPath));
         } else {
@@ -86,30 +86,3 @@ module.exports = {
     }
   },
 };
-
-
-
-
-const zipHelper = require('./zipHelper');
-
-// Paths for example files and directories
-const filesToZip = ['./file1.txt', './file2.txt'];
-const folderToZip = './myFolder';
-const outputZipFile = './output.zip';
-const extractToDir = './extractedFiles';
-const zipFilePath = './existing.zip';
-
-// Example: Create a ZIP from files and directories
-zipHelper.createZip([...filesToZip, folderToZip], outputZipFile);
-
-// Example: Extract a ZIP file
-zipHelper.extractZip(outputZipFile, extractToDir);
-
-// Example: List the contents of a ZIP file
-zipHelper.listZipContents(outputZipFile);
-
-// Example: Add files to an existing ZIP
-zipHelper.addFilesToZip(zipFilePath, ['./newFile.txt']);
-
-// Example: Remove a file from a ZIP
-zipHelper.removeFileFromZip(zipFilePath, 'fileInZip.txt');

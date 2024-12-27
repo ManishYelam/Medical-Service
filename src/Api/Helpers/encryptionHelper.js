@@ -44,17 +44,3 @@ module.exports = {
   decrypt,
   generateKeyAsync,
 };
-
-const { encrypt, decrypt, generateKey } = require('./encryptionHelper');
-
-// Example usage
-const secretKey = generateKey(); // Generate a secure key
-const message = 'Hello, world!';
-
-// Encrypt the message
-const encryptedMessage = encrypt(message, secretKey);
-console.log('Encrypted:', encryptedMessage);
-
-// Decrypt the message
-const decryptedMessage = decrypt(encryptedMessage, secretKey);
-console.log('Decrypted:', decryptedMessage);

@@ -84,35 +84,3 @@ module.exports = {
     }
   },
 };
-
-const imageHelper = require('./imageHelper');
-
-// Paths for image files
-const inputImage = './example.jpg';
-const outputImage = './output.jpg';
-
-// Example: Resize an image
-imageHelper.resizeImage(inputImage, './resized.jpg', 300, 300);
-
-// Example: Convert image to PNG
-imageHelper.convertImageFormat(inputImage, './converted.png', 'png');
-
-// Example: Compress image (JPEG quality)
-imageHelper.compressImage(inputImage, './compressed.jpg', 80);
-
-// Example: Generate a thumbnail
-imageHelper.createThumbnail(inputImage, './thumbnail.jpg', 100);
-
-// Example: Get image metadata
-imageHelper.getImageMetadata(inputImage).then((metadata) => {
-  console.log('Metadata:', metadata);
-});
-
-// Example: Convert image to Base64
-imageHelper.convertImageToBase64(inputImage).then((base64String) => {
-  console.log('Base64 String:', base64String);
-});
-
-// Example: Save Base64 string as image
-const base64String = '...'; // Your Base64 string
-imageHelper.saveBase64AsImage(base64String, './output-from-base64.jpg');
