@@ -12,29 +12,28 @@ const DefineCustomerSupportRoutes = () => {
   app.get('/', async (req, res) => {
     try {
       const response = {
-        message: "Welcome to the Customer Support Department",
-        status: "success",
+        message: 'Welcome to the Customer Support Department',
+        status: 'success',
         timestamp: new Date().toISOString(),
         data: {
-          description: "Assist customers with inquiries and support tickets.",
-          api_version: "1.0",
+          description: 'Assist customers with inquiries and support tickets.',
+          api_version: '1.0',
           contact_info: {
-            email: "support@customersupport.com",
-            phone: "+1234567892",
+            email: 'support@customersupport.com',
+            phone: '+1234567892',
           },
           links: [
-            { rel: "self", href: req.originalUrl },
-            { rel: "tickets", href: "/api/support/tickets" },
-            { rel: "faq", href: "/api/support/faq" },
+            { rel: 'self', href: req.originalUrl },
+            { rel: 'tickets', href: '/api/support/tickets' },
+            { rel: 'faq', href: '/api/support/faq' },
           ],
         },
       };
       res.status(200).json(response);
     } catch (error) {
-      console.error("Error in /data endpoint:", error.message);
+      console.error('Error in /data endpoint:', error.message);
       res.status(500).json({
-        message: "An error occurred while processing your request.",
-        error: error.message,
+        message: 'An error occurred while processing your request.', error: error.message,
       });
     }
   });

@@ -12,28 +12,28 @@ const DefineInventoryManagementRoutes = () => {
   app.get('/', async (req, res) => {
     try {
       const response = {
-        message: "Welcome to the Inventory Management Department",
-        status: "success",
+        message: 'Welcome to the Inventory Management Department',
+        status: 'success',
         timestamp: new Date().toISOString(),
         data: {
-          description: "Manage inventory levels and stock management.",
-          api_version: "1.0",
+          description: 'Manage inventory levels and stock management.',
+          api_version: '1.0',
           contact_info: {
-            email: "support@inventory.com",
-            phone: "+1234567898",
+            email: 'support@inventory.com',
+            phone: '+1234567898',
           },
           links: [
-            { rel: "self", href: req.originalUrl },
-            { rel: "items", href: "/api/inventory/items" },
-            { rel: "suppliers", href: "/api/inventory/suppliers" },
+            { rel: 'self', href: req.originalUrl },
+            { rel: 'items', href: '/api/inventory/items' },
+            { rel: 'suppliers', href: '/api/inventory/suppliers' },
           ],
         },
       };
       res.status(200).json(response);
     } catch (error) {
-      console.error("Error in /data endpoint:", error.message);
+      console.error('Error in /data endpoint:', error.message);
       res.status(500).json({
-        message: "An error occurred while processing your request.",
+        message: 'An error occurred while processing your request.',
         error: error.message,
       });
     }
@@ -65,4 +65,3 @@ const StartInventoryManagementServer = async () => {
 };
 
 module.exports = { StartInventoryManagementServer };
-

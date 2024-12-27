@@ -1,5 +1,5 @@
 module.exports = {
-    medicalLaunchCodeTemplate: data => `
+  medicalLaunchCodeTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -106,7 +106,7 @@ module.exports = {
   </html>
 `,
 
-    verificationTemplate: async (data) => `
+  verificationTemplate: async (data) => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -173,7 +173,15 @@ module.exports = {
 </html>
 `,
 
-    registrationTemplate: async (userName, userEmail, userPhone, userPAN, userAadhar, userAddress, verificationLink) => `
+  registrationTemplate: async (
+    userName,
+    userEmail,
+    userPhone,
+    userPAN,
+    userAadhar,
+    userAddress,
+    verificationLink
+  ) => `
     <!DOCTYPE html>
     <html>
     <head>
@@ -294,7 +302,7 @@ module.exports = {
     </html>
 `,
 
-    otpTemplate: async (userName, otp) => `
+  otpTemplate: async (userName, otp) => `
   <!DOCTYPE html>
   <html>
   <head>
@@ -322,7 +330,7 @@ module.exports = {
   </html>
 `,
 
-    sendResetPasswordTemplate: data => `
+  sendResetPasswordTemplate: (data) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -430,7 +438,7 @@ module.exports = {
 </html>
 `,
 
-    passwordChangeTemplate: data => `
+  passwordChangeTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -534,7 +542,11 @@ module.exports = {
   </html>
 `,
 
-    documentUploadTemplate: async (userName, uploadLink, documentTypes = 'PDF, DOCX, ZIP') => `
+  documentUploadTemplate: async (
+    userName,
+    uploadLink,
+    documentTypes = 'PDF, DOCX, ZIP'
+  ) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -634,9 +646,9 @@ module.exports = {
   </html>
 `,
 
-    sendResetEmail: async (user, token) => {
-        const resetLink = `http://13.127.13.10:5000/reset-password?token=${token}`;
-        const resetEmail = `
+  sendResetEmail: async (user, token) => {
+    const resetLink = `http://13.127.13.10:5000/reset-password?token=${token}`;
+    const resetEmail = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -716,10 +728,10 @@ module.exports = {
     </div>
 </body>
 </html>
-`
-    },
+`;
+  },
 
-    performanceTrackingTemplate: async (data) => `
+  performanceTrackingTemplate: async (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -831,14 +843,14 @@ module.exports = {
                       <th>Duration</th>
                   </tr>
                   ${data
-            .map(
-                (item) => `
+                    .map(
+                      (item) => `
                   <tr>
                       <td>${item.Action}</td>
                       <td>${item.Duration}</td>
                   </tr>`
-            )
-            .join('')}
+                    )
+                    .join('')}
               </table>
               <p>If you have any questions about this report, please contact our support team.</p>
           </div>
@@ -850,7 +862,7 @@ module.exports = {
   </html>
 `,
 
-    systemLogsTemplate: async (logData) => `
+  systemLogsTemplate: async (logData) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -963,15 +975,15 @@ module.exports = {
                       <th>Message</th>
                   </tr>
                   ${logData
-            .map(
-                (log) => `
+                    .map(
+                      (log) => `
                   <tr>
                       <td>${log.timestamp}</td>
                       <td>${log.level}</td>
                       <td>${log.message}</td>
                   </tr>`
-            )
-            .join('')}
+                    )
+                    .join('')}
               </table>
               <p>For any questions or further details, please reach out to support.</p>
           </div>
@@ -983,7 +995,7 @@ module.exports = {
   </html>
 `,
 
-    notificationTemplate: async (title, content) => `
+  notificationTemplate: async (title, content) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1082,7 +1094,7 @@ module.exports = {
   </html>
 `,
 
-    welcomeTemplate: async (name) => `
+  welcomeTemplate: async (name) => `
   <!DOCTYPE html>
   <html>
   <head>
@@ -1187,7 +1199,7 @@ module.exports = {
   </html>
 `,
 
-    eventInvitationTemplate: async (eventName, eventDate, eventLink) => `
+  eventInvitationTemplate: async (eventName, eventDate, eventLink) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1289,7 +1301,7 @@ module.exports = {
   </html>
 `,
 
-    downloadProjectTemplate: async (userName, projectName, downloadLink) => `
+  downloadProjectTemplate: async (userName, projectName, downloadLink) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1382,7 +1394,7 @@ module.exports = {
   </html>
 `,
 
-    eventCancellationTemplate: async (eventName) => `
+  eventCancellationTemplate: async (eventName) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1458,7 +1470,7 @@ module.exports = {
   </html>
 `,
 
-    termsAndConditionsTemplate: async (userName, companyName, termsLink) => `
+  termsAndConditionsTemplate: async (userName, companyName, termsLink) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1544,7 +1556,12 @@ module.exports = {
   </html>
 `,
 
-    sendLocationTemplate: async (userName, locationName, locationAddress, locationLink) => `
+  sendLocationTemplate: async (
+    userName,
+    locationName,
+    locationAddress,
+    locationLink
+  ) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1630,7 +1647,11 @@ module.exports = {
   </html>
 `,
 
-    documentUploadTemplate: async (userName, uploadLink, documentTypes = 'PDF, DOCX, ZIP') => `
+  documentUploadTemplate: async (
+    userName,
+    uploadLink,
+    documentTypes = 'PDF, DOCX, ZIP'
+  ) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1729,5 +1750,4 @@ module.exports = {
   </body>
   </html>
 `,
-
 };

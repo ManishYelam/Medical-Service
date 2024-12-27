@@ -12,28 +12,28 @@ const DefineComplianceLegalRoutes = () => {
   app.get('/', async (req, res) => {
     try {
       const response = {
-        message: "Welcome to the Compliance and Legal Department",
-        status: "success",
+        message: 'Welcome to the Compliance and Legal Department',
+        status: 'success',
         timestamp: new Date().toISOString(),
         data: {
-          description: "Manage compliance and legal matters.",
-          api_version: "1.0",
+          description: 'Manage compliance and legal matters.',
+          api_version: '1.0',
           contact_info: {
-            email: "support@compliance.com",
-            phone: "+1234567895",
+            email: 'support@compliance.com',
+            phone: '+1234567895',
           },
           links: [
-            { rel: "self", href: req.originalUrl },
-            { rel: "regulations", href: "/api/legal/regulations" },
-            { rel: "contracts", href: "/api/legal/contracts" },
+            { rel: 'self', href: req.originalUrl },
+            { rel: 'regulations', href: '/api/legal/regulations' },
+            { rel: 'contracts', href: '/api/legal/contracts' },
           ],
         },
       };
       res.status(200).json(response);
     } catch (error) {
-      console.error("Error in /data endpoint:", error.message);
+      console.error('Error in /data endpoint:', error.message);
       res.status(500).json({
-        message: "An error occurred while processing your request.",
+        message: 'An error occurred while processing request.',
         error: error.message,
       });
     }
@@ -65,4 +65,3 @@ const StartComplianceLegalServer = async () => {
 };
 
 module.exports = { StartComplianceLegalServer };
-

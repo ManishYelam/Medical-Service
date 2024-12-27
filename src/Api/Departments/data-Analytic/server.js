@@ -12,28 +12,28 @@ const DefineDataAnalyticRoutes = () => {
   app.get('/', async (req, res) => {
     try {
       const response = {
-        message: "Welcome to the Data Analytics Department",
-        status: "success",
+        message: 'Welcome to the Data Analytics Department',
+        status: 'success',
         timestamp: new Date().toISOString(),
         data: {
-          description: "Analyze data and generate insights.",
-          api_version: "1.0",
+          description: 'Analyze data and generate insights.',
+          api_version: '1.0',
           contact_info: {
-            email: "support@dataanalytics.com",
-            phone: "+1234567899",
+            email: 'support@dataanalytics.com',
+            phone: '+1234567899',
           },
           links: [
-            { rel: "self", href: req.originalUrl },
-            { rel: "reports", href: "/api/data/reports" },
-            { rel: "dashboards", href: "/api/data/dashboards" },
+            { rel: 'self', href: req.originalUrl },
+            { rel: 'reports', href: '/api/data/reports' },
+            { rel: 'dashboards', href: '/api/data/dashboards' },
           ],
         },
       };
       res.status(200).json(response);
     } catch (error) {
-      console.error("Error in /data endpoint:", error.message);
+      console.error('Error in /data endpoint:', error.message);
       res.status(500).json({
-        message: "An error occurred while processing your request.",
+        message: 'An error occurred while processing your request.',
         error: error.message,
       });
     }
@@ -65,4 +65,3 @@ const StartDataAnalyticServer = async () => {
 };
 
 module.exports = { StartDataAnalyticServer };
-

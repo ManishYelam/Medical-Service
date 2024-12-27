@@ -10,34 +10,34 @@ const app = express();
 const server = http.createServer(app);
 
 const DefinePharmacyRoutes = () => {
-
   app.get('/', async (req, res) => {
     try {
       const response = {
-        message: "Welcome to the Pharmacy Department",
-        status: "success",
+        message: 'Welcome to the Pharmacy Department',
+        status: 'success',
         timestamp: new Date().toISOString(),
         data: {
-          description: "This is the gateway to manage pharmacy operations, including inventory management, order processing, and customer interactions.",
-          api_version: "1.0",
+          description:
+            'This is the gateway to manage pharmacy operations, including inventory management, order processing, and customer interactions.',
+          api_version: '1.0',
           contact_info: {
-            email: "manish@pharmacy.com",
-            phone: "+9373200525",
+            email: 'manish@pharmacy.com',
+            phone: '+9373200525',
           },
           links: [
-            { rel: "self", href: req.originalUrl },
-            { rel: "inventory", href: "/api/pharmacy/inventory" },
-            { rel: "orders", href: "/api/pharmacy/orders" },
-            { rel: "customers", href: "/api/pharmacy/customers" },
+            { rel: 'self', href: req.originalUrl },
+            { rel: 'inventory', href: '/api/pharmacy/inventory' },
+            { rel: 'orders', href: '/api/pharmacy/orders' },
+            { rel: 'customers', href: '/api/pharmacy/customers' },
           ],
         },
       };
 
       res.status(200).json(response);
     } catch (error) {
-      console.error("Error in /data endpoint:", error.message);
+      console.error('Error in /data endpoint:', error.message);
       res.status(500).json({
-        message: "An error occurred while processing your request.",
+        message: 'An error occurred while processing your request.',
         error: error.message,
       });
     }
@@ -58,7 +58,6 @@ const DefinePharmacyRoutes = () => {
 
 const StartPharmacyServer = async () => {
   try {
-
     InitializeDatabase();
 
     DefinePharmacyRoutes();

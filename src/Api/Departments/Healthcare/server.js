@@ -11,28 +11,28 @@ const DefineHealthCareRoutes = () => {
   app.get('/', async (req, res) => {
     try {
       const response = {
-        message: "Welcome to the Healthcare Department",
-        status: "success",
+        message: 'Welcome to the Healthcare Department',
+        status: 'success',
         timestamp: new Date().toISOString(),
         data: {
-          description: "Manage healthcare services and patient information.",
-          api_version: "1.0",
+          description: 'Manage healthcare services and patient information.',
+          api_version: '1.0',
           contact_info: {
-            email: "support@healthcare.com",
-            phone: "+1234567896",
+            email: 'support@healthcare.com',
+            phone: '+1234567896',
           },
           links: [
-            { rel: "self", href: req.originalUrl },
-            { rel: "patients", href: "/api/healthcare/patients" },
-            { rel: "appointments", href: "/api/healthcare/appointments" },
+            { rel: 'self', href: req.originalUrl },
+            { rel: 'patients', href: '/api/healthcare/patients' },
+            { rel: 'appointments', href: '/api/healthcare/appointments' },
           ],
         },
       };
       res.status(200).json(response);
     } catch (error) {
-      console.error("Error in /data endpoint:", error.message);
+      console.error('Error in /data endpoint:', error.message);
       res.status(500).json({
-        message: "An error occurred while processing your request.",
+        message: 'An error occurred while processing your request.',
         error: error.message,
       });
     }
@@ -64,4 +64,3 @@ const StartHealthCareServer = async () => {
 };
 
 module.exports = { StartHealthCareServer };
-

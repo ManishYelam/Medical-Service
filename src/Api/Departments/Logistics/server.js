@@ -9,32 +9,32 @@ const app = express();
 const server = http.createServer(app);
 
 const DefineLogisticsRoutes = () => {
-
   app.get('/', async (req, res) => {
     try {
       const response = {
-        message: "Welcome to the Logistics Department",
-        status: "success",
+        message: 'Welcome to the Logistics Department',
+        status: 'success',
         timestamp: new Date().toISOString(),
         data: {
-          description: "Manage delivery operations, including routing and tracking.",
-          api_version: "1.0",
+          description:
+            'Manage delivery operations, including routing and tracking.',
+          api_version: '1.0',
           contact_info: {
-            email: "support@logistics.com",
-            phone: "+1234567891",
+            email: 'support@logistics.com',
+            phone: '+1234567891',
           },
           links: [
-            { rel: "self", href: req.originalUrl },
-            { rel: "deliveries", href: "/api/logistics/deliveries" },
-            { rel: "drivers", href: "/api/logistics/drivers" },
+            { rel: 'self', href: req.originalUrl },
+            { rel: 'deliveries', href: '/api/logistics/deliveries' },
+            { rel: 'drivers', href: '/api/logistics/drivers' },
           ],
         },
       };
       res.status(200).json(response);
     } catch (error) {
-      console.error("Error in /data endpoint:", error.message);
+      console.error('Error in /data endpoint:', error.message);
       res.status(500).json({
-        message: "An error occurred while processing your request.",
+        message: 'An error occurred while processing your request.',
         error: error.message,
       });
     }
@@ -66,4 +66,3 @@ const StartLogisticsServer = async () => {
 };
 
 module.exports = { StartLogisticsServer };
-

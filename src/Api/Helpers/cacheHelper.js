@@ -33,13 +33,12 @@ module.exports = {
   },
 };
 
-
 const cacheHelper = require('./cacheHelper');
 
 // Caching data from an expensive query
 app.get('/data', (req, res) => {
   const cacheKey = 'data';
-  
+
   cacheHelper.getCache(cacheKey, (cachedData) => {
     if (cachedData) return res.json(cachedData);
 

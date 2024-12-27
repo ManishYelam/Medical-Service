@@ -7,7 +7,7 @@ const AuthController = {
       const { token, data, user, permissions } = await AuthService.login(health_id, usernameOrEmail, password);
       // Store Health ID in session after successful login
       req.session.healthID = user.health_id;
-      res.status(200).json({ token, user, permissions, data, });
+      res.status(200).json({ token, user, permissions, data });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -21,7 +21,9 @@ const AuthController = {
       const response = await AuthService.logout(userId, token, ip);
       req.session.destroy((err) => {
         if (err) {
-          return res.status(500).json({ message: 'Logout failed: Session error' });
+          return res
+            .status(500)
+            .json({ message: 'Logout failed: Session error' });
         }
         req.token = null;
         res.clearCookie('connect.sid');

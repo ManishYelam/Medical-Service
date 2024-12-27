@@ -5,7 +5,7 @@ const RolePermissions = require('./RolePermissions');
 const Medicine = require('./Medicine');
 
 // User-Role Relationship (Many Users to One Role)
-User.belongsTo(Role, { through: 'UserRoles', foreignKey: 'role_id', });
+User.belongsTo(Role, { through: 'UserRoles', foreignKey: 'role_id' });
 Role.hasMany(User, { foreignKey: 'role_id' }); // One Role has Many Users
 
 // Role-Permission Relationship (Many-to-Many through RolePermissions)

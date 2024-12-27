@@ -8,9 +8,15 @@ module.exports = {
       const data = [];
       fs.createReadStream(filePath)
         .pipe(fastcsv.parse({ headers: true, skipEmptyLines: true }))
-        .on('data', (row) => { data.push(row); })
-        .on('end', () => { resolve(data); })
-        .on('error', (error) => { reject(error); });
+        .on('data', (row) => {
+          data.push(row);
+        })
+        .on('end', () => {
+          resolve(data);
+        })
+        .on('error', (error) => {
+          reject(error);
+        });
     });
   },
 };

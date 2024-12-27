@@ -12,28 +12,28 @@ const DefineHrRoutes = () => {
   app.get('/', async (req, res) => {
     try {
       const response = {
-        message: "Welcome to the HR Department",
-        status: "success",
+        message: 'Welcome to the HR Department',
+        status: 'success',
         timestamp: new Date().toISOString(),
         data: {
-          description: "Manage employee records and HR processes.",
-          api_version: "1.0",
+          description: 'Manage employee records and HR processes.',
+          api_version: '1.0',
           contact_info: {
-            email: "support@hr.com",
-            phone: "+1234567800",
+            email: 'support@hr.com',
+            phone: '+1234567800',
           },
           links: [
-            { rel: "self", href: req.originalUrl },
-            { rel: "employees", href: "/api/hr/employees" },
-            { rel: "policies", href: "/api/hr/policies" },
+            { rel: 'self', href: req.originalUrl },
+            { rel: 'employees', href: '/api/hr/employees' },
+            { rel: 'policies', href: '/api/hr/policies' },
           ],
         },
       };
       res.status(200).json(response);
     } catch (error) {
-      console.error("Error in /data endpoint:", error.message);
+      console.error('Error in /data endpoint:', error.message);
       res.status(500).json({
-        message: "An error occurred while processing your request.",
+        message: 'An error occurred while processing your request.',
         error: error.message,
       });
     }
@@ -65,6 +65,3 @@ const StartHrServer = async () => {
 };
 
 module.exports = { StartHrServer };
-
-
-

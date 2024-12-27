@@ -1,5 +1,5 @@
-const { sequelize } = require("../../../../Config/Database/db.config");
-const { User, Role, Permission, RolePermissions, } = require("./Association");
+const { sequelize } = require('../../../../Config/Database/db.config');
+const { User, Role, Permission, RolePermissions } = require('./Association');
 
 module.exports = {
   InitializeDatabase: async () => {
