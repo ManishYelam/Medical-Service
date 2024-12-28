@@ -1,80 +1,126 @@
 const { fetchModelData, createModelData, updateModelData, deleteModelData } = require("../Models/ModelOperator/DataModel");
 
 class ModelService {
-    constructor() {
-        this.modelMapping = {
-            User: { type: 'User', key: 'User' },
-            UserLog: { type: 'UserLog', key: 'UserLog' },
-            Role: { type: 'Role', key: 'Role' },
-            Permission: { type: 'Permission', key: 'Permission' },
-            RolePermissions: { type: 'RolePermissions', key: 'RolePermissions' },
-            Department: { type: 'Department', key: 'Department' }
-        };
-    }
+  constructor() {
+    this.modelMapping = {
+      User: { type: 'User', key: 'User' },
+      UserLog: { type: 'UserLog', key: 'UserLog' },
+      Role: { type: 'Role', key: 'Role' },
+      Permission: { type: 'Permission', key: 'Permission' },
+      RolePermissions: { type: 'RolePermissions', key: 'RolePermissions' },
+      Department: { type: 'Department', key: 'Department' },
+    };
+  }
 
-    async fetchAllRecords(health_id, page = 1, limit = 10, filters = {}) {
-        const results = {};
-        for (const modelName in this.modelMapping) {
-            const selectedModel = this.modelMapping[modelName];
-            try {
-                const { data, totalCount } = await fetchModelData(health_id, selectedModel.type, selectedModel.key, filters, page, limit);
-                if (data.error) {
-                    results[modelName] = { error: data.error };
-                } else {
-                    results[modelName] = { totalCount: totalCount, data: data };
-                }
-            } catch (error) {
-                results[modelName] = { error: error.message };
-            }
+  async fetchAllRecords(health_id, page = 1, limit = 10, filters = {}) {
+    const results = {};
+    for (const modelName in this.modelMapping) {
+      const selectedModel = this.modelMapping[modelName];
+      try {
+        const { data, totalCount } = await fetchModelData(
+          health_id,
+          selectedModel.type,
+          selectedModel.key,
+          filters,
+          page,
+          limit
+        );
+        if (data.error) {
+          results[modelName] = { error: data.error };
+        } else {
+          results[modelName] = { totalCount: totalCount, data: data };
         }
-        return results;
+      } catch (error) {
+        results[modelName] = { error: error.message };
+      }
+    }
+    return results;
+  }
+
+  async fetchSpecificModelRecords(
+    health_id,
+    modelName,
+    page = 1,
+    limit = 10,
+    filters = {}
+  ) {
+    const selectedModel = this.modelMapping[modelName];
+    if (!selectedModel) {
+      throw new Error(`Model "${modelName}" not found.`);
     }
 
-    async fetchSpecificModelRecords(health_id, modelName, page = 1, limit = 10, filters = {}) {
-        const selectedModel = this.modelMapping[modelName];
-        if (!selectedModel) { throw new Error(`Model "${modelName}" not found.`); }
-
-        const { data, totalCount } = await fetchModelData(health_id, selectedModel.type, selectedModel.key, filters, page, limit);
-        if (data.error) { throw new Error(data.error); }
-
-        return { model: modelName, totalCount: totalCount, data: data };
+    const { data, totalCount } = await fetchModelData(
+      health_id,
+      selectedModel.type,
+      selectedModel.key,
+      filters,
+      page,
+      limit
+    );
+    if (data.error) {
+      throw new Error(data.error);
     }
 
-    async createRecord(health_id, modelName, data) {
-        const selectedModel = this.modelMapping[modelName];
-        if (!selectedModel) { throw new Error(`Model "${modelName}" not found.`); }
+    return { model: modelName, totalCount: totalCount, data: data };
+  }
 
-        try {
-            const result = await createModelData(health_id, selectedModel.type, selectedModel.key, data);
-            return result;
-        } catch (error) {
-            throw new Error(error.message);
-        }
+  async createRecord(health_id, modelName, data) {
+    const selectedModel = this.modelMapping[modelName];
+    if (!selectedModel) {
+      throw new Error(`Model "${modelName}" not found.`);
     }
 
-    async updateRecord(health_id, modelName, data, id) {
-        const selectedModel = this.modelMapping[modelName];
-        if (!selectedModel) { throw new Error(`Model "${modelName}" not found.`); }
+    try {
+      const result = await createModelData(
+        health_id,
+        selectedModel.type,
+        selectedModel.key,
+        data
+      );
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 
-        try {
-            const result = await updateModelData(health_id, selectedModel.type, selectedModel.key, data, id);
-            return result;
-        } catch (error) {
-            throw new Error(error.message);
-        }
+  async updateRecord(health_id, modelName, data, id) {
+    const selectedModel = this.modelMapping[modelName];
+    if (!selectedModel) {
+      throw new Error(`Model "${modelName}" not found.`);
     }
 
-    async deleteRecord(health_id, modelName, id) {
-        const selectedModel = this.modelMapping[modelName];
-        if (!selectedModel) { throw new Error(`Model "${modelName}" not found.`); }
-
-        try {
-            const result = await deleteModelData(health_id, selectedModel.type, selectedModel.key, id);
-            return result;
-        } catch (error) {
-            throw new Error(error.message);
-        }
+    try {
+      const result = await updateModelData(
+        health_id,
+        selectedModel.type,
+        selectedModel.key,
+        data,
+        id
+      );
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
     }
+  }
+
+  async deleteRecord(health_id, modelName, id) {
+    const selectedModel = this.modelMapping[modelName];
+    if (!selectedModel) {
+      throw new Error(`Model "${modelName}" not found.`);
+    }
+
+    try {
+      const result = await deleteModelData(
+        health_id,
+        selectedModel.type,
+        selectedModel.key,
+        id
+      );
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }
 
 module.exports = new ModelService();
@@ -114,7 +160,7 @@ module.exports = new ModelService();
 
 
 
-// const queries = require('./queries'); 
+// const queries = require('./queries');
 
 // class ModelService {
 //     constructor() {
@@ -211,7 +257,6 @@ module.exports = new ModelService();
 // }
 
 // module.exports = new ModelService();
-
 
 // // routes/modelRoutes.js
 

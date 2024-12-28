@@ -59,7 +59,6 @@ class PermissionService {
   async getAllPermissionsTree(health_id) {
     try {
       const { Permission } = await loadModels(health_id);
-      console.log(Permission)
 
       const permissions = await Permission.findAll();
 

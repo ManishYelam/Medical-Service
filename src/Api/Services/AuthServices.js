@@ -24,10 +24,7 @@ const AuthService = {
     const user = await User.findOne({
       where: {
         health_id: healthId,
-        [Op.or]: [
-          { email: usernameOrEmail },
-          { username: usernameOrEmail }
-        ]
+        [Op.or]: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
       },
       attributes: ['id', 'health_id', 'username', 'email', 'password', 'first_name', 'last_name', 'date_of_birth', 'phone_number', 'address', 'status'],
       include: [{

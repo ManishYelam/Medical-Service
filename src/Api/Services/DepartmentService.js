@@ -1,6 +1,6 @@
 // const models = require("../../Config/Database/centralModelLoader");
 
-const { loadModels } = require("../Models/ModelOperator/LoadModels");
+const { loadModels } = require('../Models/ModelOperator/LoadModels');
 
 // const { DepartmentModel } = require("../Models/ModelOperator/DataModel");
 
@@ -9,90 +9,100 @@ const { loadModels } = require("../Models/ModelOperator/LoadModels");
 // const Department = DepartmentModel();
 
 class DepartmentService {
-    async createDepartment(data) {
-        return await Department.create(data);
-    }
+  async createDepartment(data) {
+    return await Department.create(data);
+  }
 
-    async bulkCreateDepartments(health_id,data) {
-        const { Department } = await loadModels(health_id);
-        return await Department.bulkCreate(data);
-    }
+  async bulkCreateDepartments(health_id, data) {
+    const { Department } = await loadModels(health_id);
+    return await Department.bulkCreate(data);
+  }
 
-    getAllDepartments = async (queryParams = {}, search = '', page = 1, pageSize = 10, sortBy = 'name', sortOrder = 'ASC') => {
-        try {
-            const offset = (page - 1) * pageSize;
-            const limit = pageSize;
-    
-            const filterConditions = {};
-            
-            Object.keys(queryParams).forEach(key => {
-                if (queryParams[key]) {
-                    if (typeof queryParams[key] === 'string') {
-                        filterConditions[key] = { [Sequelize.Op.iLike]: `%${queryParams[key]}%` };
-                    } else {
-                        filterConditions[key] = queryParams[key];
-                    }
-                }
-            });
-    
-            let searchConditions = [];
-            if (search) {
-                searchConditions = [
-                    { name: { [Sequelize.Op.iLike]: `%${search}%` } },
-                    { head_of_department: { [Sequelize.Op.iLike]: `%${search}%` } },
-                    { email: { [Sequelize.Op.iLike]: `%${search}%` } },
-                ];
-            }
-    
-            const whereConditions = {
-                ...filterConditions,
-                [Sequelize.Op.or]: searchConditions.length > 0 ? searchConditions : undefined, 
+  getAllDepartments = async (
+    queryParams = {},
+    search = '',
+    page = 1,
+    pageSize = 10,
+    sortBy = 'name',
+    sortOrder = 'ASC'
+  ) => {
+    try {
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
+
+      const filterConditions = {};
+
+      Object.keys(queryParams).forEach((key) => {
+        if (queryParams[key]) {
+          if (typeof queryParams[key] === 'string') {
+            filterConditions[key] = {
+              [Sequelize.Op.iLike]: `%${queryParams[key]}%`,
             };
-    
-            const order = [[sortBy, sortOrder]];
-    
-            const departments = await Department.findAll({
-                where: whereConditions,
-                offset,
-                limit,
-                order, 
-            });
-    
-            const totalDepartments = await Department.count({
-                where: whereConditions,
-            });
-    
-            return {
-                departments,
-                totalDepartments,
-                page,
-                pageSize,
-                totalPages: Math.ceil(totalDepartments / pageSize),
-            };
-        } catch (error) {
-            throw new Error('Error fetching departments: ' + error.message);
+          } else {
+            filterConditions[key] = queryParams[key];
+          }
         }
-    }
+      });
 
-    async getDepartmentById(id) {
-        return await Department.findByPk(id);
-    }
+      let searchConditions = [];
+      if (search) {
+        searchConditions = [
+          { name: { [Sequelize.Op.iLike]: `%${search}%` } },
+          { head_of_department: { [Sequelize.Op.iLike]: `%${search}%` } },
+          { email: { [Sequelize.Op.iLike]: `%${search}%` } },
+        ];
+      }
 
-    async updateDepartment(id, data) {
-        const department = await Department.findByPk(id);
-        if (!department) {
-            throw new Error('Department not found');
-        }
-        return await department.update(data);
-    }
+      const whereConditions = {
+        ...filterConditions,
+        [Sequelize.Op.or]:
+          searchConditions.length > 0 ? searchConditions : undefined,
+      };
 
-    async deleteDepartment(id) {
-        const department = await Department.findByPk(id);
-        if (!department) {
-            throw new Error('Department not found');
-        }
-        return await department.destroy();
+      const order = [[sortBy, sortOrder]];
+
+      const departments = await Department.findAll({
+        where: whereConditions,
+        offset,
+        limit,
+        order,
+      });
+
+      const totalDepartments = await Department.count({
+        where: whereConditions,
+      });
+
+      return {
+        departments,
+        totalDepartments,
+        page,
+        pageSize,
+        totalPages: Math.ceil(totalDepartments / pageSize),
+      };
+    } catch (error) {
+      throw new Error('Error fetching departments: ' + error.message);
     }
+  };
+
+  async getDepartmentById(id) {
+    return await Department.findByPk(id);
+  }
+
+  async updateDepartment(id, data) {
+    const department = await Department.findByPk(id);
+    if (!department) {
+      throw new Error('Department not found');
+    }
+    return await department.update(data);
+  }
+
+  async deleteDepartment(id) {
+    const department = await Department.findByPk(id);
+    if (!department) {
+      throw new Error('Department not found');
+    }
+    return await department.destroy();
+  }
 }
 
 module.exports = new DepartmentService();
