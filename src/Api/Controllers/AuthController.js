@@ -1,10 +1,14 @@
 const AuthService = require('../Services/AuthServices');
 
-const AuthController = {
+module.exports = {
   login: async (req, res) => {
     try {
       const { health_id, usernameOrEmail, password } = req.body;
-      const { token, data, user, permissions } = await AuthService.login(health_id, usernameOrEmail, password);
+      const { token, data, user, permissions } = await AuthService.login(
+        health_id,
+        usernameOrEmail,
+        password
+      );
       // Store Health ID in session after successful login
       req.session.healthID = user.health_id;
       res.status(200).json({ token, user, permissions, data });
@@ -72,5 +76,3 @@ const AuthController = {
     }
   },
 };
-
-module.exports = AuthController;

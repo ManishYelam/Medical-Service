@@ -114,9 +114,16 @@ module.exports = {
     }
   },
 
-    getAllDepartments: async (req, res) => {
-        try {
-            const { page = 1, pageSize = 10, search = '', sortBy = 'name', sortOrder = 'ASC', ...filters } = req.query;
+  getAllDepartments: async (req, res) => {
+    try {
+      const {
+        page = 1,
+        pageSize = 10,
+        search = '',
+        sortBy = 'name',
+        sortOrder = 'ASC',
+        ...filters
+      } = req.query;
 
       const { departments, totalDepartments, totalPages } =
         await departmentService.getAllDepartments(

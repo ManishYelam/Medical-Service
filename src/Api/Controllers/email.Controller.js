@@ -44,6 +44,7 @@ module.exports = {
         .send(`Error sending performance tracking email: ${error.message}`);
     }
   },
+
   // Send system logs email
   sendSystemLogsEmail: async (req, res) => {
     const { userId } = req.params;
@@ -56,6 +57,7 @@ module.exports = {
       res.status(500).send(`Error sending system logs email: ${error.message}`);
     }
   },
+
   // Send generic notification email
   sendNotificationEmail: async (req, res) => {
     const { userId } = req.params;
