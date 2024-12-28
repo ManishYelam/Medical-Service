@@ -19,7 +19,7 @@
 
 const express = require('express');
 const  emailRouter= express.Router();
-const emailController = require('../controllers/email.Controller');
+const emailController = require('../Controllers/email.Controller');
 
 emailRouter
 // Route to send registration email
