@@ -56,6 +56,26 @@ class PermissionController {
       res.status(500).json({ message: error.message });
     }
   }
+
+  async getAllPermissionsTree(req, res) {
+    try {
+      const { health_id } = req.query;
+      const permissionTree = await permissionService.getAllPermissionsTree(health_id);
+      res.status(200).json({ permissionTree });
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching permission tree', error: error.message });
+    }
+  }
+
+  async getUserPermissionTree(req, res) {
+    try {
+      const { health_id } = req.params;
+      const permissionTree = await permissionService.getUserPermissionTree(health_id);
+      res.status(200).json({ permissionTree });
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching user permission tree', error: error.message });
+    }
+  }
 }
 
 module.exports = new PermissionController();
