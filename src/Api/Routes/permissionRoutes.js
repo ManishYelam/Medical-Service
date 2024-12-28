@@ -6,7 +6,7 @@
 // routeConfig.forEach(route => {
 //     const { method, path, middlewares = [], controller } = route;
 //     if (!permissionRouter[method]) {
-//         throw new Error(`Invalid HTTP method: ${method} for path: ${path}`); 
+//         throw new Error(`Invalid HTTP method: ${method} for path: ${path}`);
 //     }
 //     try {
 //         permissionRouter[method](path, ...middlewares, controller);
@@ -24,15 +24,12 @@ const { permissionCreateSchema, permissionUpdateSchema } = require('../Middlewar
 const permissionRouter = express.Router();
 
 permissionRouter
-    .post('/', validate(permissionCreateSchema), permissionController.createPermissions)
-    .get('/', permissionController.getAllPermissions)
-    .get('/:id', permissionController.getPermissionById)
-    .put('/:id', validate(permissionUpdateSchema), permissionController.updatePermission)
-    .delete('/:id', permissionController.deletePermission)
+  .post('/', validate(permissionCreateSchema), permissionController.createPermissions)
+  .get('/', permissionController.getAllPermissions)
+  .get('/:id', permissionController.getPermissionById)
+  .put('/:id', validate(permissionUpdateSchema), permissionController.updatePermission)
+  .delete('/:id', permissionController.deletePermission)
+  .get('/tree/:userId', permissionController.getUserPermissionTree)
+  .get('/tree', permissionController.getAllPermissionsTree);
 
 module.exports = permissionRouter;
-
-
-
-
-

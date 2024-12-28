@@ -9,7 +9,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendMail = async (to, subject, templateName, templateData = {}, attachments = []) => {
+const sendMail = async (
+  to,
+  subject,
+  templateName,
+  templateData = {},
+  attachments = []
+) => {
   try {
     const template = emailTemplates[templateName];
     const html = await template(templateData);
@@ -23,10 +29,14 @@ const sendMail = async (to, subject, templateName, templateData = {}, attachment
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Email sent to ${to} with subject "${subject}". Message ID: ${info.messageId}`);
+    console.log(
+      `Email sent to ${to} with subject "${subject}". Message ID: ${info.messageId}`
+    );
     return info;
   } catch (error) {
-    console.error(`Failed to send email to ${to} with subject "${subject}". Error: ${error.message}`);
+    console.error(
+      `Failed to send email to ${to} with subject "${subject}". Error: ${error.message}`
+    );
     throw `Invalid email address provided. Please check the email and try again.`;
   }
 };

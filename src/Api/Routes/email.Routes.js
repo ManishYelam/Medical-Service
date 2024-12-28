@@ -37,8 +37,3 @@ emailRouter
 .post('/send-notification-email/:userId', emailController.sendNotificationEmail)
 
 module.exports = emailRouter;
-
-
-
-
-

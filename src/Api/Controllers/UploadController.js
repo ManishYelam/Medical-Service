@@ -7,7 +7,7 @@ const firebaseStorage = require('../config/firebase');
 const { b2, authorizeB2 } = require('../config/backblaze');
 const path = require('path');
 
-const uploadController = {
+module.exports = {
   // Cloudinary Upload
   uploadToCloudinary: async (req, res) => {
     try {
@@ -25,7 +25,7 @@ const uploadController = {
       const params = {
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: req.file.filename,
-        Body: fileContent
+        Body: fileContent,
       };
       const data = await s3.upload(params).promise();
       res.status(200).json({ url: data.Location });
@@ -39,7 +39,7 @@ const uploadController = {
     try {
       await bucket.upload(req.file.path, {
         destination: req.file.filename,
-        public: true
+        public: true,
       });
       const publicUrl = `https://storage.googleapis.com/${process.env.GCS_BUCKET_NAME}/${req.file.filename}`;
       res.status(200).json({ url: publicUrl });
@@ -53,7 +53,9 @@ const uploadController = {
     try {
       const blobClient = containerClient.getBlockBlobClient(req.file.filename);
       await blobClient.uploadFile(req.file.path);
-      res.status(200).json({ url: `https://${process.env.AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${process.env.AZURE_CONTAINER_NAME}/${req.file.filename}` });
+      res.status(200).json({
+        url: `https://${process.env.AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${process.env.AZURE_CONTAINER_NAME}/${req.file.filename}`,
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -63,7 +65,10 @@ const uploadController = {
   uploadToFirebase: async (req, res) => {
     try {
       const storageRef = ref(firebaseStorage, req.file.filename);
-      const snapshot = await uploadBytes(storageRef, fs.readFileSync(req.file.path));
+      const snapshot = await uploadBytes(
+        storageRef,
+        fs.readFileSync(req.file.path)
+      );
       res.status(200).json({ url: snapshot.metadata.fullPath });
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -78,13 +83,11 @@ const uploadController = {
       const response = await b2.uploadFile({
         bucketId: process.env.B2_BUCKET_ID,
         fileName: req.file.filename,
-        data: file
+        data: file,
       });
       res.status(200).json({ url: response.data.fileUrl });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  }
+  },
 };
-
-module.exports = uploadController;

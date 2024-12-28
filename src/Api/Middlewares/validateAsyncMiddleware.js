@@ -13,20 +13,19 @@
 
 // module.exports = validateAsync;
 
-
 const validateAsync = (schema) => async (req, res, next) => {
   try {
-      await schema.validateAsync(req.body, { abortEarly: false });
-      next();
+    await schema.validateAsync(req.body, { abortEarly: false });
+    next();
   } catch (error) {
-      // Check if error.details exists and has at least one entry
-      const errorMessage = error.details?.[0]?.message || 'Validation failed';
+    // Check if error.details exists and has at least one entry
+    const errorMessage = error.details?.[0]?.message || 'Validation failed';
 
-      // Log error details for debugging
-      console.error("Validation Error Details:", error.details);
+    // Log error details for debugging
+    console.error('Validation Error Details:', error.details);
 
-      // Return a standardized error message
-      return res.status(400).json({ message: errorMessage });
+    // Return a standardized error message
+    return res.status(400).json({ message: errorMessage });
   }
 };
 

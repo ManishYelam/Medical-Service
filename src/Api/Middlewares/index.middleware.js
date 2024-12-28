@@ -17,7 +17,7 @@ module.exports = () => {
     .use(express.urlencoded({ extended: true }))
     .use(cookieParser())
     .use(sessionConfig)
-    .use(securityConfig)
+    .use(securityConfig);
 
   cron.schedule('0 * * * *', () => {
     (async () => {

@@ -6,7 +6,7 @@ module.exports = {
     const data = {};
 
     const deptKey = getInstanceByKey(health_id);
-    if (!deptKey) { return { error: 'Invalid department code.' }; }
+    if (!deptKey) return { error: 'Invalid department code.' };
 
     const deptModel = models[deptKey];
     if (!deptModel) {

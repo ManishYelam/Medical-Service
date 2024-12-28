@@ -1,5 +1,5 @@
-const deleteUnverifiedUsers = require('./deleteUnverifiedUsers'); 
+const deleteUnverifiedUsers = require('./deleteUnverifiedUsers');
 
 (async () => {
-    await deleteUnverifiedUsers();
+  await deleteUnverifiedUsers();
 })();

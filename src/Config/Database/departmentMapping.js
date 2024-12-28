@@ -5,6 +5,6 @@ const getInstanceByKey = (health_id) => {
   return departmentMapping[prefix];
 };
 
-// console.log(getDatabaseInstanceByKey('PARTNR437293'));
+// console.log(getInstanceByKey('PARTNR437293'));
 
 module.exports = { getInstanceByKey };
