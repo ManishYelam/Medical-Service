@@ -1,5 +1,5 @@
 // const express = require('express');
-// const routeConfig = require('../Routes/Config/userRouteConfig'); 
+// const routeConfig = require('../Routes/Config/userRouteConfig');
 
 // const userRouter = express.Router();
 
@@ -11,7 +11,7 @@
 //     try {
 //         userRouter[method](path, ...middlewares, controller);
 //     } catch (error) {
-//         throw new Error(`Failed to register route for path: ${path} - ${error.message}`); 
+//         throw new Error(`Failed to register route for path: ${path} - ${error.message}`);
 //     }
 // });
 
@@ -26,13 +26,13 @@ const validateAsync = require('../Middlewares/validateAsyncMiddleware');
 const userRouter = express.Router();
 
 userRouter
-    .post('/', validateAsync(userSchema), userController.createUser)
-    .get('/verify', userController.verifyCreateUser)
-    .get('/:userId/permissions/:permissionName', authMiddleware, userController.checkUserPermission)
-    .get('/', authMiddleware, userController.getAllUsers)
-    .get('/:id', authMiddleware, userController.getUserById)
-    .put('/:id',authMiddleware, validateAsync(userUpdateSchema), userController.updateUser)
-    .delete('/:id', authMiddleware, userController.deleteUser)
-    .delete('/user_range/:start_id/to/:end_id', authMiddleware, userController.deleteUserRanges)
+  .post('/', validateAsync(userSchema), userController.createUser)
+  .get('/verify', userController.verifyCreateUser)
+  .get('/:userId/permissions/:permissionName', authMiddleware, userController.checkUserPermission)
+  .get('/', authMiddleware, userController.getAllUsers)
+  .get('/:id', authMiddleware, userController.getUserById)
+  .put('/:id', authMiddleware, validateAsync(userUpdateSchema), userController.updateUser)
+  .delete('/:id', authMiddleware, userController.deleteUser)
+  .delete('/user_range/:start_id/to/:end_id', authMiddleware, userController.deleteUserRanges);
 
 module.exports = userRouter;

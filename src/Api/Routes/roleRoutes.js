@@ -24,14 +24,11 @@ const { roleCreateSchema, rolePermissionsAssignSchema, roleUpdateSchema } = requ
 const roleRouter = express.Router();
 
 roleRouter
-    .post('/', validate(roleCreateSchema), roleController.createRoles)
-    .post('/:roleId/permissions', validate(rolePermissionsAssignSchema), roleController.assignPermissionsToRole)
-    .get('/', roleController.getAllRoles)
-    .get('/:id', roleController.getRoleById)
-    .put('/:id', validate(roleUpdateSchema), roleController.updateRole)
-    .delete('/:id', roleController.deleteRole)
+  .post('/', validate(roleCreateSchema), roleController.createRoles)
+  .post('/:roleId/permissions', validate(rolePermissionsAssignSchema), roleController.assignPermissionsToRole)
+  .get('/', roleController.getAllRoles)
+  .get('/:id', roleController.getRoleById)
+  .put('/:id', validate(roleUpdateSchema), roleController.updateRole)
+  .delete('/:id', roleController.deleteRole);
 
 module.exports = roleRouter;
-
-
-

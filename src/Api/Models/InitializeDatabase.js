@@ -5,7 +5,7 @@ module.exports = {
   InitializeDatabase: async () => {
     try {
       // console.log(sequelize);
-      
+
       // sequelize.MAIN_DB_NAME.sync({ alter: true });
       // sequelize.COMPLIANCE_LEGAL_DB_NAME.sync({ alter: true });
       // sequelize.CUSTOMER_SUPPORT__DB_NAME.sync({ alter: true });

@@ -26,20 +26,16 @@ const { getRecords, createRecord, updateRecord, deleteRecord } = require('../Con
 
 const authRouter = express.Router();
 authRouter
-    .post('/login', validate(loginSchema), AuthController.login)
-    .post('/logout', authMiddleware, AuthController.logout)
-    .post('/forget-password/:email', authMiddleware, AuthController.forgetPassword)
-    .post('/reset-password', validate(resetPasswordSchema), authMiddleware, AuthController.resetPassword)
-    .post('/change-password', validate(changePasswordSchema), authMiddleware, AuthController.changePassword)
-    .post('/refresh-token', validate(refreshTokenSchema), authMiddleware, AuthController.refreshToken)
+  .post('/login', validate(loginSchema), AuthController.login)
+  .post('/logout', authMiddleware, AuthController.logout)
+  .post('/forget-password/:email', authMiddleware, AuthController.forgetPassword)
+  .post('/reset-password', validate(resetPasswordSchema), authMiddleware, AuthController.resetPassword)
+  .post('/change-password', validate(changePasswordSchema), authMiddleware, AuthController.changePassword)
+  .post('/refresh-token', validate(refreshTokenSchema), authMiddleware, AuthController.refreshToken)
 
-    .get('/records', authMiddleware, getRecords)
-    .post('/record/:modelName', authMiddleware, createRecord)
-    .put('/record/:modelName/:id', authMiddleware, updateRecord)
-    .delete('/record/:modelName/:id', authMiddleware, deleteRecord)
+  .get('/records', authMiddleware, getRecords)
+  .post('/record/:modelName', authMiddleware, createRecord)
+  .put('/record/:modelName/:id', authMiddleware, updateRecord)
+  .delete('/record/:modelName/:id', authMiddleware, deleteRecord);
 
 module.exports = authRouter;
-
-
-
-

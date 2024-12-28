@@ -6,12 +6,12 @@
 // routeConfig.forEach(route => {
 //     const { method, path, middlewares = [], controller } = route;
 //     if (!userLogRouter[method]) {
-//         throw new Error(`Invalid HTTP method: ${method} for path: ${path}`); 
+//         throw new Error(`Invalid HTTP method: ${method} for path: ${path}`);
 //     }
 //     try {
 //         userLogRouter[method](path, ...middlewares, controller);
 //     } catch (error) {
-//         throw new Error(`Failed to register route for path: ${path} - ${error.message}`); 
+//         throw new Error(`Failed to register route for path: ${path} - ${error.message}`);
 //     }
 // });
 
@@ -24,11 +24,11 @@ const { userLogCreateSchema, userLogUpdateSchema } = require('../Middlewares/Joi
 const userLogRouter = express.Router();
 
 userLogRouter
-    .post('/', userLogController.createUserLog)
-    .get('/', userLogController.getAllUserLogs)
-    .get('/:id', userLogController.getUserLogById)
-    .put('/:id', userLogController.updateUserLog)
-    .delete('/:id', userLogController.deleteUserLog)
-    .delete('/logs_range/:start_date/to/:end_date', userLogController.deleteLogsInRange)
+  .post('/', userLogController.createUserLog)
+  .get('/', userLogController.getAllUserLogs)
+  .get('/:id', userLogController.getUserLogById)
+  .put('/:id', userLogController.updateUserLog)
+  .delete('/:id', userLogController.deleteUserLog)
+  .delete('/logs_range/:start_date/to/:end_date', userLogController.deleteLogsInRange);
 
 module.exports = userLogRouter;

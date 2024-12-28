@@ -4,7 +4,7 @@ let globalModels = {};
 
 async function loadModels(health_id) {
   if (!globalModels[health_id]) {
-    const tbl = await DatabaseOperator(health_id)
+    const tbl = await DatabaseOperator(health_id);
 
     globalModels[health_id] = {
       User: tbl.User.deptModel.User,
