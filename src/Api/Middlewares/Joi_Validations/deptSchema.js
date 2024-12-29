@@ -1,78 +1,57 @@
 const Joi = require('joi');
 
-// Base schema for Department (shared between create, update, and query operations)
-const baseDepartmentSchema = Joi.object({
-  id: Joi.number().integer().positive().optional().messages({
-    'number.base': 'ID must be a number',
-    'number.integer': 'ID must be an integer',
-    'number.positive': 'ID must be a positive integer',
-  }),
-  name: Joi.string().max(100).optional().messages({
-    'string.base': 'Name must be a string',
-    'string.max': 'Name must be at most 100 characters long',
-  }),
-  head_of_department: Joi.string().optional().messages({
-    'string.base': 'Head of Department must be a string',
-  }),
-  contact_number: Joi.string().max(15).optional().messages({
-    'string.base': 'Contact Number must be a string',
-    'string.max': 'Contact Number must be at most 15 characters long',
-  }),
-  email: Joi.string().email().max(100).optional().messages({
-    'string.base': 'Email must be a string',
-    'string.email': 'Email must be a valid email address',
-    'string.max': 'Email must be at most 100 characters long',
-  }),
-  created_by: Joi.string().optional().messages({
-    'string.base': 'Created By must be a string',
-  }),
-  updated_by: Joi.string().optional().messages({
-    'string.base': 'Updated By must be a string',
-  }),
-  createdAt: Joi.date().optional().messages({
-    'date.base': 'Created At must be a valid date',
-  }),
-  updatedAt: Joi.date().optional().messages({
-    'date.base': 'Updated At must be a valid date',
-  }),
-});
-
-// Schema for "create" operation
-const departmentCreateSchema = baseDepartmentSchema.keys({
-  name: Joi.string().required(),
+// Validation schema for creating a department
+const createDepartmentValidation = Joi.object({
+  name: Joi.string().max(100).required(),
   head_of_department: Joi.string().required(),
   branch: Joi.string().required(),
   branch_of_department: Joi.string().required(),
-  contact_number: Joi.string().optional(),
+  contact_number: Joi.string().max(15).optional(),
   address: Joi.string().required(),
-  email: Joi.string().email().required(),
-  department_code: Joi.string().required(),
+  email: Joi.string().email().max(100).required(),
+  department_code: Joi.string().max(50).required(),
   status: Joi.string().valid('Active', 'Inactive').default('Active'),
   date_founded: Joi.date().optional(),
-  num_employees: Joi.number().integer().default(0),
+  num_employees: Joi.number().integer().min(0).default(0).optional(),
   description: Joi.string().optional(),
   created_by: Joi.string().required(),
   updated_by: Joi.string().required(),
 });
 
-// Schema for "update" operation (allows partial updates)
-const departmentUpdateSchema = baseDepartmentSchema.keys({
-  id: Joi.number().integer().positive().required().messages({
-    'any.required': 'ID is required for updating',
-  }),
+// Validation schema for updating a department
+const updateDepartmentValidation = Joi.object({
+  name: Joi.string().max(100).optional(),
+  head_of_department: Joi.string().optional(),
+  branch: Joi.string().optional(),
+  branch_of_department: Joi.string().optional(),
+  contact_number: Joi.string().max(15).optional(),
+  address: Joi.string().optional(),
+  email: Joi.string().email().max(100).optional(),
+  department_code: Joi.string().max(50).optional(),
+  status: Joi.string().valid('Active', 'Inactive').optional(),
+  date_founded: Joi.date().optional(),
+  num_employees: Joi.number().integer().min(0).optional(),
+  description: Joi.string().optional(),
+  updated_by: Joi.string().optional(),
 });
 
-// Schema for "query" operation (all fields optional, can include `id`)
-const departmentQuerySchema = baseDepartmentSchema.keys({
-  id: Joi.number().integer().positive().optional().messages({
-    'number.base': 'ID must be a number',
-    'number.integer': 'ID must be an integer',
-    'number.positive': 'ID must be a positive integer',
-  }),
+// Validation schema for querying departments
+const queryDepartmentValidation = Joi.object({
+  name: Joi.string().optional(),
+  head_of_department: Joi.string().optional(),
+  branch: Joi.string().optional(),
+  branch_of_department: Joi.string().optional(),
+  status: Joi.string().valid('Active', 'Inactive').optional(),
+  date_founded_before: Joi.date().optional(),
+  date_founded_after: Joi.date().optional(),
+  num_employees_min: Joi.number().integer().min(0).optional(),
+  num_employees_max: Joi.number().integer().optional(),
+  page: Joi.number().integer().min(1).optional(),
+  limit: Joi.number().integer().min(1).optional(),
 });
 
 module.exports = {
-  departmentCreateSchema,
-  departmentUpdateSchema,
-  departmentQuerySchema,
+  createDepartmentValidation,
+  updateDepartmentValidation,
+  queryDepartmentValidation,
 };

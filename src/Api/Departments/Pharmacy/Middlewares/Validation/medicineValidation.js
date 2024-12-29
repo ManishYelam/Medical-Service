@@ -54,6 +54,8 @@ const queryMedicineValidation = Joi.object({
   available_in_stock: Joi.boolean().optional(),
   expiry_date_before: Joi.date().iso().optional(),
   expiry_date_after: Joi.date().iso().optional(),
+  page: Joi.number().integer().min(1).optional(),
+  limit: Joi.number().integer().min(1).optional(),
 });
 
 module.exports = {

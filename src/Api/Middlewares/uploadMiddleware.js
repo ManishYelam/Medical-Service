@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { getUploadPath, validateFile, generateFileUrl } = require('../../Utils/fileUtils');
 const { sizeLimits } = require('../../Config/Database/Data');
+const { deleteFile } = require('../Helpers/fileHelper');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -34,7 +35,8 @@ const uploadMiddleware = (req, res, next) => {
       validateFile(file, req.headers['upload-category'])
     );
     if (validFiles.length === 0) {
-      return res.status(400).json({ error: 'No valid files uploaded.' });
+      deleteFile(req.file.path);
+      return res.status(400).json({ error: 'No valid files uploaded. Files have been deleted.' });
     }
 
     req.uploadedFiles = validFiles.map((file, index) => {

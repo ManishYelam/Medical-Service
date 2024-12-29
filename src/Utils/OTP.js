@@ -28,7 +28,11 @@ const verifyOTP = (inputOtp, savedOtp) => {
 };
 
 // Generates an OTP with an expiration timestamp
-const generateOTPTimestamped = (length = 8, validityPeriod = 300000, useAlphaNumeric = false) => {
+const generateOTPTimestamped = (
+  length = 8,
+  validityPeriod = 300000,
+  useAlphaNumeric = false
+) => {
   const otp = generateOTP(length, useAlphaNumeric);
   const expiryTime = Date.now() + validityPeriod; // Validity period in milliseconds
   return { otp, expiryTime };
