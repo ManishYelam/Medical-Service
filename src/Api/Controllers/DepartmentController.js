@@ -88,8 +88,10 @@ module.exports = {
         });
       }
 
-      const deptResult =
-        await departmentService.bulkCreateDepartments(health_id, departments);
+      const deptResult = await departmentService.bulkCreateDepartments(
+        health_id,
+        departments
+      );
 
       return res.status(201).json({
         name: 'OK',
@@ -128,7 +130,8 @@ module.exports = {
       } = req.query;
 
       const { departments, totalDepartments, totalPages } =
-        await departmentService.getAllDepartments(health_id,
+        await departmentService.getAllDepartments(
+          health_id,
           filters,
           search,
           parseInt(page),
@@ -162,7 +165,10 @@ module.exports = {
     try {
       const health_id = req.user.health_id;
       const { id } = req.params;
-      const department = await departmentService.getDepartmentById(health_id,id);
+      const department = await departmentService.getDepartmentById(
+        health_id,
+        id
+      );
 
       if (!department) {
         return res.status(404).json({
@@ -219,7 +225,10 @@ module.exports = {
     try {
       const health_id = req.user.health_id;
       const { id } = req.params;
-      const department = await departmentService.deleteDepartment(health_id,id);
+      const department = await departmentService.deleteDepartment(
+        health_id,
+        id
+      );
 
       if (!department) {
         return res.status(404).json({
@@ -228,7 +237,7 @@ module.exports = {
         });
       }
       return res.status(200).json({
-        name: "OK",
+        name: 'OK',
         status: true,
         code: 200,
         message: 'Department deleted successfully',
