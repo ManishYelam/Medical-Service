@@ -1,6 +1,6 @@
 const { parseCSV } = require('../Helpers/excelHelper');
 const { deleteFile } = require('../Helpers/fileHelper');
-const { departmentCreateSchema } = require('../Middlewares/Joi_Validations/deptSchema');
+const { createDepartmentValidation } = require('../Middlewares/Joi_Validations/deptSchema');
 const departmentService = require('../Services/DepartmentService');
 
 module.exports = {
@@ -25,6 +25,7 @@ module.exports = {
 
   bulkCreateDepartments: async (req, res) => {
     try {
+      const health_id = req.user.health_id;
       if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
       }
@@ -62,7 +63,7 @@ module.exports = {
       for (const [index, row] of rows.entries()) {
         try {
           const parsedRow = parseData(row);
-          const { error } = departmentCreateSchema.validate(parsedRow);
+          const { error } = createDepartmentValidation.validate(parsedRow);
 
           if (error) {
             errors.push({
@@ -88,7 +89,7 @@ module.exports = {
       }
 
       const deptResult =
-        await departmentService.bulkCreateDepartments(departments);
+        await departmentService.bulkCreateDepartments(health_id, departments);
 
       return res.status(201).json({
         name: 'OK',
@@ -116,6 +117,7 @@ module.exports = {
 
   getAllDepartments: async (req, res) => {
     try {
+      const health_id = req.user.health_id;
       const {
         page = 1,
         pageSize = 10,
@@ -126,7 +128,7 @@ module.exports = {
       } = req.query;
 
       const { departments, totalDepartments, totalPages } =
-        await departmentService.getAllDepartments(
+        await departmentService.getAllDepartments(health_id,
           filters,
           search,
           parseInt(page),
@@ -158,8 +160,9 @@ module.exports = {
 
   getDepartmentById: async (req, res) => {
     try {
+      const health_id = req.user.health_id;
       const { id } = req.params;
-      const department = await departmentService.getDepartmentById(id);
+      const department = await departmentService.getDepartmentById(health_id,id);
 
       if (!department) {
         return res.status(404).json({
@@ -214,8 +217,9 @@ module.exports = {
 
   deleteDepartment: async (req, res) => {
     try {
+      const health_id = req.user.health_id;
       const { id } = req.params;
-      const department = await departmentService.deleteDepartment(id);
+      const department = await departmentService.deleteDepartment(health_id,id);
 
       if (!department) {
         return res.status(404).json({
@@ -223,9 +227,10 @@ module.exports = {
           message: 'Department not found',
         });
       }
-
-      return res.status(204).json({
+      return res.status(200).json({
+        name: "OK",
         status: true,
+        code: 200,
         message: 'Department deleted successfully',
       });
     } catch (error) {

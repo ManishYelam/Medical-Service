@@ -19,6 +19,7 @@ class DepartmentService {
   }
 
   getAllDepartments = async (
+    health_id,
     queryParams = {},
     search = '',
     page = 1,
@@ -26,7 +27,11 @@ class DepartmentService {
     sortBy = 'name',
     sortOrder = 'ASC'
   ) => {
+    console.log(health_id, queryParams, search, page, pageSize, sortBy, sortOrder);
+    
     try {
+      const { Department } = await loadModels(health_id);
+      
       const offset = (page - 1) * pageSize;
       const limit = pageSize;
 
@@ -84,7 +89,8 @@ class DepartmentService {
     }
   };
 
-  async getDepartmentById(id) {
+  async getDepartmentById(health_id,id) {
+    const { Department } = await loadModels(health_id);
     return await Department.findByPk(id);
   }
 
@@ -96,7 +102,8 @@ class DepartmentService {
     return await department.update(data);
   }
 
-  async deleteDepartment(id) {
+  async deleteDepartment(health_id,id) {
+    const { Department } = await loadModels(health_id);
     const department = await Department.findByPk(id);
     if (!department) {
       throw new Error('Department not found');
