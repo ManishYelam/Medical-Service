@@ -8,12 +8,28 @@ module.exports = {
     try {
       const { error } = createMedicineValidation.validate(req.body);
       if (error)
-        return res.status(400).json({ message: error.details[0].message });
+        return res.status(400).json({
+          name: 'Error',
+          status: false,
+          code: 400,
+          message: error.details[0].message,
+        });
 
       const medicine = await MedicineService.createMedicine(req.body);
-      res.status(201).json(medicine);
+      res.status(201).json({
+        name: 'OK',
+        status: true,
+        code: 201,
+        medicine,
+      });
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({
+        name: 'Error',
+        status: false,
+        code: 500,
+        message: 'Internal server error',
+        error: err.message,
+      });
     }
   },
 
@@ -21,12 +37,31 @@ module.exports = {
     try {
       const { error } = updateMedicineValidation.validate(req.body);
       if (error)
-        return res.status(400).json({ message: error.details[0].message });
+        return res.status(400).json({
+          name: 'Error',
+          status: false,
+          code: 400,
+          message: error.details[0].message,
+        });
 
-      const medicine = await MedicineService.updateMedicine(req.params.id, req.body);
-      res.status(200).json(medicine);
+      const medicine = await MedicineService.updateMedicine(
+        req.params.id,
+        req.body
+      );
+      res.status(200).json({
+        name: 'OK',
+        status: true,
+        code: 200,
+        result: medicine,
+      });
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({
+        name: 'Error',
+        status: false,
+        code: 500,
+        message: 'Internal server error',
+        error: err.message,
+      });
     }
   },
 
@@ -34,13 +69,29 @@ module.exports = {
     try {
       const { error } = queryMedicineValidation.validate(req.query);
       if (error)
-        return res.status(400).json({ message: error.details[0].message });
+        return res.status(400).json({
+          name: 'Error',
+          status: false,
+          code: 400,
+          message: error.details[0].message,
+        });
 
       const filters = req.query;
       const medicines = await MedicineService.queryMedicines(filters);
-      res.status(200).json(medicines);
+      res.status(200).json({
+        name: 'OK',
+        status: true,
+        code: 200,
+        result: medicines,
+      });
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({
+        name: 'Error',
+        status: false,
+        code: 500,
+        message: 'Internal server error',
+        error: err.message,
+      });
     }
   },
 
@@ -48,11 +99,27 @@ module.exports = {
     try {
       const medicine = await MedicineService.getMedicineById(req.params.id);
       if (!medicine)
-        return res.status(404).json({ message: 'Medicine not found' });
+        return res.status(404).json({
+          name: 'Error',
+          status: false,
+          code: 404,
+          message: 'Medicine not found',
+        });
 
-      res.status(200).json(medicine);
+      res.status(200).json({
+        name: 'OK',
+        status: true,
+        code: 200,
+        data: medicine,
+      });
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({
+        name: 'Error',
+        status: false,
+        code: 500,
+        message: 'Internal server error',
+        error: err.message,
+      });
     }
   },
 
@@ -60,22 +127,45 @@ module.exports = {
     try {
       const result = await MedicineService.deleteMedicine(req.params.id);
       if (!result)
-        return res.status(404).json({ message: 'Medicine not found' });
+        return res.status(404).json({
+          name: 'Error',
+          status: false,
+          code: 404,
+          message: 'Medicine not found',
+        });
 
-      res.status(200).json({ message: 'Medicine deleted successfully' });
+      res.status(200).json({
+        name: 'OK',
+        status: true,
+        code: 200,
+        message: 'Medicine deleted successfully',
+        result: result,
+      });
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      res.status(500).json({
+        name: 'Error',
+        status: false,
+        code: 500,
+        message: 'Internal server error',
+        error: err.message,
+      });
     }
   },
 
   bulkCreateMedicines: async (req, res) => {
     try {
       if (!req.file) {
-        return res.status(400).json({ message: 'No file uploaded' });
+        return res
+          .status(400)
+          .json({
+            name: 'Error',
+            status: false,
+            code: 400,
+            message: 'No file uploaded',
+          });
       }
 
       const rows = await parseCSV(req.file.path);
-
       deleteFile(req.file.path);
 
       const parseData = (row) => {
@@ -131,12 +221,16 @@ module.exports = {
 
       if (errors.length > 0) {
         return res.status(400).json({
+          name: 'Error',
+          status: false,
+          code: 400,
           message: 'Some rows have validation errors',
           errors,
         });
       }
 
-      const medicinesResult = await MedicineService.bulkCreateMedicines(medicines);
+      const medicinesResult =
+        await MedicineService.bulkCreateMedicines(medicines);
 
       return res.status(201).json({
         name: 'OK',
