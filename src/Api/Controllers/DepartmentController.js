@@ -6,8 +6,12 @@ const departmentService = require('../Services/DepartmentService');
 module.exports = {
   createDepartment: async (req, res) => {
     try {
+      const health_id = req.user.health_id;
       const data = req.body;
-      const department = await departmentService.createDepartment(data);
+      const department = await departmentService.createDepartment(
+        health_id,
+        data
+      );
       return res.status(201).json({
         name: `OK`,
         status: true,
@@ -197,9 +201,14 @@ module.exports = {
 
   updateDepartment: async (req, res) => {
     try {
+      const health_id = req.user.health_id;
       const { id } = req.params;
       const data = req.body;
-      const department = await departmentService.updateDepartment(id, data);
+      const department = await departmentService.updateDepartment(
+        health_id,
+        id,
+        data
+      );
 
       if (!department) {
         return res.status(404).json({

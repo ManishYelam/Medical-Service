@@ -1,15 +1,8 @@
-// const models = require("../../Config/Database/centralModelLoader");
-
 const { loadModels } = require('../Models/ModelOperator/LoadModels');
 
-// const { DepartmentModel } = require("../Models/ModelOperator/DataModel");
-
-// const Department = models.MAIN.Department;
-
-// const Department = DepartmentModel();
-
 class DepartmentService {
-  async createDepartment(data) {
+  async createDepartment(health_id, data) {
+    const { Department } = await loadModels(health_id);
     return await Department.create(data);
   }
 
@@ -18,7 +11,7 @@ class DepartmentService {
     return await Department.bulkCreate(data);
   }
 
-  getAllDepartments = async (
+  async getAllDepartments(
     health_id,
     queryParams = {},
     search = '',
@@ -26,7 +19,7 @@ class DepartmentService {
     pageSize = 10,
     sortBy = 'name',
     sortOrder = 'ASC'
-  ) => {
+  ) {
     try {
       const { Department } = await loadModels(health_id);
 
@@ -85,14 +78,15 @@ class DepartmentService {
     } catch (error) {
       throw new Error('Error fetching departments: ' + error.message);
     }
-  };
+  }
 
   async getDepartmentById(health_id, id) {
     const { Department } = await loadModels(health_id);
     return await Department.findByPk(id);
   }
 
-  async updateDepartment(id, data) {
+  async updateDepartment(health_id, id, data) {
+    const { Department } = await loadModels(health_id);
     const department = await Department.findByPk(id);
     if (!department) {
       throw new Error('Department not found');
