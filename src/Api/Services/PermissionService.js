@@ -11,16 +11,8 @@ class PermissionService {
     const rootPermissions = [];
 
     permissions.forEach((permission) => {
-      const {
-        id,
-        name,
-        level,
-        parent_permission_id,
-        permission_group_id,
-        status,
-        is_leaf,
-        priority,
-      } = permission;
+      const { id, name, level, parent_permission_id, permission_group_id } =
+        permission;
 
       // Initialize or update the permission map
       if (!permissionMap[id]) {
@@ -30,9 +22,7 @@ class PermissionService {
           level,
           parent_permission_id,
           permission_group_id,
-          status,
-          is_leaf,
-          priority,
+
           children: [],
         };
       } else {
@@ -41,9 +31,6 @@ class PermissionService {
           name,
           level,
           permission_group_id,
-          status,
-          is_leaf,
-          priority,
         };
       }
 
