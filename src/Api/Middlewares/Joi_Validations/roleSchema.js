@@ -3,97 +3,68 @@ const Joi = require('joi');
 const roleCreateSchema = Joi.array()
   .items(
     Joi.object({
-      name: Joi.string().max(100).required().messages({
-        'string.base': 'Role name must be a string',
-        'string.empty': 'Role name is required',
-        'string.max': 'Role name must be at most 100 characters long',
-      }),
-      description: Joi.string().max(500).optional().messages({
-        'string.base': 'Description must be a string',
-        'string.max': 'Description must be at most 500 characters long',
-      }),
-      created_by: Joi.string().required().messages({
-        'string.base': 'Created By must be a string',
-        'string.empty': 'Created By is required',
-      }),
-      updated_by: Joi.string().required().messages({
-        'string.base': 'Updated By must be a string',
-        'string.empty': 'Updated By is required',
-      }),
+      name: Joi.string().max(100).required(),
+      description: Joi.string().max(500).optional(),
+      created_by: Joi.string().required(),
+      updated_by: Joi.string().required(),
     })
   )
-  .min(1)
-  .messages({
-    'array.base': 'Request body must be an array of roles',
-    'array.min': 'At least one role is required',
-  });
+  .min(1);
 
 const roleUpdateSchema = Joi.object({
-  name: Joi.string().max(100).optional().messages({
-    'string.base': 'Role name must be a string',
-    'string.max': 'Role name must be at most 100 characters long',
-  }),
-  description: Joi.string().max(500).optional().messages({
-    'string.base': 'Description must be a string',
-    'string.max': 'Description must be at most 500 characters long',
-  }),
-  updated_by: Joi.string().required().messages({
-    'string.base': 'Updated By must be a string',
-    'string.empty': 'Updated By is required',
-  }),
+  name: Joi.string().max(100).optional(),
+  description: Joi.string().max(500).optional(),
+  updated_by: Joi.string().required(),
 });
 
 const roleQuerySchema = Joi.object({
-  id: Joi.number().integer().positive().optional().messages({
-    'number.base': 'ID must be a number',
-    'number.integer': 'ID must be an integer',
-    'number.positive': 'ID must be a positive integer',
-  }),
-  name: Joi.string().max(100).optional().messages({
-    'string.base': 'Role name must be a string',
-    'string.max': 'Role name must be at most 100 characters long',
-  }),
+  id: Joi.number().integer().positive().optional(),
+  name: Joi.string().max(100).optional(),
 });
 
 const permissionCreateSchema = Joi.array()
   .items(
     Joi.object({
-      name: Joi.string().max(100).required().messages({
-        'string.base': 'Permission name must be a string',
-        'string.empty': 'Permission name is required',
-        'string.max': 'Permission name must be at most 100 characters long',
-      }),
+      name: Joi.string().max(100).required(),
+      description: Joi.string().optional(),
+      level: Joi.string().max(100).default('A1'),
+      parent_permission_id: Joi.number().integer().positive().allow(null),
+      is_leaf: Joi.boolean().default(false),
+      status: Joi.string().valid('active', 'inactive').default('active'),
+      assigned_to: Joi.string().optional(),
+      valid_from: Joi.date().optional(),
+      valid_until: Joi.date().optional(),
+      priority: Joi.number().integer().optional(),
+      department: Joi.string().optional(),
+      region: Joi.string().optional(),
+      resource_type: Joi.string().optional(),
+      action_type: Joi.string().optional(),
+      permission_group_id: Joi.number().integer().positive().allow(null),
     })
   )
-  .min(1)
-  .messages({
-    'array.base': 'Request body must be an array of permissions',
-    'array.min': 'At least one permission is required',
-  });
+  .min(1);
 
 const permissionUpdateSchema = Joi.object({
-  name: Joi.string().max(100).optional().messages({
-    'string.base': 'Permission name must be a string',
-    'string.max': 'Permission name must be at most 100 characters long',
-  }),
+  name: Joi.string().max(100).optional(),
+  description: Joi.string().optional(),
+  level: Joi.string().max(100).optional(),
+  status: Joi.string().valid('active', 'inactive').optional(),
+  priority: Joi.number().integer().optional(),
+  valid_from: Joi.date().optional(),
+  valid_until: Joi.date().optional(),
+  parent_permission_id: Joi.number()
+    .integer()
+    .positive()
+    .allow(null)
+    .optional(),
 });
 
 const rolePermissionsAssignSchema = Joi.object({
   permissionIds: Joi.array()
-    .items(
-      Joi.number().integer().positive().messages({
-        'number.base': 'Each Permission ID must be a number',
-        'number.integer': 'Each Permission ID must be an integer',
-        'number.positive': 'Each Permission ID must be a positive integer',
-      })
-    )
+    .items(Joi.number().integer().positive())
     .min(1)
-    .required()
-    .messages({
-      'array.base': 'Permission IDs must be an array',
-      'array.min': 'Permission IDs array must contain at least one item',
-      'any.required': 'Permission IDs are required',
-    }),
+    .required(),
+  roleId: Joi.number().integer().positive().required(),
 });
 
 module.exports = {
