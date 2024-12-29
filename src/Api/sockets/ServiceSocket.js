@@ -1,4 +1,4 @@
-const { User } = require('../models');
+
 const { Op } = require('sequelize');
 const nodemailer = require('nodemailer');
 const cron = require('node-cron');

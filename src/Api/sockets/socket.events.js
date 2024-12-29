@@ -1,7 +1,5 @@
-const { authenticateSocket } = require('../../middleware/authMiddleware');
-const { saveMessage, sendMessageToUser, } = require('../../services/messageService');
-const { sendNotificationToUser, } = require('../../services/notificationService');
-const { scheduleTask, cancelTask } = require('../../services/scheduleService');
+const { sendNotificationToUser, sendMessageToUser, scheduleTask, cancelTask } = require("./ServiceSocket");
+
 
 const connectionHandler = async (socket) => {
   try {
