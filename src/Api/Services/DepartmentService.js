@@ -1,3 +1,4 @@
+const { Sequelize } = require('sequelize');
 const { loadModels } = require('../Models/ModelOperator/LoadModels');
 
 class DepartmentService {
@@ -29,31 +30,39 @@ class DepartmentService {
       const filterConditions = {};
 
       Object.keys(queryParams).forEach((key) => {
-        if (queryParams[key]) {
-          if (typeof queryParams[key] === 'string') {
-            filterConditions[key] = {
-              [Sequelize.Op.iLike]: `%${queryParams[key]}%`,
-            };
-          } else {
-            filterConditions[key] = queryParams[key];
-          }
+        const value = queryParams[key];
+        if (value !== undefined && value !== null) {
+          filterConditions[key] = {
+            [Sequelize.Op.like]: `%${value}%`,
+          };
         }
       });
 
       let searchConditions = [];
       if (search) {
         searchConditions = [
-          { name: { [Sequelize.Op.iLike]: `%${search}%` } },
-          { head_of_department: { [Sequelize.Op.iLike]: `%${search}%` } },
-          { email: { [Sequelize.Op.iLike]: `%${search}%` } },
+          { name: { [Sequelize.Op.like]: `%${search}%` } },
+          { head_of_department: { [Sequelize.Op.like]: `%${search}%` } },
+          { email: { [Sequelize.Op.like]: `%${search}%` } },
         ];
       }
 
       const whereConditions = {
         ...filterConditions,
-        [Sequelize.Op.or]:
-          searchConditions.length > 0 ? searchConditions : undefined,
+        ...(searchConditions.length > 0 && {
+          [Sequelize.Op.or]: searchConditions,
+        }),
       };
+
+      const validSortFields = Object.keys(Department.rawAttributes);
+      if (!validSortFields.includes(sortBy)) {
+        throw new Error(
+          `Invalid sortBy value: ${sortBy}. Allowed fields are: ${validSortFields.join(', ')}`
+        );
+      }
+      if (!['ASC', 'DESC'].includes(sortOrder)) {
+        throw new Error(`Invalid sortOrder value: ${sortOrder}`);
+      }
 
       const order = [[sortBy, sortOrder]];
 
