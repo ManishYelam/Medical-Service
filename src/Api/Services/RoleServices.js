@@ -6,10 +6,19 @@ class RoleService {
     return Role.bulkCreate(data);
   }
 
-  async assignPermissionsToRole(health_id, roleId, permissionIds) {
-    const { Role, Permission } = await loadModels(health_id);
+  async assignPermissionsToRole(
+    health_id,
+    roleId,
+    permissionIds,
+    userID = null
+  ) {
+    const { Role, Permission, User } = await loadModels(health_id);
+
     const role = await Role.findByPk(roleId);
-    if (!role) throw new Error('Role not found');
+    if (!role) {
+      throw new Error('Role not found');
+    }
+
     const permissions = await Permission.findAll({
       where: { id: permissionIds },
     });
