@@ -88,7 +88,7 @@ module.exports = {
   <body>
       <div class="container">
           <div class="header">
-              <img src="https://your-medical-service-logo-url.com/logo.png" alt="Medical Service Logo">
+              <img src="https://res.cloudinary.com/dhbkxhxsy/image/upload/v1735644524/fkw33za6df1tejmc9zxy.jpg" alt="Medical Service Logo">
               <h2>Welcome to [Medical Service Name]!</h2>
           </div>
           <div class="content">

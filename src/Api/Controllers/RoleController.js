@@ -16,13 +16,14 @@ module.exports = {
   assignPermissionsToRole: async (req, res) => {
     try {
       const health_id = req.user.health_id;
-      const { roleId } = req.params;
+      const { userID, roleId } = req.params;
       const { permissionIds } = req.body;
 
       await roleService.assignPermissionsToRole(
         health_id,
         roleId,
-        permissionIds
+        permissionIds,
+        userID
       );
       res.status(200).json({ message: 'Permissions assigned successfully' });
     } catch (error) {

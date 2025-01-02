@@ -13,7 +13,35 @@ class RoleService {
     const permissions = await Permission.findAll({
       where: { id: permissionIds },
     });
-    return role.addPermissions(permissions); // Sequelize magic method
+    if (!permissions.length) {
+      throw new Error('Permissions not found');
+    }
+
+    await role.addPermissions(permissions); // Sequelize magic method
+
+    if (userID) {
+      const user = await User.findByPk(userID);
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      const permissionIdsArray = permissions.map((perm) => perm.id);
+      await user.update({
+        permission_ids: permissionIdsArray,
+      });
+
+      return {
+        message: 'Permissions assigned to role and updated for the user',
+        role,
+        permissions,
+        user,
+      };
+    }
+    return {
+      message: 'Permissions assigned to role',
+      role,
+      permissions,
+    };
   }
 
   async getAllRoles(health_id) {
