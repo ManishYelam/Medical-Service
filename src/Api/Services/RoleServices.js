@@ -12,7 +12,8 @@ class RoleService {
     permissionIds,
     userID = null
   ) {
-    const { Role, Permission, User } = await loadModels(health_id);
+    const { Role, Permission, User, RolePermissions } =
+      await loadModels(health_id);
 
     const role = await Role.findByPk(roleId);
     if (!role) {
@@ -26,30 +27,56 @@ class RoleService {
       throw new Error('Permissions not found');
     }
 
-    await role.addPermissions(permissions); // Sequelize magic method
-
-    if (userID) {
-      const user = await User.findByPk(userID);
-      if (!user) {
-        throw new Error('User not found');
-      }
-
-      const permissionIdsArray = permissions.map((perm) => perm.id);
-      await user.update({
-        permission_ids: permissionIdsArray,
-      });
-
+    // Case when no userID is provided, only assign permissions to the role
+    if (!userID) {
+      await role.addPermissions(permissions);
       return {
-        message: 'Permissions assigned to role and updated for the user',
+        message: 'Permissions assigned to role',
         role,
         permissions,
-        user,
       };
     }
+
+    // Case when userID is provided, update the user's permissions
+      const user = await User.findByPk(userID);
+      if (!user) {
+      // If the user is not found, simply return a response without throwing an error
+      return {
+        message: 'User not found, but permissions assigned to role',
+        role,
+        permissions,
+        user: null,
+      };
+    }
+
+    const existingRolePermissions = await RolePermissions.findAll({
+      where: { role_id: roleId },
+    });
+    const existingPermissionIds = existingRolePermissions.map(
+      (rp) => rp.permission_id
+    );
+
+    // Find valid permissions that exist in the role
+    const validPermissionIds = permissionIds.filter((id) =>
+      existingPermissionIds.includes(id)
+    );
+
+    if (validPermissionIds.length) {
+      await user.update({
+        permission_ids: validPermissionIds,
+      });
+    }
+
     return {
-      message: 'Permissions assigned to role',
+      message: `Permissions assigned to role and ${
+        validPermissionIds.length
+          ? 'updated for the user'
+          : 'no valid permissions for user'
+      }`,
       role,
       permissions,
+      user: userID ? user : null,
+      validPermissionIds,
     };
   }
 

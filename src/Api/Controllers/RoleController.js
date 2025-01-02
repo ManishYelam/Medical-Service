@@ -19,13 +19,13 @@ module.exports = {
       const { userID, roleId } = req.params;
       const { permissionIds } = req.body;
 
-      await roleService.assignPermissionsToRole(
+      const result = await roleService.assignPermissionsToRole(
         health_id,
         roleId,
         permissionIds,
         userID
       );
-      res.status(200).json({ message: 'Permissions assigned successfully' });
+      res.status(200).json({ result });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
