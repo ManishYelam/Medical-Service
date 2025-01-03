@@ -106,7 +106,7 @@ module.exports = {
   </html>
 `,
 
-  verificationTemplate: async (data) => `
+  verificationTemplate: (data) => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -173,7 +173,7 @@ module.exports = {
 </html>
 `,
 
-  registrationTemplate: async (data) => `
+  registrationTemplate: (data) => `
     <!DOCTYPE html>
     <html>
     <head>
@@ -294,7 +294,7 @@ module.exports = {
     </html>
 `,
 
-  otpTemplate: async (userName, otp) => `
+  otpTemplate: (data) => `
   <!DOCTYPE html>
   <html>
   <head>
@@ -310,8 +310,8 @@ module.exports = {
               <h2>Your OTP Code</h2>
           </div>
           <div class="content">
-              <p>Hi ${userName},</p>
-              <p>Your OTP code is: <strong>${otp}</strong></p>
+              <p>Hi ${data.userName},</p>
+              <p>Your OTP code is: <strong>${data.otp}</strong></p>
               <p>This code is valid for a limited time. If you did not request this, please ignore this email.</p>
           </div>
           <div class="footer">
@@ -534,11 +534,7 @@ module.exports = {
   </html>
 `,
 
-  documentUploadTemplate: async (
-    userName,
-    uploadLink,
-    documentTypes = 'PDF, DOCX, ZIP'
-  ) => `
+  documentUploadTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -625,10 +621,10 @@ module.exports = {
   <body>
       <div class="container">
           <h2>Document Upload Request</h2>
-          <p>Hi ${userName},</p>
-          <p>We request you to upload your files (${documentTypes}) via the link below.</p>
-          <p><strong>Accepted formats:</strong> ${documentTypes}</p>
-          <a href="${uploadLink}" class="button">Upload Your Documents</a>
+          <p>Hi ${data.userName},</p>
+          <p>We request you to upload your files (${data.documentTypes}) via the link below.</p>
+          <p><strong>Accepted formats:</strong> ${data.documentTypes}</p>
+          <a href="${data.uploadLink}" class="button">Upload Your Documents</a>
           <p>If you have any questions, feel free to reach out.</p>
           <div class="footer">
               <p>&copy; ${new Date().getFullYear()} [Your Company Name]. All rights reserved.</p>
@@ -638,8 +634,8 @@ module.exports = {
   </html>
 `,
 
-  sendResetEmail: async (user, token) => {
-    const resetLink = `http://13.127.13.10:5000/reset-password?token=${token}`;
+  sendResetEmail: (data) => {
+    const resetLink = `http://13.127.13.10:5000/reset-password?token=${data.token}`;
     const resetEmail = `
 <!DOCTYPE html>
 <html lang="en">
@@ -723,7 +719,7 @@ module.exports = {
 `;
   },
 
-  performanceTrackingTemplate: async (data) => `
+  performanceTrackingTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -854,7 +850,7 @@ module.exports = {
   </html>
 `,
 
-  systemLogsTemplate: async (logData) => `
+  systemLogsTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -966,7 +962,7 @@ module.exports = {
                       <th>Log Level</th>
                       <th>Message</th>
                   </tr>
-                  ${logData
+                  ${data
                     .map(
                       (log) => `
                   <tr>
@@ -987,7 +983,7 @@ module.exports = {
   </html>
 `,
 
-  notificationTemplate: async (title, content) => `
+  notificationTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1071,11 +1067,11 @@ module.exports = {
       <span class="preheader">You have a new notification from [Your App Name].</span>
       <div class="container">
           <div class="header">
-              <h2>${title}</h2>
+              <h2>${data.title}</h2>
           </div>
           <div class="content">
               <p>Hi [Recipient's Name],</p>
-              <p>${content}</p>
+              <p>${data.content}</p>
               <p>If you have any questions, please contact our support team.</p>
           </div>
           <div class="footer">
@@ -1086,7 +1082,7 @@ module.exports = {
   </html>
 `,
 
-  welcomeTemplate: async (name) => `
+  welcomeTemplate: (data) => `
   <!DOCTYPE html>
   <html>
   <head>
@@ -1169,13 +1165,13 @@ module.exports = {
       </style>
   </head>
   <body>
-      <span class="preheader">Welcome to [Your App Name], ${name}! We are thrilled to have you with us.</span>
+      <span class="preheader">Welcome to [Your App Name], ${data.name}! We are thrilled to have you with us.</span>
       <div class="container">
           <div class="header">
               <h2>Welcome to [Your App Name]!</h2>
           </div>
           <div class="content">
-              <p>Hi ${name},</p>
+              <p>Hi ${data.name},</p>
               <p>We are thrilled to have you join our community! At [Your App Name], we are committed to providing you with the best experience possible.</p>
               <p>You can start exploring right away and make the most of our services.</p>
               <p>To get started, click the button below:</p>
@@ -1191,7 +1187,7 @@ module.exports = {
   </html>
 `,
 
-  eventInvitationTemplate: async (eventName, eventDate, eventLink) => `
+  eventInvitationTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1275,15 +1271,15 @@ module.exports = {
   <body>
       <div class="container">
           <div class="header">
-              <h2>You're Invited to ${eventName}</h2>
+              <h2>You're Invited to ${data.eventName}</h2>
           </div>
           <div class="content">
               <p>Hi [Recipient's Name],</p>
               <p>We are excited to invite you to our upcoming event:</p>
-              <p><strong>Date:</strong> ${eventDate}</p>
-              <p><strong>Join us here:</strong> <a href="${eventLink}" target="_blank" style="color: var(--link-color); text-decoration: underline;">${eventLink}</a></p>
+              <p><strong>Date:</strong> ${data.eventDate}</p>
+              <p><strong>Join us here:</strong> <a href="${data.eventLink}" target="_blank" style="color: var(--link-color); text-decoration: underline;">${data.eventLink}</a></p>
               <p>We hope to see you there!</p>
-              <a href="${eventLink}" class="cta-button" target="_blank">RSVP Now</a>
+              <a href="${data.eventLink}" class="cta-button" target="_blank">RSVP Now</a>
           </div>
           <div class="footer">
               <p>&copy; ${new Date().getFullYear()} [Your App Name]. All rights reserved.</p>
@@ -1293,7 +1289,7 @@ module.exports = {
   </html>
 `,
 
-  downloadProjectTemplate: async (userName, projectName, downloadLink) => `
+  downloadProjectTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1374,9 +1370,9 @@ module.exports = {
   </head>
   <body>
       <div class="container">
-          <h2>Hi ${userName},</h2>
-          <p>Your project "<strong>${projectName}</strong>" is now ready for download! Click the button below to download your project files.</p>
-          <a href="${downloadLink}" class="download-btn">Download Project</a>
+          <h2>Hi ${data.userName},</h2>
+          <p>Your project "<strong>${data.projectName}</strong>" is now ready for download! Click the button below to download your project files.</p>
+          <a href="${data.downloadLink}" class="download-btn">Download Project</a>
           <p>If you encounter any issues with the download, feel free to reach out to our support team for assistance.</p>
           <div class="footer">
               <p>&copy; ${new Date().getFullYear()} [Your App Name]. All rights reserved.</p>
@@ -1386,7 +1382,7 @@ module.exports = {
   </html>
 `,
 
-  eventCancellationTemplate: async (eventName) => `
+  eventCancellationTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1451,8 +1447,8 @@ module.exports = {
   </head>
   <body>
       <div class="container">
-          <h2>Important Notice: Cancellation of ${eventName}</h2>
-          <p>We regret to inform you that due to unforeseen circumstances, the event "<strong>${eventName}</strong>" has been cancelled.</p>
+          <h2>Important Notice: Cancellation of ${data.eventName}</h2>
+          <p>We regret to inform you that due to unforeseen circumstances, the event "<strong>${data.eventName}</strong>" has been cancelled.</p>
           <p>We sincerely apologize for any inconvenience this may cause. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
           <div class="footer">
               <p>&copy; ${new Date().getFullYear()} [Your App Name]. All rights reserved.</p>
@@ -1462,7 +1458,7 @@ module.exports = {
   </html>
 `,
 
-  termsAndConditionsTemplate: async (userName, companyName, termsLink) => `
+  termsAndConditionsTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1535,25 +1531,20 @@ module.exports = {
   <body>
       <div class="container">
           <h2>Terms and Conditions Update</h2>
-          <p>Dear ${userName},</p>
-          <p>We have updated our Terms and Conditions at ${companyName}. Please take a moment to review the new terms by clicking the link below:</p>
-          <p><a href="${termsLink}" target="_blank">Read Terms and Conditions</a></p>
+          <p>Dear ${data.userName},</p>
+          <p>We have updated our Terms and Conditions at ${data.companyName}. Please take a moment to review the new terms by clicking the link below:</p>
+          <p><a href="${data.termsLink}" target="_blank">Read Terms and Conditions</a></p>
           <p>By continuing to use our services, you agree to the updated terms.</p>
           <p>If you have any questions or concerns, feel free to contact us for clarification.</p>
           <div class="footer">
-              <p>&copy; ${new Date().getFullYear()} ${companyName}. All rights reserved.</p>
+              <p>&copy; ${new Date().getFullYear()} ${data.companyName}. All rights reserved.</p>
           </div>
       </div>
   </body>
   </html>
 `,
 
-  sendLocationTemplate: async (
-    userName,
-    locationName,
-    locationAddress,
-    locationLink
-  ) => `
+  sendLocationTemplate: (data) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -1625,116 +1616,12 @@ module.exports = {
   </head>
   <body>
       <div class="container">
-          <h2>${locationName}</h2>
-          <p>Hi ${userName},</p>
-          <p>We are pleased to share the location details for the upcoming event/meeting at ${locationName}.</p>
-          <p><strong>Address:</strong> ${locationAddress}</p>
-          <p><strong>Find us on the map:</strong> <a href="${locationLink}" target="_blank">View Location</a></p>
+          <h2>${data.locationName}</h2>
+          <p>Hi ${data.userName},</p>
+          <p>We are pleased to share the location details for the upcoming event/meeting at ${data.locationName}.</p>
+          <p><strong>Address:</strong> ${data.locationAddress}</p>
+          <p><strong>Find us on the map:</strong> <a href="${data.locationLink}" target="_blank">View Location</a></p>
           <p>We look forward to seeing you there!</p>
-          <div class="footer">
-              <p>&copy; ${new Date().getFullYear()} [Your Company Name]. All rights reserved.</p>
-          </div>
-      </div>
-  </body>
-  </html>
-`,
-
-  documentUploadTemplate: async (
-    userName,
-    uploadLink,
-    documentTypes = 'PDF, DOCX, ZIP'
-  ) => `
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <style>
-          :root {
-              --primary-color: #4CAF50;
-              --secondary-color: #f7f7f7;
-              --text-color: #333;
-              --footer-color: #888;
-              --border-color: #ddd;
-          }
-          body {
-              font-family: Arial, sans-serif;
-              background-color: var(--secondary-color);
-              margin: 0;
-              padding: 20px;
-              color: var(--text-color);
-          }
-          .container {
-              max-width: 600px;
-              margin: 40px auto;
-              background-color: #fff;
-              padding: 20px;
-              border-radius: 8px;
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-              border: 1px solid var(--border-color);
-          }
-          h2 {
-              color: var(--primary-color);
-              font-size: 24px;
-              text-align: center;
-              margin-bottom: 20px;
-          }
-          p {
-              font-size: 16px;
-              line-height: 1.6;
-              margin-bottom: 20px;
-          }
-          a {
-              color: var(--primary-color);
-              text-decoration: none;
-              font-weight: bold;
-          }
-          a:hover {
-              text-decoration: underline;
-          }
-          .button {
-              display: inline-block;
-              padding: 10px 20px;
-              background-color: var(--primary-color);
-              color: white;
-              border-radius: 5px;
-              text-decoration: none;
-              font-weight: bold;
-              text-align: center;
-              margin: 20px 0;
-          }
-          .button:hover {
-              background-color: #388E3C;
-          }
-          .footer {
-              text-align: center;
-              font-size: 12px;
-              color: var(--footer-color);
-              padding: 20px 0;
-              border-top: 1px solid var(--border-color);
-              margin-top: 40px;
-          }
-          @media screen and (max-width: 600px) {
-              .container {
-                  padding: 10px;
-              }
-              h2 {
-                  font-size: 20px;
-              }
-              p {
-                  font-size: 14px;
-              }
-          }
-      </style>
-  </head>
-  <body>
-      <div class="container">
-          <h2>Document Upload Request</h2>
-          <p>Hi ${userName},</p>
-          <p>We request you to upload your files (${documentTypes}) via the link below.</p>
-          <p><strong>Accepted formats:</strong> ${documentTypes}</p>
-          <a href="${uploadLink}" class="button">Upload Your Documents</a>
-          <p>If you have any questions, feel free to reach out.</p>
           <div class="footer">
               <p>&copy; ${new Date().getFullYear()} [Your Company Name]. All rights reserved.</p>
           </div>

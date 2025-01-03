@@ -90,4 +90,33 @@ module.exports = {
     const html = notificationTemplate(title, content);
     await sendMail(user.email, subject, html);
   },
+
+  uploadDocument: async (file, userId, uploadPath = 'uploads') => {
+    const allowedFileTypes = ['pdf', 'docx', 'zip'];
+    const fileExtension = path
+      .extname(file.originalname)
+      .toLowerCase()
+      .substring(1);
+
+    if (!allowedFileTypes.includes(fileExtension)) {
+      throw new Error(
+        'Invalid file type. Only PDF, DOCX, and ZIP files are allowed.'
+      );
+    }
+
+    const fileName = `${userId}_${Date.now()}_${file.originalname}`;
+    const fullPath = path.join(uploadPath, fileName);
+
+    fs.writeFileSync(fullPath, file.buffer);
+
+    const userEmail = user.email;
+    const uploadLink = `${process.env.BASE_URL}/uploads/${fileName}`;
+    const emailContent = `
+    Hi there, your document has been successfully uploaded. 
+    You can access it here: <a href="${uploadLink}">${uploadLink}</a>.
+  `;
+    await sendMail(userEmail, 'Document Uploaded Successfully', emailContent);
+
+    return { fileName, uploadLink };
+  },
 };
