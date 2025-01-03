@@ -1,7 +1,6 @@
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
-const { UserLogModel, RoleModel, PermissionModel, UserModel } = require('../Models/ModelOperator/DataModel');
-// const models = require('../../Config/Database/centralModelLoader');
+const models = require('../../Config/Database/centralModelLoader');
 
 const User = models.MAIN.User;
 
