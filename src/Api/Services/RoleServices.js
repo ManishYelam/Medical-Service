@@ -1,17 +1,17 @@
 const { loadModels } = require('../Models/ModelOperator/LoadModels');
 
-class RoleService {
-  async createRoles(health_id, data) {
+module.exports = {
+  createRoles: async (health_id, data) => {
     const { Role } = await loadModels(health_id);
     return Role.bulkCreate(data);
-  }
+  },
 
-  async assignPermissionsToRole(
+  assignPermissionsToRole: async (
     health_id,
     roleId,
     permissionIds,
     userID = null
-  ) {
+  ) => {
     const { Role, Permission, User, RolePermissions } =
       await loadModels(health_id);
 
@@ -38,8 +38,8 @@ class RoleService {
     }
 
     // Case when userID is provided, update the user's permissions
-      const user = await User.findByPk(userID);
-      if (!user) {
+    const user = await User.findByPk(userID);
+    if (!user) {
       // If the user is not found, simply return a response without throwing an error
       return {
         message: 'User not found, but permissions assigned to role',
@@ -78,14 +78,14 @@ class RoleService {
       user: userID ? user : null,
       validPermissionIds,
     };
-  }
+  },
 
-  async getAllRoles(health_id) {
+  getAllRoles: async (health_id) => {
     const { Role, Permission } = await loadModels(health_id);
     return Role.findAll({ include: Permission });
-  }
+  },
 
-  async getRoleById(health_id, id) {
+  getRoleById: async (health_id, id) => {
     const { Role, Permission } = await loadModels(health_id);
     const role = await Role.findByPk(id, {
       include: {
@@ -94,17 +94,15 @@ class RoleService {
       },
     });
     return role;
-  }
+  },
 
-  async updateRole(health_id, id, data) {
+  updateRole: async (health_id, id, data) => {
     const { Role } = await loadModels(health_id);
     return Role.update(data, { where: { id } });
-  }
+  },
 
-  async deleteRole(health_id, id) {
+  deleteRole: async (health_id, id) => {
     const { Role } = await loadModels(health_id);
     return Role.destroy({ where: { id } });
-  }
-}
-
-module.exports = new RoleService();
+  },
+};

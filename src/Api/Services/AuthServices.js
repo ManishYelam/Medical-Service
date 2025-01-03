@@ -5,7 +5,6 @@ const { generateToken, verifyToken } = require('../../Utils/jwtSecret');
 const { generateOTPTimestamped } = require('../../Utils/OTP');
 const { sendResetPasswordCodeEmail, sendPasswordChangeEmail } = require('../Services/email.Service');
 const { DatabaseOperator } = require('../../Config/Database/DatabaseOperator');
-const { UserModel, RoleModel, PermissionModel, UserLogModel } = require('../Models/ModelOperator/DataModel');
 const { Role, Permission, UserLog } = require('../Models/Association');
 const models = require('../../Config/Database/centralModelLoader');
 
@@ -14,11 +13,6 @@ const User = models.MAIN.User;
 // const Permission = models.MAIN.Permission;
 // const UserLog = models.MAIN.UserLog;
 
-// const User = UserModel();
-// const Role = RoleModel();
-// const Permission = PermissionModel();
-// const UserLog = UserLogModel();
-
 const AuthService = {
   login: async (healthId, usernameOrEmail, password, req, res) => {
     const user = await User.findOne({
@@ -26,14 +20,30 @@ const AuthService = {
         health_id: healthId,
         [Op.or]: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
       },
-      attributes: ['id', 'health_id', 'username', 'email', 'password', 'first_name', 'last_name', 'date_of_birth', 'phone_number', 'address', 'status'],
-      include: [{
-        model: Role, attributes: ['id', 'name', 'description'],
-        include:
-          [{
-            model: Permission,
-          }]
-      }]
+      attributes: [
+        'id',
+        'health_id',
+        'username',
+        'email',
+        'password',
+        'first_name',
+        'last_name',
+        'date_of_birth',
+        'phone_number',
+        'address',
+        'status',
+      ],
+      include: [
+        {
+          model: Role,
+          attributes: ['id', 'name', 'description'],
+          include: [
+            {
+              model: Permission,
+            },
+          ],
+        },
+      ],
     });
     if (!user) throw new Error('Invalid credentials');
 
@@ -44,7 +54,7 @@ const AuthService = {
     if (!role || !role.Permissions) {
       throw new Error('User role or permissions not found');
     }
-    const permissionsArray = role.Permissions.map(permission => ({
+    const permissionsArray = role.Permissions.map((permission) => ({
       id: permission.id,
       name: permission.name,
     }));
@@ -82,7 +92,10 @@ const AuthService = {
         throw new Error('Old password is incorrect');
       }
       const newHashedPassword = await hashPassword(newPassword, 10);
-      await models.MAIN.User.update({ password: newHashedPassword }, { where: { id: userId } });
+      await models.MAIN.User.update(
+        { password: newHashedPassword },
+        { where: { id: userId } }
+      );
       await sendPasswordChangeEmail(userId, user.email, user.username);
       return { message: 'Password changed successfully' };
     } catch (error) {
@@ -92,7 +105,9 @@ const AuthService = {
 
   forgetPassword: async (email) => {
     const user = await models.MAIN.User.findOne({ where: { email } });
-    if (!user) { throw new Error('User not found'); }
+    if (!user) {
+      throw new Error('User not found');
+    }
     const { otp, expiryTime } = generateOTPTimestamped();
     user.otp = otp;
     user.expiryTime = expiryTime;
@@ -102,77 +117,17 @@ const AuthService = {
     };
     const verificationLink = generateVerificationUrl(user.id, otp);
     const resetVerificationLink = `http://localhost:5000/reset-password?userId=${user.id}&token=${otp}`;
-    await sendResetPasswordCodeEmail(user.id, user.username, user.email, verificationLink, resetVerificationLink, otp);
+    await sendResetPasswordCodeEmail(
+      user.id,
+      user.username,
+      user.email,
+      verificationLink,
+      resetVerificationLink,
+      otp
+    );
     await user.save();
     return { message: 'OTP sent to your email' };
   },
-}
+};
 
 module.exports = AuthService;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// confirmEmail: async (req, res) => {
-//   const { userId } = req.query;
-
-//   try {
-//     const user = await User.findByPk(userId);
-//     if (!user) {
-//       return res.status(404).send('User not found');
-//     }
-//     // Log confirmation or update a field as needed
-//     console.log(`Email confirmed by user ID: ${userId}`);
-//     // Optionally, update the user status
-//     // user.emailConfirmed = true; // Assuming you have such a field
-//     // await user.save();
-//     res.send('Thank you for confirming! Your password change has been noted.');
-//   } catch (error) {
-//     console.error(`Error confirming email: ${error.message}`);
-//     res.status(500).send('Internal server error');
-//   }
-// },
-
-// refreshToken: async (token) => {
-//   try {
-//     const decoded = verifyToken(token);
-//     const newToken = jwt.sign(
-//       { id: decoded.id, role: decoded.role },
-//       JWT_CONFIG.SECRET,
-//       { expiresIn: '1h' }
-//     );
-
-//     return { token: newToken };
-//   } catch (error) {
-//     console.error('Error refreshing token:', error);
-//     throw new Error('Token refresh failed');
-//   }
-// }

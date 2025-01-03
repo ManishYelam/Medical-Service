@@ -4,18 +4,13 @@ const { generateOTPTimestamped, verifyOTPTimestamped } = require('../../Utils/OT
 const { sendLaunchCodeEmail, sendVerificationEmail } = require('./email.Service');
 const { generateUniqueIDForHealth } = require('../../Utils/generateUniqueID');
 const models = require('../../Config/Database/centralModelLoader');
-const { UserModel, RoleModel, PermissionModel } = require('../Models/ModelOperator/DataModel');
 
 const User = models.MAIN.User;
 const Role = models.MAIN.Role;
 const Permission = models.MAIN.Permission;
 
-// const User = UserModel();
-// const Role = RoleModel();
-// const Permission = PermissionModel();
-
-class UserService {
-  async createUser(data) {
+module.exports = {
+  createUser: async (data) => {
     try {
       if (data.password) {
         data.password = await hashPassword(data.password);
@@ -42,9 +37,9 @@ class UserService {
     } catch (error) {
       throw new Error('Error creating user: ' + error.message);
     }
-  }
+  },
 
-  async verifyCreateUser(data) {
+  verifyCreateUser: async (data) => {
     try {
       const user = await User.findByPk(data);
       if (!user) throw new Error('User not found');
@@ -64,36 +59,36 @@ class UserService {
     } catch (error) {
       throw new Error('Error creating user: ' + error.message);
     }
-  }
+  },
 
-  async getAllUsers() {
+  getAllUsers: async () => {
     return User.findAll({ include: [Role] });
-  }
+  },
 
-  async getUserById(id) {
+  getUserById: async (id) => {
     const user = await User.findByPk(id, {
       include: {
         model: Role,
         include: {
           model: Permission,
-          through: { attributes: [] }, // Exclude join table attributes
+          through: { attributes: [] },
         },
       },
     });
     return user;
-  }
+  },
 
-  async checkExistsEmail(email) {
+  checkExistsEmail: async (email) => {
     const user = await User.findOne({ where: { email } });
     return user;
-  }
+  },
 
-  async checkExistsUsername(username) {
+  checkExistsUsername: async (username) => {
     const user = await User.findOne({ where: { username } });
     return user;
-  }
+  },
 
-  async updateUser(id, data) {
+  updateUser: async (id, data) => {
     try {
       const user = await User.findOne({ where: { id } });
       if (!data.health_id && !user.health_id) {
@@ -106,13 +101,13 @@ class UserService {
     } catch (error) {
       throw new Error('Error creating user: ' + error.message);
     }
-  }
+  },
 
-  async deleteUser(id) {
+  deleteUser: (id) => {
     return User.destroy({ where: { id } });
-  }
+  },
 
-  async deleteUserRanges(startId, endId) {
+  deleteUserRanges: async (startId, endId) => {
     const deletedCount = await User.destroy({
       where: {
         id: {
@@ -121,9 +116,9 @@ class UserService {
       },
     });
     return deletedCount;
-  }
+  },
 
-  async checkUserPermission(userId, permissionName) {
+  checkUserPermission: async (userId, permissionName) => {
     const user = await User.findByPk(userId, {
       include: {
         model: Role,
@@ -136,7 +131,5 @@ class UserService {
       .flatMap((role) => role.Permissions || [])
       .some((perm) => perm.name === permissionName);
     return hasPermission;
-  }
-}
-
-module.exports = new UserService();
+  },
+};
