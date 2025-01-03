@@ -1,31 +1,31 @@
 const { UserLog } = require('../Models/Association');
 
-class UserLogService {
-  async createUserLog(data) {
+module.exports = {
+  createUserLog: async (data) => {
     return await UserLog.create(data);
-  }
+  },
 
-  async getAllUserLogs() {
+  getAllUserLogs: async () => {
     return await UserLog.findAll();
-  }
+  },
 
-  async getUserLogById(id) {
+  getUserLogById: async (id) => {
     return await UserLog.findByPk(id);
-  }
+  },
 
-  async updateUserLog(id, data) {
+  updateUserLog: async (id, data) => {
     const userLog = await UserLog.findByPk(id);
     if (!userLog) throw new Error('User Log not found');
     return await UserLog.update(data, { where: { id } });
-  }
+  },
 
-  async deleteUserLog(id) {
+  deleteUserLog: async (id) => {
     const userLog = await UserLog.findByPk(id);
     if (!userLog) throw new Error('User Log not found');
     return await UserLog.destroy({ where: { id } });
-  }
+  },
 
-  async deleteLogsInRange(startDate, endDate) {
+  deleteLogsInRange: async (startDate, endDate) => {
     return UserLog.destroy({
       where: {
         login_at: {
@@ -33,7 +33,5 @@ class UserLogService {
         },
       },
     });
-  }
-}
-
-module.exports = new UserLogService();
+  },
+};

@@ -1,27 +1,91 @@
 const { loadModels } = require('../Models/ModelOperator/LoadModels');
 
-class RoleService {
-  async createRoles(health_id, data) {
+module.exports = {
+  createRoles: async (health_id, data) => {
     const { Role } = await loadModels(health_id);
     return Role.bulkCreate(data);
-  }
+  },
 
-  async assignPermissionsToRole(health_id, roleId, permissionIds) {
-    const { Role, Permission } = await loadModels(health_id);
+  assignPermissionsToRole: async (
+    health_id,
+    roleId,
+    permissionIds,
+    userID = null
+  ) => {
+    const { Role, Permission, User, RolePermissions } =
+      await loadModels(health_id);
+
     const role = await Role.findByPk(roleId);
-    if (!role) throw new Error('Role not found');
+    if (!role) {
+      throw new Error('Role not found');
+    }
+
     const permissions = await Permission.findAll({
       where: { id: permissionIds },
     });
-    return role.addPermissions(permissions); // Sequelize magic method
-  }
+    if (!permissions.length) {
+      throw new Error('Permissions not found');
+    }
 
-  async getAllRoles(health_id) {
+    // Case when no userID is provided, only assign permissions to the role
+    if (!userID) {
+      await role.addPermissions(permissions);
+      return {
+        message: 'Permissions assigned to role',
+        role,
+        permissions,
+      };
+    }
+
+    // Case when userID is provided, update the user's permissions
+    const user = await User.findByPk(userID);
+    if (!user) {
+      // If the user is not found, simply return a response without throwing an error
+      return {
+        message: 'User not found, but permissions assigned to role',
+        role,
+        permissions,
+        user: null,
+      };
+    }
+
+    const existingRolePermissions = await RolePermissions.findAll({
+      where: { role_id: roleId },
+    });
+    const existingPermissionIds = existingRolePermissions.map(
+      (rp) => rp.permission_id
+    );
+
+    // Find valid permissions that exist in the role
+    const validPermissionIds = permissionIds.filter((id) =>
+      existingPermissionIds.includes(id)
+    );
+
+    if (validPermissionIds.length) {
+      await user.update({
+        permission_ids: validPermissionIds,
+      });
+    }
+
+    return {
+      message: `Permissions assigned to role and ${
+        validPermissionIds.length
+          ? 'updated for the user'
+          : 'no valid permissions for user'
+      }`,
+      role,
+      permissions,
+      user: userID ? user : null,
+      validPermissionIds,
+    };
+  },
+
+  getAllRoles: async (health_id) => {
     const { Role, Permission } = await loadModels(health_id);
     return Role.findAll({ include: Permission });
-  }
+  },
 
-  async getRoleById(health_id, id) {
+  getRoleById: async (health_id, id) => {
     const { Role, Permission } = await loadModels(health_id);
     const role = await Role.findByPk(id, {
       include: {
@@ -30,17 +94,15 @@ class RoleService {
       },
     });
     return role;
-  }
+  },
 
-  async updateRole(health_id, id, data) {
+  updateRole: async (health_id, id, data) => {
     const { Role } = await loadModels(health_id);
     return Role.update(data, { where: { id } });
-  }
+  },
 
-  async deleteRole(health_id, id) {
+  deleteRole: async (health_id, id) => {
     const { Role } = await loadModels(health_id);
     return Role.destroy({ where: { id } });
-  }
-}
-
-module.exports = new RoleService();
+  },
+};

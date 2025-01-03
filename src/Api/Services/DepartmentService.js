@@ -1,18 +1,18 @@
 const { Sequelize } = require('sequelize');
 const { loadModels } = require('../Models/ModelOperator/LoadModels');
 
-class DepartmentService {
-  async createDepartment(health_id, data) {
+module.exports = {
+  createDepartment: async (health_id, data) => {
     const { Department } = await loadModels(health_id);
     return await Department.create(data);
-  }
+  },
 
-  async bulkCreateDepartments(health_id, data) {
+  bulkCreateDepartments: async (health_id, data) => {
     const { Department } = await loadModels(health_id);
     return await Department.bulkCreate(data);
-  }
+  },
 
-  async getAllDepartments(
+  getAllDepartments: async (
     health_id,
     queryParams = {},
     search = '',
@@ -20,7 +20,7 @@ class DepartmentService {
     pageSize = 10,
     sortBy = 'name',
     sortOrder = 'ASC'
-  ) {
+  ) => {
     try {
       const { Department } = await loadModels(health_id);
 
@@ -87,30 +87,28 @@ class DepartmentService {
     } catch (error) {
       throw new Error('Error fetching departments: ' + error.message);
     }
-  }
+  },
 
-  async getDepartmentById(health_id, id) {
+  getDepartmentById: async (health_id, id) => {
     const { Department } = await loadModels(health_id);
     return await Department.findByPk(id);
-  }
+  },
 
-  async updateDepartment(health_id, id, data) {
+  updateDepartment: async (health_id, id, data) => {
     const { Department } = await loadModels(health_id);
     const department = await Department.findByPk(id);
     if (!department) {
       throw new Error('Department not found');
     }
     return await department.update(data);
-  }
+  },
 
-  async deleteDepartment(health_id, id) {
+  deleteDepartment: async (health_id, id) => {
     const { Department } = await loadModels(health_id);
     const department = await Department.findByPk(id);
     if (!department) {
       throw new Error('Department not found');
     }
     return await department.destroy();
-  }
-}
-
-module.exports = new DepartmentService();
+  },
+};

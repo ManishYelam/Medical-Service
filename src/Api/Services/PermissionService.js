@@ -1,12 +1,12 @@
 const { loadModels } = require('../Models/ModelOperator/LoadModels');
 
-class PermissionService {
-  async createPermission(health_id, data) {
+module.exports = {
+  createPermission: async (health_id, data) => {
     const { Permission } = await loadModels(health_id);
     return Permission.bulkCreate(data);
-  }
+  },
 
-  buildPermissionTree(permissions) {
+  buildPermissionTree: (permissions) => {
     const permissionMap = {};
     const rootPermissions = [];
 
@@ -47,32 +47,32 @@ class PermissionService {
     });
 
     return rootPermissions;
-  }
+  },
 
-  async getAllPermissions(health_id) {
+  getAllPermissions: async (health_id) => {
     const { Permission } = await loadModels(health_id);
     let permissions = await Permission.findAll();
     permissions = permissions.map((permission) => permission.toJSON());
-    const result = this.buildPermissionTree(permissions);
+    const result = module.exports.buildPermissionTree(permissions);
     return result;
-  }
+  },
 
-  async getPermissionById(health_id, id) {
+  getPermissionById: async (health_id, id) => {
     const { Permission } = await loadModels(health_id);
     return Permission.findByPk(id);
-  }
+  },
 
-  async updatePermission(health_id, id, data) {
+  updatePermission: async (health_id, id, data) => {
     const { Permission } = await loadModels(health_id);
     return Permission.update(data, { where: { id } });
-  }
+  },
 
-  async deletePermission(health_id, id) {
+  deletePermission: async (health_id, id) => {
     const { Permission } = await loadModels(health_id);
     return Permission.destroy({ where: { id } });
-  }
+  },
 
-  async getUserPermissionTree(health_id) {
+  getUserPermissionTree: async (health_id) => {
     try {
       const { User, Role, Permission } = await loadModels(health_id);
 
@@ -89,12 +89,12 @@ class PermissionService {
       if (!user) {
         throw new Error('User not found');
       }
-      const permissionTree = this.buildPermissionTree(user.Role.Permissions);
+      const permissionTree = module.exports.buildPermissionTree(
+        user.Role.Permissions
+      );
       return permissionTree;
     } catch (error) {
       throw new Error('Error fetching user permissions: ' + error.message);
     }
-  }
-}
-
-module.exports = new PermissionService();
+  },
+};

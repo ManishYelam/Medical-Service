@@ -62,6 +62,9 @@ const userAttribute = {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  permission_ids: {
+    type: DataTypes.JSON,
+  },
 };
 
 const User = sequelize.MAIN_DB_NAME.define('User', userAttribute, {

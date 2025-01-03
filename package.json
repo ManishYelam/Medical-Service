@@ -27,7 +27,7 @@
     "migrate:sales_marketing": "sequelize db:migrate --env SALES_MARKETING"
   },
   "keywords": [],
-  "author": "",
+  "author": "manish yelam",
   "license": "ISC",
   "description": "",
   "dependencies": {

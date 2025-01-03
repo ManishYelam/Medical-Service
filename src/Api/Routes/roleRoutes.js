@@ -25,7 +25,7 @@ const roleRouter = express.Router();
 
 roleRouter
   .post('/', validate(roleCreateSchema), roleController.createRoles)
-  .post('/:roleId/permissions', validate(rolePermissionsAssignSchema), roleController.assignPermissionsToRole)
+  .post('/:userID/:roleId/permissions', roleController.assignPermissionsToRole)
   .get('/', roleController.getAllRoles)
   .get('/:id', roleController.getRoleById)
   .put('/:id', validate(roleUpdateSchema), roleController.updateRole)

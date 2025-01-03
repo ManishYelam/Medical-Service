@@ -1,12 +1,9 @@
-
 const sendMail = require('../../Config/Setting/nodemailer.config');
 const { registrationTemplate, passwordChangeTemplate, performanceTrackingTemplate, systemLogsTemplate, notificationTemplate, } = require('../EmailTemplets/Templates');
 const { UserModel } = require('../Models/ModelOperator/DataModel');
 // const models = require('../../Config/Database/centralModelLoader');
 
 // const User = models.MAIN.User;
-
-// const User = UserModel();
 
 module.exports = {
   sendLaunchCodeEmail: async (userId, userName, userEmail, verificationUrl, otp) => {
@@ -65,8 +62,6 @@ module.exports = {
     const emailContent = await passwordChangeTemplate(userName);
     await sendEmail(userEmail, 'Password Change Confirmation', emailContent);
   },
-
-
 
   // Send performance tracking email
   sendPerformanceTrackingEmail: async (userId, data) => {
