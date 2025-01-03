@@ -419,7 +419,7 @@ module.exports = {
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://your-service-logo-url.com/logo.png" alt="Service Logo">
+            <img src="https://res.cloudinary.com/dhbkxhxsy/image/upload/v1735644524/fkw33za6df1tejmc9zxy.jpg" alt="Service Logo">
             <h2>Password Reset Request</h2>
         </div>
         <div class="content">
