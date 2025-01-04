@@ -173,15 +173,7 @@ module.exports = {
 </html>
 `,
 
-  registrationTemplate: async (
-    userName,
-    userEmail,
-    userPhone,
-    userPAN,
-    userAadhar,
-    userAddress,
-    verificationLink
-  ) => `
+  registrationTemplate: async (data) => `
     <!DOCTYPE html>
     <html>
     <head>
@@ -275,23 +267,23 @@ module.exports = {
         </style>
     </head>
     <body>
-        <span class="preheader">Verify your email for [Your App Name], ${userName}.</span>
+        <span class="preheader">Verify your email for [Your App Name], ${data.userName}.</span>
         <div class="container">
             <div class="header">
                 <h2>Welcome to [Your App Name]</h2>
             </div>
             <div class="content">
-                <p>Hi ${userName},</p>
+                <p>Hi ${data.userName},</p>
                 <p>Thank you for registering with us at [Your App Name]. Please review your registration details:</p>
                 <div class="details">
-                    <p><strong>Email:</strong> ${userEmail}</p>
-                    <p><strong>Phone Number:</strong> ${userPhone}</p>
-                    <p><strong>PAN Number:</strong> ${userPAN}</p>
-                    <p><strong>Aadhar Number:</strong> ${userAadhar}</p>
-                    <p><strong>Address:</strong> ${userAddress}</p>
+                    <p><strong>Email:</strong> ${data.userEmail}</p>
+                    <p><strong>Phone Number:</strong> ${data.userPhone}</p>
+                    <p><strong>PAN Number:</strong> ${data.userPAN}</p>
+                    <p><strong>Aadhar Number:</strong> ${data.userAadhar}</p>
+                    <p><strong>Address:</strong> ${data.userAddress}</p>
                 </div>
                 <p>To complete your registration, please verify your email address by clicking the button below:</p>
-                <a href="${verificationLink}" class="cta-button" target="_blank">Verify Email</a>
+                <a href="${data.verificationLink}" class="cta-button" target="_blank">Verify Email</a>
                 <p>If you did not create this account, no further action is required. Feel free to reach out if you have any questions.</p>
             </div>
             <div class="footer">
@@ -419,7 +411,7 @@ module.exports = {
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://your-service-logo-url.com/logo.png" alt="Service Logo">
+            <img src="https://res.cloudinary.com/dhbkxhxsy/image/upload/v1735644524/fkw33za6df1tejmc9zxy.jpg" alt="Service Logo">
             <h2>Password Reset Request</h2>
         </div>
         <div class="content">
