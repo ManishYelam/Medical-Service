@@ -75,4 +75,38 @@ module.exports = {
       res.status(400).json({ error: error.message });
     }
   },
+
+  upsertOrganization: async (req, res) => {
+    try {
+      const data = req.body;
+
+      const organization = await AuthService.upsertOrganization(data);
+
+      res.status(organization.isNewRecord ? 201 : 200).json({
+        message: organization.isNewRecord
+          ? 'Organization created successfully'
+          : 'Organization updated successfully',
+        data: organization,
+      });
+    } catch (error) {
+      console.error('Error managing organization record:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
+
+  getOrganization: async (req, res) => {
+    try {
+        const organization = await AuthService.getOrganization();
+
+        if (!organization) {
+            return res.status(404).json({ message: 'Organization not found' });
+        }
+
+        res.status(200).json({ data: organization });
+    } catch (error) {
+        console.error('Error fetching organization:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+},
+
 };

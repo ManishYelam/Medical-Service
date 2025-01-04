@@ -4,6 +4,7 @@ const Role = require('./Role');
 const Permission = require('./Permission');
 const RolePermissions = require('./RolePermissions');
 const Department = require('./Department');
+const Organization = require('./Organization');
 
 // User-Role Relationship (Many Users to One Role)
 User.belongsTo(Role, { through: 'UserRoles', foreignKey: 'role_id' });
@@ -29,6 +30,18 @@ Permission.belongsToMany(Role, {
 Department.hasMany(User, { foreignKey: 'dept_id' });
 User.belongsTo(Department, { foreignKey: 'dept_id' });
 
+// Organization-User Relationship (One Organization has Many Users)
+Organization.hasMany(User, { foreignKey: 'id' });
+User.belongsTo(Organization, { foreignKey: 'id' });
+
+// Organization-Department Relationship (One Organization has Many Departments)
+Organization.hasMany(Department, { foreignKey: 'id' });
+Department.belongsTo(Organization, { foreignKey: 'id' });
+
+// Organization-Role Relationship (One Organization has Many Roles)
+Organization.hasMany(Role, { foreignKey: 'id' });
+Role.belongsTo(Organization, { foreignKey: 'id' });
+
 module.exports = {
   User,
   UserLog,
@@ -36,4 +49,5 @@ module.exports = {
   Permission,
   RolePermissions,
   Department,
+  Organization
 };

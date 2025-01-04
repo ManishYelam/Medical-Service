@@ -33,6 +33,9 @@ authRouter
   .post('/change-password', validate(changePasswordSchema), authMiddleware, AuthController.changePassword)
   .post('/refresh-token', validate(refreshTokenSchema), authMiddleware, AuthController.refreshToken)
 
+  .get('/organization', authMiddleware, AuthController.getOrganization)
+  .post('/organization', authMiddleware, AuthController.upsertOrganization)
+
   .get('/records', authMiddleware, getRecords)
   .post('/record/:modelName', authMiddleware, createRecord)
   .put('/record/:modelName/:id', authMiddleware, updateRecord)
