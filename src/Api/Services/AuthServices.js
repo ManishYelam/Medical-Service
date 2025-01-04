@@ -5,7 +5,7 @@ const { generateToken, verifyToken } = require('../../Utils/jwtSecret');
 const { generateOTPTimestamped } = require('../../Utils/OTP');
 const { sendResetPasswordCodeEmail, sendPasswordChangeEmail } = require('../Services/email.Service');
 const { DatabaseOperator } = require('../../Config/Database/DatabaseOperator');
-const { Role, Permission, UserLog } = require('../Models/Association');
+const { Role, Permission, UserLog, Organization } = require('../Models/Association');
 const models = require('../../Config/Database/centralModelLoader');
 
 const User = models.MAIN.User;
@@ -128,6 +128,33 @@ const AuthService = {
     await user.save();
     return { message: 'OTP sent to your email' };
   },
+
+  upsertOrganization: async (data) => {
+    try {
+      const existingOrg = await Organization.findOne();
+      if (existingOrg) {
+        await existingOrg.update(data);
+        return { ...existingOrg.toJSON(), isNewRecord: false };
+      } else {
+        const newOrg = await Organization.create(data);
+        return { ...newOrg.toJSON(), isNewRecord: true };
+      }
+    } catch (error) {
+      console.error('Error in upsertOrganization:', error);
+      throw new Error('Failed to upsert organization');
+    }
+  },
+
+  getOrganization: async () => {
+    try {
+      const organization = await Organization.findOne();
+      return organization ? organization.toJSON() : null;
+    } catch (error) {
+      console.error('Error in getOrganization:', error);
+      throw new Error('Failed to fetch organization details');
+    }
+  },
+
 };
 
 module.exports = AuthService;
