@@ -132,6 +132,9 @@ const AuthService = {
   upsertOrganization: async (data) => {
     try {
       const existingOrg = await Organization.findOne();
+      if (data.emailPassword) {
+        data.emailPassword = await hashPassword(data.emailPassword);
+      }
       if (existingOrg) {
         await existingOrg.update(data);
         return { ...existingOrg.toJSON(), isNewRecord: false };
